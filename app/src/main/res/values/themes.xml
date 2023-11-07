@@ -6,4 +6,27 @@
     </style>
 
     <style name="Theme.Sportify" parent="Base.Theme.Sportify" />
+
+    <style name="successful_login_text">
+        <item name="android:textSize">100dp</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="sportify_li">
+        <item name="android:textSize">200sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="sportify">
+        <item name="android:textSize">200sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+
+
+
+
+
+
 </resources>
+

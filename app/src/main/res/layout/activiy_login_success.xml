@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/successful_"
+    android:layout_width="1440dp"
+    android:layout_height="3040dp"
+    android:clipToOutline="true"
+    android:background="@drawable/backgroud"
+    >
+    <TextView
+        android:id="@+id/sportify"
+        android:layout_width="1105dp"
+        android:layout_height="323dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="167dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="249dp"
+        android:text="@string/sportify"
+        android:textAppearance="@style/sportify"
+        android:lineSpacingExtra="118sp"
+        android:translationY="-58.98sp"
+        android:gravity="center_horizontal|top"
+        />
+
+    <TextView
+        android:id="@+id/successful_text"
+        android:layout_width="1136dp"
+        android:layout_height="1015dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="173dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="993dp"
+        android:text="@string/successful_"
+        android:textAppearance="@style/successful_login_text"
+        android:lineSpacingExtra="31sp"
+        android:translationY="-15.33sp"
+        android:gravity="center_horizontal|top"
+    />
+
+    <Button
+        android:id="@+id/goToLoginPageButton"
+        android:layout_width="1038.05dp"
+        android:layout_height="141.49dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="218.96dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="2181.32dp"
+        android:background="@drawable/rectangle_for_button"
+        />
+
+</RelativeLayout>

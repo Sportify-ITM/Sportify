@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Sportify</string>
+    <string name="successful_"> Successful Sign Up \n\n
+        Welcome to Sportify service! \n\n
+        You can use everything in our service after log-in.</string>
+    <string name="sportify">
+        Sportify\n
+    </string>
 </resources>
