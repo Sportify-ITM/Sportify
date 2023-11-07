@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="sign_up_success_head">
+        <item name="android:textSize">110sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="sign_up_success_body">
+        <item name="android:textSize">90sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="go_to_login">
+        <item name="android:textSize">70sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+</resources>

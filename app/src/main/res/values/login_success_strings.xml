@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="successful_sign_up"> Successfully Signed Up </string>
+
+    <string name="welcome">
+        Welcome to Sportify service!
+    </string>
+    <string name="after_login">
+        You can use everything in our service after log-in.
+    </string>
+
+    <string name="go_to_login_page">
+        Go to Log-in Page
+    </string>
+</resources>
