@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/start_"
+    android:layout_width="1440dp"
+    android:layout_height="3040dp"
+    android:clipToOutline="true"
+    android:background="@color/background">
+
+    <TextView
+        style="@style/sportify_head"
+        android:id="@+id/sportify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="110dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="349dp"
+        android:text="@string/fair_play"
+        android:lineSpacingExtra="118sp"
+        android:translationY="-58.98sp"
+        android:gravity="center_horizontal|top"
+        />
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_background"
+        android:layout_width="match_parent"
+        android:layout_height="1444dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="1300dp"
+        android:layout_marginEnd="100dp"
+        app:cardBackgroundColor="#4DFFFFFF"
+        app:cardCornerRadius="20dp">
+
+
+        <View
+            android:id="@+id/image_133"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="128dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="1124dp"
+            android:background="@drawable/ic_arsenal"
+            />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>
