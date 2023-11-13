@@ -2,4 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="background">#14142B</color> <!-- Example of a custom green color -->
+    <color name="loginButton">#FF5B2C</color>
+    <color name="logoutButton">#FF5757</color>
 </resources>
