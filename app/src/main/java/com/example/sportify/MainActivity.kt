@@ -8,6 +8,6 @@ import android.util.Log
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login_success)
+        setContentView(R.layout.activity_community_main)
     }
 }
