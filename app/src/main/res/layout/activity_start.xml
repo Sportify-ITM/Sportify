@@ -1,71 +1,307 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/start_"
-    android:layout_width="1440dp"
-    android:layout_height="3040dp"
-    android:clipToOutline="true"
+    android:id="@+id/successful_"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/background">
 
     <TextView
-        style="@style/sportify_head"
         android:id="@+id/sportify"
+        style="@style/sportify_middle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="110dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="349dp"
+        android:gravity="center_horizontal"
         android:text="@string/fair_play"
-        android:lineSpacingExtra="118sp"
-        android:translationY="-58.98sp"
-        android:gravity="center_horizontal|top"
-        />
+        android:layout_marginLeft="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        style="@style/sportify_body"
+        android:id="@+id/sportify_li"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fair_play1"
+        app:layout_constraintTop_toBottomOf="@id/sportify"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="20dp" />
+    <TextView
+        style="@style/sportify_body"
+        android:id="@+id/sportify_li2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fair_play2"
+        app:layout_constraintTop_toBottomOf="@id/sportify_li"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="20dp" />
+    <TextView
+        style="@style/sportify_body"
+        android:id="@+id/sportify_li3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fair_play3"
+        app:layout_constraintTop_toBottomOf="@id/sportify_li2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="20dp" />
+    <TextView
+        style="@style/sportify_body"
+        android:id="@+id/sportify_li4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fair_play4"
+        app:layout_constraintTop_toBottomOf="@id/sportify_li3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="20dp" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_background"
-        android:layout_width="match_parent"
-        android:layout_height="1444dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="1300dp"
-        android:layout_marginEnd="100dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintHeight_percent="0.6"
         app:cardBackgroundColor="#4DFFFFFF"
-        app:cardCornerRadius="20dp">
+        app:cardCornerRadius="20dp"
+        app:layout_constraintTop_toBottomOf="@id/sportify_li4"
+        app:layout_constraintBottom_toTopOf="@id/goToLoginPageButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/fair_play"
+                style="@style/sportify_middle_body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/choose_team"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/fair_play2"
+                style="@style/sportify_middle_body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/be_supporters"
+                android:layout_marginLeft="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fair_play" />
+
+            <View
+                android:id="@+id/ic_arsenal"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fair_play2"
+                android:background="@drawable/ic_arsenal"
+                />
+            <View
+                android:id="@+id/ic_aston"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="30dp"
+                app:layout_constraintStart_toEndOf="@id/ic_arsenal"
+                app:layout_constraintTop_toBottomOf="@id/fair_play2"
+                android:background="@drawable/ic_aston"
+                android:layout_marginLeft="15dp"
+                />
+            <View
+                android:id="@+id/ic_bournemouth"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="30dp"
+                app:layout_constraintLeft_toRightOf="@id/ic_aston"
+                app:layout_constraintTop_toBottomOf="@id/fair_play2"
+                android:background="@drawable/ic_bournemouth"
+                android:layout_marginLeft="15dp"
+                />
+            <View
+                android:id="@+id/ic_brentford"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="30dp"
+                app:layout_constraintLeft_toRightOf="@id/ic_bournemouth"
+                app:layout_constraintTop_toBottomOf="@id/fair_play2"
+                android:background="@drawable/ic_brentford"
+                android:layout_marginLeft="15dp"
+                />
+            <View
+                android:id="@+id/ic_brighton"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="30dp"
+                app:layout_constraintLeft_toRightOf="@id/ic_brentford"
+                app:layout_constraintTop_toBottomOf="@id/fair_play2"
+                android:background="@drawable/ic_brighton"
+                android:layout_marginLeft="15dp"
+                />
+            <View
+                android:id="@+id/ic_burnley"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintStart_toStartOf="@id/ic_arsenal"
+                app:layout_constraintTop_toBottomOf="@id/ic_arsenal"
+                android:background="@drawable/ic_burnley"
+                />
+            <View
+                android:id="@+id/ic_chelsea"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintStart_toStartOf="@id/ic_aston"
+                app:layout_constraintTop_toBottomOf="@id/ic_aston"
+                android:background="@drawable/ic_chelsea"
+                />
+            <View
+                android:id="@+id/ic_crystal_palace"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintStart_toStartOf="@id/ic_bournemouth"
+                app:layout_constraintTop_toBottomOf="@id/ic_bournemouth"
+                android:background="@drawable/ic_crystal_palace"
+                />
+            <View
+                android:id="@+id/ic_everton"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintStart_toStartOf="@id/ic_brentford"
+                app:layout_constraintTop_toBottomOf="@id/ic_brentford"
+                android:background="@drawable/ic_everton"
+                />
+            <View
+                android:id="@+id/ic_fulham"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintStart_toStartOf="@id/ic_brighton"
+                app:layout_constraintTop_toBottomOf="@id/ic_brighton"
+                android:background="@drawable/ic_fulham"
+                />
+
+            <View
+                android:id="@+id/ic_liverpool"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintStart_toStartOf="@id/ic_burnley"
+                app:layout_constraintTop_toBottomOf="@id/ic_burnley"
+                android:background="@drawable/ic_liverpool"
+                />
+            <View
+                android:id="@+id/ic_luton_town"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintStart_toStartOf="@id/ic_chelsea"
+                app:layout_constraintTop_toBottomOf="@id/ic_chelsea"
+                android:background="@drawable/ic_luton_town"
+                />
+            <View
+                android:id="@+id/ic_manchester_city"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintStart_toStartOf="@id/ic_crystal_palace"
+                app:layout_constraintTop_toBottomOf="@id/ic_crystal_palace"
+                android:background="@drawable/ic_manchester_city"
+                />
+            <View
+                android:id="@+id/ic_manchester_united"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintStart_toStartOf="@id/ic_everton"
+                app:layout_constraintTop_toBottomOf="@id/ic_everton"
+                android:background="@drawable/ic_manchester_united"
+                />
+            <View
+                android:id="@+id/ic_newcastle"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintStart_toStartOf="@id/ic_fulham"
+                app:layout_constraintTop_toBottomOf="@id/ic_fulham"
+                android:background="@drawable/ic_newcastle"
+                />
+            <View
+                android:id="@+id/ic_nottingham"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintStart_toStartOf="@id/ic_liverpool"
+                app:layout_constraintTop_toBottomOf="@id/ic_liverpool"
+                android:background="@drawable/ic_nottingham"
+                />
+            <View
+                android:id="@+id/ic_sheffield"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintStart_toStartOf="@id/ic_luton_town"
+                app:layout_constraintTop_toBottomOf="@id/ic_luton_town"
+                android:background="@drawable/ic_sheffield"
+                />
+            <View
+                android:id="@+id/ic_tottenham"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintStart_toStartOf="@id/ic_manchester_city"
+                app:layout_constraintTop_toBottomOf="@id/ic_manchester_city"
+                android:background="@drawable/ic_tottenham"
+                />
+
+            <View
+                android:id="@+id/ic_westham"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintStart_toStartOf="@id/ic_manchester_united"
+                app:layout_constraintTop_toBottomOf="@id/ic_manchester_united"
+                android:background="@drawable/ic_westham"
+                />
+
+            <View
+                android:id="@+id/ic_wolves"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintStart_toStartOf="@id/ic_newcastle"
+                app:layout_constraintTop_toBottomOf="@id/ic_newcastle"
+                android:background="@drawable/ic_wolves"
+                />
 
 
-        <View
-            android:id="@+id/image_133"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="128dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="1124dp"
-            android:background="@drawable/ic_arsenal"
-            />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
 
+    <Button
+        style="@style/go_to_login"
+        android:id="@+id/goToLoginPageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/long_button"
+        android:text="@string/go_to_login_page"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_background"
+        android:layout_marginTop="30dp"
+        />
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    </androidx.cardview.widget.CardView>
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

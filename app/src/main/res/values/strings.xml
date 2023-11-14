@@ -5,6 +5,8 @@
 
     <string name="spotify_li">+Live Social Media about Sports</string>
 
+    <string name="choose_team">Choose Your Team </string>
+    <string name="be_supporters"> and Be Supporters!</string>
     <!-- Add Photo -->
     <string name="upload_image">Photo Upload</string>
     <string name="hint_image_content">Image description</string>
