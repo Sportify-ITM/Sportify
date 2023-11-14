@@ -30,40 +30,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
-        android:id="@+id/loginButton"
-        style="@style/Login"
-        android:layout_width="131dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="56dp"
-        android:background="@drawable/raious"
-        android:text="@string/loginButton"
-        app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sportify_li" />
+<!--    <Button-->
+<!--        android:id="@+id/loginButton"-->
+<!--        style="@style/Login"-->
+<!--        android:layout_width="131dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:layout_marginTop="56dp"-->
+<!--        android:background="@drawable/raious"-->
+<!--        android:text="@string/loginButton"-->
+<!--        app:layout_constraintStart_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/sportify_li" />-->
 
-    <Button
-        android:id="@+id/LogoutButton"
-        style="@style/Logout"
-        android:layout_width="131dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/raious"
-        android:text="@string/LogoutButton"
-        app:layout_constraintEnd_toEndOf="@id/loginButton"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/loginButton"
-        app:layout_constraintTop_toBottomOf="@id/loginButton" />
+
 
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.122"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/LogoutButton">
+        app:layout_constraintTop_toBottomOf="@id/sportify_li">
 
     </FrameLayout>
 
@@ -72,7 +61,9 @@
         android:layout_width="325dp"
         android:layout_height="516dp"
 
-        android:src="@drawable/firstLoginPicture"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="44dp"
+        android:src="@drawable/first_login_picture"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -81,7 +72,7 @@
         android:layout_width="211dp"
         android:layout_height="391dp"
         android:layout_marginStart="100dp"
-        android:layout_marginBottom="88dp"
+        android:layout_marginBottom="144dp"
         android:src="@drawable/second"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -91,7 +82,7 @@
         android:layout_width="189dp"
         android:layout_height="360dp"
         android:layout_marginStart="236dp"
-        android:layout_marginBottom="112dp"
+        android:layout_marginBottom="172dp"
         android:src="@drawable/third"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

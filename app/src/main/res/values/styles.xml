@@ -4,8 +4,24 @@
         <item name="android:textSize">80sp</item>
         <item name="android:textColor">#FFFFFF</item>
     </style>
+    <style name="sportify_middle">
+    <item name="android:textSize">60sp</item>
+    <item name="android:textColor">#EDEAEA</item>
+    </style>
+    <style name="sportify_middle_body">
+        <item name="android:textSize">30sp</item>
+        <item name="android:textColor">#EDEAEA</item>
+    </style>
+    <style name="sportify_body">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#EDEAEA</item>
+    </style>
     <style name="sportify_li">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">#EDEAEA</item>
+    </style>
+
+    <style name="ButtonStyle" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/white</item>
     </style>
 </resources>

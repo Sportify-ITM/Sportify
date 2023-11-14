@@ -1,10 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-<<<<<<< HEAD
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Sportify" parent="Theme.AppCompat.DayNight.NoActionBar">
-=======
+
     <style name="Base.Theme.Sportify" parent="Theme.AppCompat.Light.NoActionBar">
->>>>>>> ac2c0d1a1e45920c6534b65314ba3e96a42effbf
+
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
