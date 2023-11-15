@@ -27,8 +27,8 @@ class TeamTableAdapter(val itemList: List<TeamTable>):  RecyclerView.Adapter<Tea
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = itemList[position]
-        holder.binding.title.text = item.rank.toString()
-        holder.binding.content.text = item.teamName
+        holder.binding.rank.text = item.rank.toString()
+        holder.binding.teamName.text = item.teamName
     }
     override fun getItemCount(): Int {
         return itemList.size

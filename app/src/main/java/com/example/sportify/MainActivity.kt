@@ -40,6 +40,9 @@ class MainActivity : AppCompatActivity() {
         val teamTableList = arrayListOf(
             TeamTable(1,"Arsenal",12,10,2,0),
             TeamTable(2,"Arsenal",12,10,2,0),
+            TeamTable(3,"Arsenal",12,10,2,0),
+            TeamTable(4,"Arsenal",12,10,2,0),
+            TeamTable(5,"Arsenal",12,10,2,0),
         )
         // 매치 데이터 리사이클러 뷰를 위한 레이아웃 매니저와 어댑터 준비
         val manager2 = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
