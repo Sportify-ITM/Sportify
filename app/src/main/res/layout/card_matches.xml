@@ -37,9 +37,9 @@
 
             <ImageView
                 android:id="@+id/homeTeamIcon"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_marginTop="20dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginLeft="10dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/matchTime"
@@ -47,10 +47,10 @@
 
             <ImageView
                 android:id="@+id/awayTeamIcon"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="10dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/matchTime"
                 />
@@ -88,7 +88,7 @@
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/homeTeamText"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginLeft="20dp"
                 android:gravity="center_horizontal"/>
 
@@ -101,7 +101,7 @@
                 android:text="10"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/homeTeamScore"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginRight="20dp"
                 android:gravity="center_horizontal"/>
 
