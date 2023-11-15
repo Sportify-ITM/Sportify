@@ -113,7 +113,7 @@
                 android:layout_marginTop="30dp"
                 app:layout_constraintStart_toEndOf="@id/ic_arsenal"
                 app:layout_constraintTop_toBottomOf="@id/fair_play2"
-                android:background="@drawable/ic_aston"
+                android:background="@drawable/ic_aston_villa"
                 android:layout_marginLeft="15dp"
                 />
             <View
@@ -217,7 +217,7 @@
                 android:layout_marginTop="15dp"
                 app:layout_constraintStart_toStartOf="@id/ic_crystal_palace"
                 app:layout_constraintTop_toBottomOf="@id/ic_crystal_palace"
-                android:background="@drawable/ic_manchester_city"
+                android:background="@drawable/ic_man_city"
                 />
             <View
                 android:id="@+id/ic_manchester_united"
@@ -226,7 +226,7 @@
                 android:layout_marginTop="15dp"
                 app:layout_constraintStart_toStartOf="@id/ic_everton"
                 app:layout_constraintTop_toBottomOf="@id/ic_everton"
-                android:background="@drawable/ic_manchester_united"
+                android:background="@drawable/ic_man_united"
                 />
             <View
                 android:id="@+id/ic_newcastle"
@@ -282,7 +282,7 @@
                 android:layout_marginTop="15dp"
                 app:layout_constraintStart_toStartOf="@id/ic_newcastle"
                 app:layout_constraintTop_toBottomOf="@id/ic_newcastle"
-                android:background="@drawable/ic_wolves"
+                android:background="@drawable/ic_wolverhampton"
                 />
 
 

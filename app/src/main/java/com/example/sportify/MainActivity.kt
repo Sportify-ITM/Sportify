@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 data class MatchTeamItem(val matchTime: String, val homeTeam: String, val awayTeam: String)
 
 // 팀 순위를 보여주기 위한 테이블에 들어갈 데이터 정의
-data class TeamTable(val rank: Int, val teamName: String, val matchesPlayed: Int, val wins: Int, val draws: Int, val losses: Int)
+data class TeamTable(val rank: Int, val teamName: String, val matchesPlayed: Int, val wins: Int, val draws: Int, val losses: Int, val point: Int)
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         val matchTeamItemList = arrayListOf(
             MatchTeamItem("14:00","Arsenal","Bournemouth"),
             MatchTeamItem("16:00","Tottenham","Man City"),
-            MatchTeamItem("19:00","Chelsea","Wolves"),
+            MatchTeamItem("19:00","Chelsea","Wolverhampton"),
             MatchTeamItem("01:00","Aston Villa","Burnley"),
 
         )
@@ -38,11 +38,12 @@ class MainActivity : AppCompatActivity() {
         /* 팀 순위 테이블 리사이클러 뷰 파트 시작 */
         // 더미 팀 순위 데이터 20개 생성 (for Recycler View)
         val teamTableList = arrayListOf(
-            TeamTable(1,"Arsenal",12,10,2,0),
-            TeamTable(2,"Arsenal",12,10,2,0),
-            TeamTable(3,"Arsenal",12,10,2,0),
-            TeamTable(4,"Arsenal",12,10,2,0),
-            TeamTable(5,"Arsenal",12,10,2,0),
+            TeamTable(1,"Arsenal",12,10,2,0,27),
+            TeamTable(2,"Man City",12,10,1,1,26),
+            TeamTable(3,"Chelsea",12,9,2,1,25),
+            TeamTable(4,"Liverpool",12,9,1,2,24),
+            TeamTable(5,"Tottenham",12,8,2,2,23),
+            TeamTable(6,"Wolverhampton",12,7,3,2,23),
         )
         // 매치 데이터 리사이클러 뷰를 위한 레이아웃 매니저와 어댑터 준비
         val manager2 = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)

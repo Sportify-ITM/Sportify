@@ -27,8 +27,17 @@ class TeamTableAdapter(val itemList: List<TeamTable>):  RecyclerView.Adapter<Tea
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = itemList[position]
-        holder.binding.rank.text = item.rank.toString()
-        holder.binding.teamName.text = item.teamName
+        holder.binding.tableTeamRank.text = item.rank.toString()
+        holder.binding.tableTeamName.text = item.teamName
+        val tableTeamIconName = "ic_${item.teamName.replace(" ", "_").lowercase()}"
+        val tableTeamResourceId = holder.itemView.resources.getIdentifier(tableTeamIconName, "drawable", holder.itemView.context.packageName)
+        holder.binding.tableTeamIcon.setImageResource(tableTeamResourceId)
+        holder.binding.tableTeamMatches.text = "Matches: "+item.matchesPlayed.toString()
+        holder.binding.tableTeamWin.text = "Win: "+item.wins.toString()
+        holder.binding.tableTeamDraw.text = "Draw: "+item.draws.toString()
+        holder.binding.tableTeamLose.text = "Loss: "+item.losses.toString()
+        holder.binding.tableTeamPoint.text = "Points: "+item.point.toString()
+
     }
     override fun getItemCount(): Int {
         return itemList.size

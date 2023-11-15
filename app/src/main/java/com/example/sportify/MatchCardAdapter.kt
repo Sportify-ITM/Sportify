@@ -30,9 +30,21 @@ class MatchCardAdapter(val itemList: List<MatchTeamItem>) : RecyclerView.Adapter
 
     // 지정된 위치의 데이터를 ViewHolder 인스턴스에 바인딩하는 메소드
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        //itemList는 어댑터에서 파라미터로 받은 MatchItemList타입의 리스트
         val item = itemList[position]
-        holder.binding.homeTeam.text = item.homeTeam
-        holder.binding.awayTeam.text = item.awayTeam
+
+        //바인딩 시작
+        holder.binding.matchTime.text = item.matchTime
+        holder.binding.homeTeamText.text = item.homeTeam
+        holder.binding.awayTeamText.text = item.awayTeam
+
+        //드로어블에 있는 아이콘과 매칭하기 위해서 ic_팀이름을 homeIconName으로 선언하고 setImageResource로 이미지 삽입
+        val homeIconName = "ic_${item.homeTeam.replace(" ", "_").lowercase()}"
+        val homeResourceId = holder.itemView.resources.getIdentifier(homeIconName, "drawable", holder.itemView.context.packageName)
+        holder.binding.homeTeamIcon.setImageResource(homeResourceId)
+        val awayIconName = "ic_${item.awayTeam.replace(" ", "_").lowercase()}"
+        val awayResourceId = holder.itemView.resources.getIdentifier(awayIconName, "drawable", holder.itemView.context.packageName)
+        holder.binding.awayTeamIcon.setImageResource(awayResourceId)
     }
 
     override fun getItemCount(): Int {

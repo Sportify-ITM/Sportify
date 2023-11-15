@@ -22,26 +22,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingHorizontal="10dp"
-            android:paddingVertical="5dp"
+            android:paddingVertical="2dp"
             android:orientation="horizontal"
             android:background="@color/white">
 
             <TextView
-                android:id="@+id/rank"
+                android:id="@+id/tableTeamRank"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="1"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
-            <View
-                android:id="@+id/ic_aston"
+            <ImageView
+                android:id="@+id/tableTeamIcon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@drawable/ic_aston"
                 android:layout_marginLeft="15dp"
                 />
             <TextView
-                android:id="@+id/team_name"
+                android:id="@+id/tableTeamName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Aston Villa"
@@ -64,34 +63,34 @@
             android:background="@color/white">
 
             <TextView
-                android:id="@+id/match_times"
+                android:id="@+id/tableTeamMatches"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="경기: 12"
                 android:textSize="16sp" />
             <TextView
-                android:id="@+id/win"
+                android:id="@+id/tableTeamWin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="승: 10"
                 android:textSize="16sp"
                 android:layout_marginLeft="10dp"/>
             <TextView
-                android:id="@+id/draw"
+                android:id="@+id/tableTeamDraw"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="무: 1"
                 android:textSize="16sp"
                 android:layout_marginLeft="10dp"/>
             <TextView
-                android:id="@+id/lose"
+                android:id="@+id/tableTeamLose"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="패: 1"
                 android:textSize="16sp"
                 android:layout_marginLeft="10dp"/>
             <TextView
-                android:id="@+id/point"
+                android:id="@+id/tableTeamPoint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="승점: 31"
