@@ -5,6 +5,10 @@ import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import okhttp3.OkHttpClient
+import okhttp3.Request
+
+
 //매치 데이터를 위한 데이터 클래스 Item 정의
 data class MatchTeamItem(val matchTime: String, val homeTeam: String, val awayTeam: String)
 
@@ -53,6 +57,19 @@ class MainActivity : AppCompatActivity() {
         recyclerVertical.apply {
             adapter = adapter2
             layoutManager = manager2
+        }
+
+        // 여기부터 API로 EPL 데이터 불러오는 파트
+        fun getMatchData(){
+            val client = OkHttpClient()
+            val request = Request.Builder()
+                .url("https://footapi7.p.rapidapi.com/api/img/flag/jp")
+                .get()
+                .addHeader("X-RapidAPI-Key", "2eb0ad9717msh5a898288a798d61p1803ffjsn8c47cfe397c2")
+                .addHeader("X-RapidAPI-Host", "footapi7.p.rapidapi.com")
+                .build()
+
+            val response = client.newCall(request).execute()
         }
 
     }
