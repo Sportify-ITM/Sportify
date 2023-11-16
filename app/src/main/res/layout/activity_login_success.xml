@@ -59,5 +59,19 @@
         app:layout_constraintTop_toBottomOf="@id/card_background"
         android:layout_marginTop="50dp"
         />
+    <Button
+        style="@style/go_to_login"
+        android:id="@+id/SignOutDevBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/sign_out_long_button"
+        android:text="Signout for dev"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_background"
+        android:layout_marginTop="120dp"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
