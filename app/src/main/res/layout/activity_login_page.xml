@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".LoginActivity">
+
+    <TextView
+        android:id="@+id/sportify"
+        style="@style/sportify_head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:gravity="center_horizontal"
+        android:text="@string/spotify_head"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        style="@style/sportify_li"
+        android:id="@+id/sportify_li"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/spotify_li"
+        app:layout_constraintTop_toBottomOf="@id/sportify"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+<!--    <Button-->
+<!--        android:id="@+id/loginButton"-->
+<!--        style="@style/Login"-->
+<!--        android:layout_width="131dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:layout_marginTop="56dp"-->
+<!--        android:background="@drawable/raious"-->
+<!--        android:text="@string/loginButton"-->
+<!--        app:layout_constraintStart_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/sportify_li" />-->
+
+
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.122"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sportify_li">
+
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/firstPicture"
+        android:layout_width="325dp"
+        android:layout_height="516dp"
+
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="44dp"
+        android:src="@drawable/first_login_picture"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/secondPicture"
+        android:layout_width="211dp"
+        android:layout_height="391dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginBottom="144dp"
+        android:src="@drawable/second"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/Third"
+        android:layout_width="189dp"
+        android:layout_height="360dp"
+        android:layout_marginStart="236dp"
+        android:layout_marginBottom="172dp"
+        android:src="@drawable/third"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+    <Button
+        android:id="@+id/btnGoogle"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintTop_toBottomOf="@id/sportify_li"
+        android:layout_marginTop="580dp"
+        android:text="Sign in Google"
+        android:textColor="@color/white"
+        android:background="@drawable/btn_signin_google"></Button>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

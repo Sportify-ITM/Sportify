@@ -1,5 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <style name="Base.Theme.Sportify" parent="Theme.AppCompat.Light.NoActionBar">
+
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
