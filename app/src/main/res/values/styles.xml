@@ -12,6 +12,11 @@
         <item name="android:textSize">30sp</item>
         <item name="android:textColor">#EDEAEA</item>
     </style>
+    <style name="sportify_middle_body_bold">
+        <item name="android:textSize">30sp</item>
+        <item name="android:textColor">#EDEAEA</item>
+        <item name="android:textStyle">bold</item>
+    </style>
     <style name="sportify_body">
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">#EDEAEA</item>
@@ -19,6 +24,12 @@
     <style name="sportify_li">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">#EDEAEA</item>
+    </style>
+
+    <style name="sportify_li_bold">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#EDEAEA</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="ButtonStyle" parent="Widget.AppCompat.Button.Colored">
