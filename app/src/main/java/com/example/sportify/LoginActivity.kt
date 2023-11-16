@@ -2,7 +2,6 @@ package com.example.sportify
 
 import android.content.Context
 import kotlinx.coroutines.launch
-
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -24,23 +23,31 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
     private val TAG = "GoogleLogin"
 
+    // 액티비티가 생성될 때 호출되는 함수입니다.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_page)
         firebaseAuth = FirebaseManager.authInstance
         firestore = FirebaseFirestore.getInstance()
         Log.d("TAGGG", "${firebaseAuth.currentUser.toString()}")
+
+        // 로그인 상태를 확인하기 위한 SharedPreferences 설정
         val sharedPref = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
         val isLoggedIn = sharedPref.getBoolean("IsLoggedIn", false)
+
+        // 이미 로그인되어 있다면 로그인 성공 화면으로 이동
         if (isLoggedIn && firebaseAuth.currentUser != null) {
             goToLoginSuccessActivity()
         }
-        val googleLoginButton = findViewById<Button>(R.id.btnGoogle) // Assuming you have a button with this ID in your XML
+
+        // Google 로그인 버튼 설정
+        val googleLoginButton = findViewById<Button>(R.id.btnGoogle)
         googleLoginButton.setOnClickListener {
             signInWithGoogle()
         }
     }
 
+    // Google 로그인을 위한 함수입니다.
     private fun signInWithGoogle() {
         CoroutineScope(Dispatchers.IO).launch {
             val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -53,6 +60,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    // Google 로그인 결과를 처리하는 함수입니다.
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -62,17 +70,18 @@ class LoginActivity : AppCompatActivity() {
                 val account = task.getResult(ApiException::class.java)
                 firebaseAuthWithGoogle(account.idToken!!)
             } catch (e: ApiException) {
-                Log.w(TAG, "Google sign in failed: ${e.statusCode}", e)
+                Log.w(TAG, "Google 로그인 실패: ${e.statusCode}", e)
             }
         }
     }
 
+    // Google 로그인 인증 정보를 Firebase로 전달하는 함수입니다.
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         firebaseAuth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    Log.d(TAG, "signInWithCredential:success")
+                    Log.d(TAG, "signInWithCredential:성공")
                     val sharedPref = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
                     sharedPref.edit().putBoolean("IsLoggedIn", true).apply()
                     val user = firebaseAuth.currentUser
@@ -80,14 +89,13 @@ class LoginActivity : AppCompatActivity() {
                         updateUserToFirebase(it.uid, it.displayName, it.email)
                     }
                     goToLoginSuccessActivity()
-                    // Update UI with the signed-in user's information
                 } else {
-                    Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    // Handle failure
+                    Log.w(TAG, "signInWithCredential:실패", task.exception)
                 }
             }
     }
 
+    // Firebase에 사용자 정보를 업데이트하는 함수입니다.
     private fun updateUserToFirebase(userId: String, name: String?, email: String?){
         val userMap = hashMapOf(
             "name" to name,
@@ -96,18 +104,18 @@ class LoginActivity : AppCompatActivity() {
         firestore.collection("users").document(userId)
             .set(userMap)
             .addOnSuccessListener {
-                Log.d(TAG, "User details updated in Firestore")
+                Log.d(TAG, "Firestore에 사용자 정보 업데이트 성공")
             }
             .addOnFailureListener{e ->
-                Log.d(TAG, "User details updated in Firestore")
+                Log.d(TAG, "Firestore에 사용자 정보 업데이트 실패")
             }
-
     }
+
+    // 로그인 성공 후 화면으로 이동하는 함수입니다.
     private fun goToLoginSuccessActivity() {
-        // Intent to start Home Activity or update UI
         val intent = Intent(this, LoginSuccessActivity::class.java)
         startActivity(intent)
-        finish() // Close this activity
+        finish() // 현재 액티비티 종료
     }
 
     companion object {
