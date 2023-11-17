@@ -37,7 +37,10 @@ class LoginActivity : AppCompatActivity() {
 
         // 이미 로그인되어 있다면 로그인 성공 화면으로 이동
         if (isLoggedIn && firebaseAuth.currentUser != null) {
-            goToLoginSuccessActivity()
+            NavigateUtility().goToLoginSuccessActivity(this)
+            // 만약 로그아웃을 하고 싶다면 위에 코드를 사용, 그리고 SIGNOUT FOR DEV 클릭 후 재실행
+//            NavigateUtility().goToMainActivity(this)
+            finish()
         }
 
         // Google 로그인 버튼 설정
@@ -88,7 +91,8 @@ class LoginActivity : AppCompatActivity() {
                     user?.let{
                         updateUserToFirebase(it.uid, it.displayName, it.email)
                     }
-                    goToLoginSuccessActivity()
+                    NavigateUtility().goToLoginSuccessActivity(this)
+                    finish()
                 } else {
                     Log.w(TAG, "signInWithCredential:실패", task.exception)
                 }
@@ -112,11 +116,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     // 로그인 성공 후 화면으로 이동하는 함수입니다.
-    private fun goToLoginSuccessActivity() {
-        val intent = Intent(this, LoginSuccessActivity::class.java)
-        startActivity(intent)
-        finish() // 현재 액티비티 종료
-    }
+
 
     companion object {
         private const val RC_SIGN_IN = 9001

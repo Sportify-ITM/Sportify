@@ -17,10 +17,15 @@ class LoginSuccessActivity: AppCompatActivity() {
         setContentView(R.layout.activity_login_success)
 
             val successButSingOutBtn = findViewById<Button>(R.id.SignOutDevBtn)
+            val goToMainBtn = findViewById<Button>(R.id.goToLoginPageButton)
             successButSingOutBtn.setOnClickListener{
                 Log.d("TAGGG", "before: ${FirebaseManager.authInstance.toString()}")
                 signOut()
                 Log.d("TAGGG", "after: ${FirebaseManager.authInstance.toString()}")
+            }
+            goToMainBtn.setOnClickListener {
+                NavigateUtility().goToMainActivity(this)
+                finish()
             }
         }
     private fun signOut() {

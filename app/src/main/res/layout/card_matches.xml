@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--메인 액티비티의 매치 카드를 위한 레이아웃입니다-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="2dp"
+    android:orientation="vertical"
+    >
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="175dp"
+        android:layout_height="275dp"
+        app:cardBackgroundColor="#4DFFFFFF"
+        app:cardCornerRadius="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/sportify_middle_body_bold"
+                android:id="@+id/matchTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                />
+
+            <ImageView
+                android:id="@+id/homeTeamIcon"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/matchTime"
+                />
+
+            <ImageView
+                android:id="@+id/awayTeamIcon"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/matchTime"
+                />
+
+            <TextView
+                style="@style/sportify_li_bold"
+                android:id="@+id/homeTeamText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="75dp"
+                android:layout_marginLeft="20dp"
+                android:gravity="center_horizontal"/>
+
+            <TextView
+                style="@style/sportify_li_bold"
+                android:id="@+id/homeTeamScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="10"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="75dp"
+                android:layout_marginRight="20dp"
+                android:gravity="center_horizontal"/>
+
+            <TextView
+                style="@style/sportify_li_bold"
+                android:id="@+id/awayTeamText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/homeTeamText"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="20dp"
+                android:gravity="center_horizontal"/>
+
+            <TextView
+                style="@style/sportify_li_bold"
+                android:id="@+id/awayTeamScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="10"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/homeTeamScore"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="20dp"
+                android:gravity="center_horizontal"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>
