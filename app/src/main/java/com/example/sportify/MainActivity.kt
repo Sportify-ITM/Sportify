@@ -5,6 +5,11 @@ import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.invoke
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
@@ -22,12 +27,12 @@ class MainActivity : AppCompatActivity() {
         /* 매치 데이터 리사이클러 뷰 파트 */
         // 더미 매치 데이터 하나 생성 (for Recycler View)
         val matchTeamItemList = arrayListOf(
-            MatchTeamItem("14:00","Arsenal","Bournemouth"),
-            MatchTeamItem("16:00","Tottenham","Man City"),
-            MatchTeamItem("19:00","Chelsea","Wolverhampton"),
-            MatchTeamItem("01:00","Aston Villa","Burnley"),
+            MatchTeamItem("14:00", "Arsenal", "Bournemouth"),
+            MatchTeamItem("16:00", "Tottenham", "Man City"),
+            MatchTeamItem("19:00", "Chelsea", "Wolverhampton"),
+            MatchTeamItem("01:00", "Aston Villa", "Burnley"),
 
-        )
+            )
         // 매치 데이터 리사이클러 뷰를 위한 레이아웃 매니저와 어댑터 준비
         val manager1 = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         val adapter1 = MatchCardAdapter(matchTeamItemList)
@@ -42,12 +47,12 @@ class MainActivity : AppCompatActivity() {
         /* 팀 순위 테이블 리사이클러 뷰 파트 시작 */
         // 더미 팀 순위 데이터 20개 생성 (for Recycler View)
         val teamTableList = arrayListOf(
-            TeamTable(1,"Arsenal",12,10,2,0,27),
-            TeamTable(2,"Man City",12,10,1,1,26),
-            TeamTable(3,"Chelsea",12,9,2,1,25),
-            TeamTable(4,"Liverpool",12,9,1,2,24),
-            TeamTable(5,"Tottenham",12,8,2,2,23),
-            TeamTable(6,"Wolverhampton",12,7,3,2,23),
+            TeamTable(1, "Arsenal", 12, 10, 2, 0, 27),
+            TeamTable(2, "Man City", 12, 10, 1, 1, 26),
+            TeamTable(3, "Chelsea", 12, 9, 2, 1, 25),
+            TeamTable(4, "Liverpool", 12, 9, 1, 2, 24),
+            TeamTable(5, "Tottenham", 12, 8, 2, 2, 23),
+            TeamTable(6, "Wolverhampton", 12, 7, 3, 2, 23),
         )
         // 매치 데이터 리사이클러 뷰를 위한 레이아웃 매니저와 어댑터 준비
         val manager2 = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -58,19 +63,33 @@ class MainActivity : AppCompatActivity() {
             adapter = adapter2
             layoutManager = manager2
         }
-
         // 여기부터 API로 EPL 데이터 불러오는 파트
-        fun getMatchData(){
-            val client = OkHttpClient()
-            val request = Request.Builder()
-                .url("https://footapi7.p.rapidapi.com/api/img/flag/jp")
-                .get()
-                .addHeader("X-RapidAPI-Key", "2eb0ad9717msh5a898288a798d61p1803ffjsn8c47cfe397c2")
-                .addHeader("X-RapidAPI-Host", "footapi7.p.rapidapi.com")
-                .build()
-
-            val response = client.newCall(request).execute()
+        GlobalScope.launch(Dispatchers.Main) {
+            val response = fetchDataFromApi()
+            Log.d("ITM", "$response")
         }
+    }
+    // 네트워크 리퀘스트하는 함수
+    private suspend fun fetchDataFromApi(): String {
+        return try {
+            withContext(Dispatchers.IO) {
+                //
+                val client = OkHttpClient()
 
+                val request = Request.Builder()
+                    .url("https://premier-league-standings1.p.rapidapi.com/")
+                    .get()
+                    .addHeader("X-RapidAPI-Key", "2eb0ad9717msh5a898288a798d61p1803ffjsn8c47cfe397c2")
+                    .addHeader("X-RapidAPI-Host", "premier-league-standings1.p.rapidapi.com")
+                    .build()
+
+                val response = client.newCall(request).execute()
+                //
+                response.body?.string() ?: ""
+            }
+        } catch (e: Exception) {
+            Log.e("ITM", "Error during network request", e)
+            ""
+        }
     }
 }
