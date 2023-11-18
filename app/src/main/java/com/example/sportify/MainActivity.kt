@@ -9,22 +9,34 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.location.LocationManager
 import android.provider.Settings
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.sportify.databinding.ActivityMapMainBinding
+import java.io.IOException
+import java.util.Locale
 
 //hi from kangmin
 class MainActivity : AppCompatActivity() {
 
-    lateinit var binding : ActivityMainBinding
+    lateinit var binding : ActivityMapMainBinding
+    lateinit var locationProvider : LocationProvider
 
     // PERMISSINS_REQUEST_CODE: PERMISSIONS의 ID값이라고 생각하면 편함.
     // Response를 받았을 때 100이 온다면 우리가 요청한 2가지 Request에 대한 Response가 왔구나 라는 걸 알 수 있음.
     private val PERMISSIONS_REQUEST_CODE = 100
+
+    var latitude : Double? = 0.0
+    var longitude : Double? = 0.0
+
     val REQUIRED_PERMISSIONS = arrayOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION
@@ -32,13 +44,84 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var getGPSPermissionLauncher : ActivityResultLauncher<Intent>
 
+    val startMapActivityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            latitude = result.data?.getDoubleExtra("latitude", 0.0) ?: 0.0
+            longitude = result.data?.getDoubleExtra("longitude", 0.0) ?: 0.0
+            updateUI()
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMapMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         checkAllPermissions()
+        updateUI()
+        setRefreshButton()
+
+        setFab()
     }
+
+    private fun updateUI() {
+        locationProvider = LocationProvider(this@MainActivity)
+
+        if (latitude == 0.0 && longitude == 0.0) {
+            latitude = locationProvider.getLocationLatitude()
+            longitude = locationProvider.getLocationLongitude()
+        }
+
+        if (latitude != null && longitude != null) {
+            // 1. 현재 위치가져오고 UI 업데이트
+            val address = getCurrentAddress(latitude!!, longitude!!)
+
+            address?.let{
+                binding.tvLocationTitle.text = "${it.thoroughfare}"
+                binding.tvLocationSubtitle.text = "${it.countryName} ${it.adminArea}"
+            }
+
+        } else {
+            Toast.makeText(this, "Latitude, longitude information are not available", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun setRefreshButton() {
+        binding.btnRefresh.setOnClickListener {
+            updateUI()
+        }
+    }
+
+    private fun setFab() {
+        binding.fab.setOnClickListener {
+            val intent = Intent(this, MapActivity::class.java)
+            intent.putExtra("currentLat", latitude)
+            intent.putExtra("currentLon", longitude)
+            startMapActivityResult.launch(intent)
+        }
+    }
+
+    private fun getCurrentAddress(latitude: Double, longitude: Double): Address? {
+        // geoCoder 객체 생성. context 전달. Locale.getDefault()에서 현재 사용하고 있는 기기의 default 언어를 가져옴. Emulator는 영어.
+        val geoCoder = Geocoder(this, Locale.getDefault())
+        val addresses: List<Address>?
+
+        addresses = try {
+            geoCoder.getFromLocation(latitude, longitude, 7)
+        } catch (ioException: IOException) {
+            Toast.makeText(this, "Geo-coder service is not available", Toast.LENGTH_LONG).show()
+            return null
+        } catch (illegalArgumentException: IllegalArgumentException) {
+            Toast.makeText(this, "Invalid latitude, longitude", Toast.LENGTH_LONG).show()
+            return null
+        }
+
+        if (addresses == null || addresses.isEmpty()) {
+            Toast.makeText(this, "Address is not found", Toast.LENGTH_LONG).show()
+            return null
+        }
+        return addresses[0]
+    }
+
 
     private fun checkAllPermissions() {
         // GPS가 켜져있는지 확인
