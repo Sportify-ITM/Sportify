@@ -36,7 +36,7 @@ class TeamTableAdapter(val itemList: List<TeamTable>):  RecyclerView.Adapter<Tea
         holder.binding.tableTeamWin.text = "Win: "+item.wins.toString()
         holder.binding.tableTeamDraw.text = "Draw: "+item.draws.toString()
         holder.binding.tableTeamLose.text = "Loss: "+item.losses.toString()
-        holder.binding.tableTeamPoint.text = "Points: "+item.point.toString()
+        holder.binding.tableTeamPoint.text = "Points: "+item.points.toString()
 
     }
     override fun getItemCount(): Int {
