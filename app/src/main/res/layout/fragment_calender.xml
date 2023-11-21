@@ -1,14 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".CalenderFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="0dp"
+        android:src="@drawable/fragment" />
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="120dp"
+        android:layout_marginTop="35dp"
+        android:text="Match Schedule"
+        android:textSize="25sp"
+        android:textColor="@color/white"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="340dp"
+        android:layout_marginTop="100dp"
+        android:background="@color/white">
+
+        <!-- 달력을 포함하는 레이아웃 -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:orientation="vertical"
+            tools:context=".MainActivity">
+
+            <TextView
+                android:id="@+id/day_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/calendarView"
+                android:layout_centerHorizontal="true"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="10dp"
+                android:selectedWeekBackgroundColor="#AAAAAA"
+                android:textColor="#FFFFFF"
+                android:unfocusedMonthDateColor="#CCCCCC"
+                android:weekSeparatorLineColor="#FFFFFF" />
+
+        </RelativeLayout>
+    </RelativeLayout>
 </FrameLayout>
