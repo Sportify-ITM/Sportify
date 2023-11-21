@@ -4,13 +4,14 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.example.odop.databinding.ActivityNaviBinding
+import com.example.sportify.databinding.ActivityNaviBinding
 
 
 private const val TAG_CALENDER = "calender_fragment"
 private const val TAG_HOME = "home_fragment"
-private const val TAG_MY_PAGE = "my_page_fragment"
-
+private const val TAG_ACCOUNT = "my_page_fragment"
+private const val TAG_COMMUNITY = "Community_fragment"
+private const val TAG_GPS = "Gps_fragment"
 class NaviActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityNaviBinding
@@ -25,9 +26,11 @@ class NaviActivity : AppCompatActivity() {
 
         binding.navigationView.setOnItemSelectedListener { item ->
             when(item.itemId) {
-                R.id.calenderFragment -> setFragment(TAG_CALENDER, CalenderFragment())
-                R.id.homeFragment -> setFragment(TAG_HOME, HomeFragment())
-                R.id.myPageFragment-> setFragment(TAG_MY_PAGE, MyPageFragment())
+                R.id.home -> setFragment(TAG_HOME, HomeFragment())
+                R.id.community -> setFragment(TAG_COMMUNITY, CommunityFragment())
+                R.id.calendar -> setFragment(TAG_CALENDER, CalenderFragment())
+                R.id.account-> setFragment(TAG_ACCOUNT, AccountFragment())
+                R.id.gps-> setFragment(TAG_GPS, AccountFragment())
             }
             true
         }
@@ -43,36 +46,24 @@ class NaviActivity : AppCompatActivity() {
 
         val calender = manager.findFragmentByTag(TAG_CALENDER)
         val home = manager.findFragmentByTag(TAG_HOME)
-        val myPage = manager.findFragmentByTag(TAG_MY_PAGE)
+        val account = manager.findFragmentByTag(TAG_ACCOUNT)
+        val gps = manager.findFragmentByTag(TAG_GPS)
+        val community = manager.findFragmentByTag(TAG_COMMUNITY)
 
-        if (calender != null){
-            fragTransaction.hide(calender)
-        }
+//        if (calender != null){
+//            fragTransaction.hide(calender)
+//        }
+        calender?.let { fragTransaction.hide(it) }
+        home?.let { fragTransaction.hide(it) }
+        community?.let{ fragTransaction.hide(it) }
+        gps?.let{ fragTransaction.hide(it) }
+        account?.let{ fragTransaction.hide(it) }
 
-        if (home != null){
-            fragTransaction.hide(home)
-        }
-
-        if (myPage != null) {
-            fragTransaction.hide(myPage)
-        }
-
-        if (tag == TAG_CALENDER) {
-            if (calender!=null){
-                fragTransaction.show(calender)
-            }
-        }
-        else if (tag == TAG_HOME) {
-            if (home != null) {
-                fragTransaction.show(home)
-            }
-        }
-
-        else if (tag == TAG_MY_PAGE){
-            if (myPage != null){
-                fragTransaction.show(myPage)
-            }
-        }
+        if (tag == TAG_CALENDER) calender?.let { fragTransaction.show(it) }
+        else if (tag == TAG_HOME) home?.let { fragTransaction.show(it) }
+        else if (tag == TAG_ACCOUNT) account?.let{ fragTransaction.show(it) }
+        else if (tag == TAG_GPS)  gps?.let{ fragTransaction.hide(it) }
+        else if (tag == TAG_COMMUNITY) community?.let{ fragTransaction.show(it) }
 
         fragTransaction.commitAllowingStateLoss()
     }

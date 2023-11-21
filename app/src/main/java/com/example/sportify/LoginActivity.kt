@@ -18,6 +18,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 private lateinit var firestore: FirebaseFirestore
 
+object FirebaseManager {
+    val authInstance: FirebaseAuth by lazy {
+        FirebaseAuth.getInstance()
+    }
+}
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var firebaseAuth: FirebaseAuth
@@ -37,9 +42,9 @@ class LoginActivity : AppCompatActivity() {
 
         // 이미 로그인되어 있다면 로그인 성공 화면으로 이동
         if (isLoggedIn && firebaseAuth.currentUser != null) {
-            NavigateUtility().goToLoginSuccessActivity(this)
+//            NavigateUtility().goToLoginSuccessActivity(this)
             // 만약 로그아웃을 하고 싶다면 위에 코드를 사용, 그리고 SIGNOUT FOR DEV 클릭 후 재실행
-//            NavigateUtility().goToMainActivity(this)
+            NavigateUtility().goToMainActivity(this)
             finish()
         }
 
