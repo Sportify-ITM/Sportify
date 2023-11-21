@@ -29,7 +29,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         currentLat = intent.getDoubleExtra("currentLat", 0.0)
         currentLon = intent.getDoubleExtra("currentLon", 0.0)
 
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment?
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
 
         setButton()
@@ -72,7 +72,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             it.clear()
             val markerOption = MarkerOptions()
             markerOption.position(it.cameraPosition.target)
-            markerOption.title("Maker Location")
+            markerOption.title("Marker Location")
             val marker = it.addMarker(markerOption)
 
             it.setOnCameraMoveListener {
