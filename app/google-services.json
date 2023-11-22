@@ -13,7 +13,12 @@
           "package_name": "com.example.sportify"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "33001373101-i189mbqo9gcv1oe6dvoil47gcc574gd2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAj02x2VHVPgAw6hQ2W3sCUbZ8aVEUQ4EM"
@@ -21,7 +26,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "33001373101-i189mbqo9gcv1oe6dvoil47gcc574gd2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
