@@ -34,7 +34,7 @@ class MatchCardAdapter(val itemList: List<MatchTeamItem>) : RecyclerView.Adapter
         val item = itemList[position]
 
         //바인딩 시작
-        holder.binding.matchTime.text = item.utcDate
+        holder.binding.matchTime.text = item.time
         holder.binding.homeTeamText.text = item.homeTeam
         holder.binding.awayTeamText.text = item.awayTeam
 

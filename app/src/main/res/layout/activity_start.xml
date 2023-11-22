@@ -272,7 +272,7 @@
                 android:layout_marginTop="15dp"
                 app:layout_constraintStart_toStartOf="@id/ic_manchester_united"
                 app:layout_constraintTop_toBottomOf="@id/ic_manchester_united"
-                android:background="@drawable/ic_westham"
+                android:background="@drawable/ic_west_ham"
                 />
 
             <View

@@ -16,7 +16,7 @@ import kotlinx.coroutines.withContext
 
 // 매치 데이터를 위한 데이터 클래스 Item 정의
 data class MatchTeamItem(
-    val utcDate: String = "",
+    val time: String = "",
     val homeTeam: String = "",
     val awayTeam: String = "",
     val status: String = ""
