@@ -1,4 +1,5 @@
 package com.example.sportify
+import MatchTeamItem
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
