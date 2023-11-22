@@ -10,11 +10,10 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/nav_main"
-        tools:layout="@layout/fragment_home"/>
+        tools:layout="@layout/fragment_home"
+        />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
