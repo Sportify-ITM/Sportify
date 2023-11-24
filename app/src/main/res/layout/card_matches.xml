@@ -25,21 +25,21 @@
             android:orientation="vertical">
 
             <TextView
-                style="@style/sportify_middle_body_bold"
+                style="@style/sportify_li_bold"
                 android:id="@+id/matchTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="10dp"
                 />
 
             <ImageView
                 android:id="@+id/homeTeamIcon"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginLeft="10dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/matchTime"
@@ -49,12 +49,11 @@
                 android:id="@+id/awayTeamIcon"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginRight="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/matchTime"
                 />
-
             <TextView
                 style="@style/sportify_li_bold"
                 android:id="@+id/homeTeamText"
@@ -66,20 +65,6 @@
                 android:layout_marginBottom="75dp"
                 android:layout_marginLeft="20dp"
                 android:gravity="center_horizontal"/>
-
-            <TextView
-                style="@style/sportify_li_bold"
-                android:id="@+id/homeTeamScore"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:text="10"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="75dp"
-                android:layout_marginRight="20dp"
-                android:gravity="center_horizontal"/>
-
             <TextView
                 style="@style/sportify_li_bold"
                 android:id="@+id/awayTeamText"
@@ -90,19 +75,6 @@
                 app:layout_constraintTop_toBottomOf="@id/homeTeamText"
                 android:layout_marginTop="15dp"
                 android:layout_marginLeft="20dp"
-                android:gravity="center_horizontal"/>
-
-            <TextView
-                style="@style/sportify_li_bold"
-                android:id="@+id/awayTeamScore"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:text="10"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/homeTeamScore"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="20dp"
                 android:gravity="center_horizontal"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

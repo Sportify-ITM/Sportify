@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "33001373101",
+    "firebase_url": "https://crypto-volt-405109-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "crypto-volt-405109",
+    "storage_bucket": "crypto-volt-405109.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:33001373101:android:8d7443a27e3b0a773df524",
+        "android_client_info": {
+          "package_name": "com.example.sportify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "33001373101-i189mbqo9gcv1oe6dvoil47gcc574gd2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAj02x2VHVPgAw6hQ2W3sCUbZ8aVEUQ4EM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "33001373101-i189mbqo9gcv1oe6dvoil47gcc574gd2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

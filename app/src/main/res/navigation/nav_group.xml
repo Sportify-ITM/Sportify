@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_group"
+    app:startDestination="@id/myGroupFragment">
+
+    <fragment
+        android:id="@+id/myGroupFragment"
+        android:name="com.sgether.ui.group.mygroup.MyGroupFragment"
+        android:label="fragment_my_group"
+        tools:layout="@layout/fragment_my_group">
+        <action
+            android:id="@+id/action_myGroupFragment_to_groupInfoFragment"
+            app:destination="@id/groupInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/groupInfoFragment"
+        android:name="com.sgether.ui.group.info.GroupInfoFragment"
+        android:label="fragment_group_info"
+        tools:layout="@layout/fragment_group_info" >
+        <action
+            android:id="@+id/action_groupInfoFragment_to_noticeFragment"
+            app:destination="@id/noticeFragment" />
+        <argument
+            android:name="groupModel"
+            app:argType="com.sgether.model.GroupModel" />
+    </fragment>
+    <fragment
+        android:id="@+id/noticeFragment"
+        android:name="com.sgether.ui.group.notice.NoticeFragment"
+        android:label="fragment_notice"
+        tools:layout="@layout/fragment_notice" />
+</navigation>

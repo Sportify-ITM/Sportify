@@ -1,4 +1,5 @@
 package com.example.sportify
+import MatchTeamItem
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -34,7 +35,7 @@ class MatchCardAdapter(val itemList: List<MatchTeamItem>) : RecyclerView.Adapter
         val item = itemList[position]
 
         //바인딩 시작
-        holder.binding.matchTime.text = item.matchTime
+        holder.binding.matchTime.text = item.time
         holder.binding.homeTeamText.text = item.homeTeam
         holder.binding.awayTeamText.text = item.awayTeam
 

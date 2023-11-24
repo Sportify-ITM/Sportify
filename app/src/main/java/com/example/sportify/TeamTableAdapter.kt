@@ -1,9 +1,11 @@
 package com.example.sportify
+import TeamTable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sportify.databinding.TableTeamsBinding
+import HomeFragment
 class TeamTableAdapter(val itemList: List<TeamTable>):  RecyclerView.Adapter<TeamTableAdapter.ViewHolder>(){
 
     //이 클래스는 RecyclerView의 각 항목에 대한 개별 뷰를 관리하는 뷰 홀더 클래스. 파라미터인 itemView는 개별 항목의 레이아웃
@@ -36,7 +38,7 @@ class TeamTableAdapter(val itemList: List<TeamTable>):  RecyclerView.Adapter<Tea
         holder.binding.tableTeamWin.text = "Win: "+item.wins.toString()
         holder.binding.tableTeamDraw.text = "Draw: "+item.draws.toString()
         holder.binding.tableTeamLose.text = "Loss: "+item.losses.toString()
-        holder.binding.tableTeamPoint.text = "Points: "+item.point.toString()
+        holder.binding.tableTeamPoint.text = "Points: "+item.points.toString()
 
     }
     override fun getItemCount(): Int {
