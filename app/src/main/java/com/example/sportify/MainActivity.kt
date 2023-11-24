@@ -5,21 +5,21 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.example.sportify.databinding.ActivityNaviBinding
+import com.example.sportify.databinding.ActivityMainBinding
 
 
 private const val TAG_CALENDER = "calender_fragment"
 private const val TAG_HOME = "home_fragment"
 private const val TAG_ACCOUNT = "my_page_fragment"
-private const val TAG_COMMUNITY = "Community_fragment"
-private const val TAG_GPS = "Gps_fragment"
+private const val TAG_COMMUNITY = "community_fragment"
+private const val TAG_GPS = "gps_fragment"
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityNaviBinding
+    private lateinit var binding : ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityNaviBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.community -> setFragment(TAG_COMMUNITY, CommunityFragment())
                 R.id.calendar -> setFragment(TAG_CALENDER, CalenderFragment())
                 R.id.account-> setFragment(TAG_ACCOUNT, AccountFragment())
-                R.id.gps-> setFragment(TAG_GPS, AccountFragment())
+                R.id.gps-> setFragment(TAG_GPS, GpsFragment())
             }
             true
         }

@@ -27,7 +27,7 @@ class LoginSuccessActivity: AppCompatActivity() {
             }
         }
     private fun signOut() {
-//        firebaseAuth.signOut()
+        //firebaseAuth.signOut()
         FirebaseManager.authInstance.signOut()
         // Optionally, also sign out from Google if you're using Google Sign-In
         GoogleSignIn.getClient(this, GoogleSignInOptions.DEFAULT_SIGN_IN).signOut()

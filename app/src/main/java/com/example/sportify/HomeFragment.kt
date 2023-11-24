@@ -37,11 +37,7 @@ data class TeamTable(
     val points: Int = -1
 )
 class HomeFragment : Fragment() {
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
         // 여기부터 파이어베이스에서 EPL 데이터 불러오는 파트
