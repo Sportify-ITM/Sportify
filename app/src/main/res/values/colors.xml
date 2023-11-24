@@ -6,5 +6,6 @@
     <color name="colorDivision">#e0e0e0</color>
     <color name="colorNavIcon">#1d1d1d</color>
     <color name="Gold">#FFFFD700</color>
+    <color name="grey">#808080</color>
     <color name="CardView">#7A97FF</color>
 </resources>
