@@ -1,6 +1,5 @@
 *.iml
 # Gradle
-.gradle/8.0
 /build/
 /local.properties
 /.idea/caches
