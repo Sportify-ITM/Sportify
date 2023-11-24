@@ -7,8 +7,6 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 
 class LoginSuccessActivity: AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
@@ -24,7 +22,7 @@ class LoginSuccessActivity: AppCompatActivity() {
                 Log.d("TAGGG", "after: ${FirebaseManager.authInstance.toString()}")
             }
             goToMainBtn.setOnClickListener {
-                NavigateUtility().goToNaviActivity(this)
+                NavigateUtility().goToMainActivity(this)
                 finish()
             }
         }
