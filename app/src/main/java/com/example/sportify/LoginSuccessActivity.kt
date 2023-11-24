@@ -24,7 +24,7 @@ class LoginSuccessActivity: AppCompatActivity() {
                 Log.d("TAGGG", "after: ${FirebaseManager.authInstance.toString()}")
             }
             goToMainBtn.setOnClickListener {
-                NavigateUtility().goToMainActivity(this)
+                NavigateUtility().goToNaviActivity(this)
                 finish()
             }
         }

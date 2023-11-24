@@ -15,4 +15,8 @@ class NavigateUtility{
         val intent = Intent(context, MainActivity::class.java)
         context.startActivity(intent)
     }
+    fun goToNaviActivity(context: Context){
+        val intent = Intent(context, NaviActivity::class.java)
+        context.startActivity(intent)
+    }
 }

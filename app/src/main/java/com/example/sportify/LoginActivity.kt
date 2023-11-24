@@ -43,7 +43,7 @@ class LoginActivity : AppCompatActivity() {
         if (isLoggedIn && firebaseAuth.currentUser != null) {
             NavigateUtility().goToLoginSuccessActivity(this)
             // 만약 로그아웃을 하고 싶다면 위에 코드를 사용, 그리고 SIGNOUT FOR DEV 클릭 후 재실행
-//            NavigateUtility().goToMainActivity(this)
+//            NavigateUtility().goToNaviActivity(this)
             finish()
         }
 
