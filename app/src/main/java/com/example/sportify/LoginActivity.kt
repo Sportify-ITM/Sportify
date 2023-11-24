@@ -34,7 +34,6 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login_page)
         firebaseAuth = FirebaseManager.authInstance
         firestore = FirebaseFirestore.getInstance()
-        Log.d("TAGGG", "${firebaseAuth.currentUser.toString()}")
 
         // 로그인 상태를 확인하기 위한 SharedPreferences 설정
         val sharedPref = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
@@ -42,20 +41,24 @@ class LoginActivity : AppCompatActivity() {
 
         // 이미 로그인되어 있다면 로그인 성공 화면으로 이동
         if (isLoggedIn && firebaseAuth.currentUser != null) {
-//            NavigateUtility().goToLoginSuccessActivity(this)
+            NavigateUtility().goToLoginSuccessActivity(this)
             // 만약 로그아웃을 하고 싶다면 위에 코드를 사용, 그리고 SIGNOUT FOR DEV 클릭 후 재실행
-            NavigateUtility().goToMainActivity(this)
+//            NavigateUtility().goToMainActivity(this)
             finish()
         }
 
         // Google 로그인 버튼 설정
         val googleLoginButton = findViewById<Button>(R.id.btnGoogle)
         googleLoginButton.setOnClickListener {
+
             signInWithGoogle()
         }
     }
 
     // Google 로그인을 위한 함수입니다.
+
+
+
     private fun signInWithGoogle() {
         CoroutineScope(Dispatchers.IO).launch {
             val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -63,24 +66,30 @@ class LoginActivity : AppCompatActivity() {
                 .requestEmail()
                 .build()
             val googleSignInClient = GoogleSignIn.getClient(this@LoginActivity, gso)
+            Log.d("fucking", "$googleSignInClient")
             val signInIntent = googleSignInClient.signInIntent
+            Log.d("fucking", "$signInIntent")
             startActivityForResult(signInIntent, RC_SIGN_IN)
+            Log.d("fucking", "$signInIntent + 1")
         }
     }
 
     // Google 로그인 결과를 처리하는 함수입니다.
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
+        Log.d("TAGGG", "$resultCode")
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 val account = task.getResult(ApiException::class.java)
+                Log.d("TAGGG", "${firebaseAuth.currentUser.toString()}")
                 firebaseAuthWithGoogle(account.idToken!!)
             } catch (e: ApiException) {
                 Log.w(TAG, "Google 로그인 실패: ${e.statusCode}", e)
             }
+
         }
+
     }
 
     // Google 로그인 인증 정보를 Firebase로 전달하는 함수입니다.

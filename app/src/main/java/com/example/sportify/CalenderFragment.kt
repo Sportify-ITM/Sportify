@@ -1,59 +1,55 @@
 package com.example.sportify
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.sportify.databinding.FragmentCalenderBinding
+import com.example.sportify.databinding.FragmentCommunityBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [CalenderFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class CalenderFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
 
+        super.onCreate(savedInstanceState)
+
+    }
+    lateinit var binding: FragmentCalenderBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_calender, container, false)
+        val binding = FragmentCalenderBinding.inflate(inflater, container, false)
+
+//        binding.calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
+//            val selectedDate = "$dayOfMonth/${month + 1}/$year"
+//            // 여기서 selectedDate를 사용하여 일정을 검색
+//            updateCardViewWithEvent(selectedDate)
+//        }
+        binding.calendarView.setOnDateChangeListener{view, year, month, dayOfMonth ->
+//            val selectedDate = "$dayOfMonth/${month + 1}/$year"
+
+//            Log.d("ITM", "$selectedDate")
+
+        }
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CalenderFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CalenderFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    fun updateCardViewWithEvent(date: String) {
+        val eventDetails = getEventDetailsForDate(date) // 이 함수는 해당 날짜의 일정을 반환해야 함
+        binding.eventTextView.text = eventDetails
+        binding.eventCardView.visibility = View.VISIBLE // 카드뷰를 보이게 설정
+    }
+
+    fun getEventDetailsForDate(date: String): String {
+        // 여기에 일정 데이터를 검색하는 로직 구현
+        // 예시: "2023-10-16: 축구 경기"
+        return "2023-10-16: 축구 경기"
     }
 }

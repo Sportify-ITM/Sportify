@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -27,38 +26,47 @@
         />
 
     <RelativeLayout
+        android:id="@+id/highRelative"
         android:layout_width="match_parent"
-        android:layout_height="340dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:background="@color/white">
 
-        <!-- 달력을 포함하는 레이아웃 -->
-        <RelativeLayout
+        <CalendarView
+            android:id="@+id/calendarView"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
-            android:orientation="vertical"
-            tools:context=".MainActivity">
+            android:layout_height="300dp"
+            android:layout_marginTop="10dp"
+            android:selectedWeekBackgroundColor="#AAAAAA"
+            android:textColor="#FFFFFF"
+            android:unfocusedMonthDateColor="#CCCCCC"
+            android:weekSeparatorLineColor="#FFFFFF" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/eventCardView"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:layout_below="@id/calendarView"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardBackgroundColor="@color/CardView"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            >
 
             <TextView
-                android:id="@+id/day_text"
-                android:layout_width="wrap_content"
+                android:id="@+id/eventTextView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@id/calendarView"
-                android:layout_centerHorizontal="true"
-                android:textSize="30sp"
-                android:textStyle="bold" />
+                android:padding="6dp"
+                android:text="Nothing on Today"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="36sp" />
+        </androidx.cardview.widget.CardView>
 
-            <CalendarView
-                android:id="@+id/calendarView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="10dp"
-                android:selectedWeekBackgroundColor="#AAAAAA"
-                android:textColor="#FFFFFF"
-                android:unfocusedMonthDateColor="#CCCCCC"
-                android:weekSeparatorLineColor="#FFFFFF" />
-
-        </RelativeLayout>
+</RelativeLayout>
     </RelativeLayout>
-</FrameLayout>
+
