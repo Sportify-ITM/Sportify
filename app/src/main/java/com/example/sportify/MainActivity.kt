@@ -1,37 +1,54 @@
 package com.example.sportify
 
 import HomeFragment
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.content.PackageManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.sportify.databinding.ActivityMainBinding
+import android.Manifest
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.content.Intent
+import android.provider.Settings
+import android.util.Log
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import com.google.android.gms.auth.api.signin.GoogleSignIn.hasPermissions
 
-
-private const val TAG_CALENDER = "calender_fragment"
+private const val TAG_CALENDAR = "calendar_fragment"
 private const val TAG_HOME = "home_fragment"
 private const val TAG_ACCOUNT = "my_page_fragment"
 private const val TAG_COMMUNITY = "community_fragment"
 private const val TAG_GPS = "gps_fragment"
-class MainActivity : AppCompatActivity() {
+private val PERMISSIONS_REQUEST_CODE = 200
+private val STORAGE_PERMISSIONS_REQUEST_CODE = 201 // New code for storage permissions
 
-    private lateinit var binding : ActivityMainBinding
+class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
+    private val REQUIRED_PERMISSIONS = arrayOf(
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
         setFragment(TAG_HOME, HomeFragment())
 
         binding.navigationView.setOnItemSelectedListener { item ->
-            when(item.itemId) {
+            when (item.itemId) {
                 R.id.home -> setFragment(TAG_HOME, HomeFragment())
                 R.id.community -> setFragment(TAG_COMMUNITY, CommunityFragment())
-                R.id.calendar -> setFragment(TAG_CALENDER, CalenderFragment())
-                R.id.account-> setFragment(TAG_ACCOUNT, AccountFragment())
-                R.id.gps-> setFragment(TAG_GPS, GpsFragment())
+                R.id.calendar -> setFragment(TAG_CALENDAR, CalendarFragment())
+                R.id.account -> setFragment(TAG_ACCOUNT, AccountFragment())
+                R.id.gps -> setFragment(TAG_GPS, GpsFragment())
             }
             true
         }
@@ -41,30 +58,27 @@ class MainActivity : AppCompatActivity() {
         val manager: FragmentManager = supportFragmentManager
         val fragTransaction = manager.beginTransaction()
 
-        if (manager.findFragmentByTag(tag) == null){
+        if (manager.findFragmentByTag(tag) == null) {
             fragTransaction.add(R.id.mainFrameLayout, fragment, tag)
         }
 
-        val calender = manager.findFragmentByTag(TAG_CALENDER)
+        val calendar = manager.findFragmentByTag(TAG_CALENDAR)
         val home = manager.findFragmentByTag(TAG_HOME)
         val account = manager.findFragmentByTag(TAG_ACCOUNT)
         val gps = manager.findFragmentByTag(TAG_GPS)
         val community = manager.findFragmentByTag(TAG_COMMUNITY)
 
-//        if (calender != null){
-//            fragTransaction.hide(calender)
-//        }
-        calender?.let { fragTransaction.hide(it) }
+        calendar?.let { fragTransaction.hide(it) }
         home?.let { fragTransaction.hide(it) }
-        community?.let{ fragTransaction.hide(it) }
-        gps?.let{ fragTransaction.hide(it) }
-        account?.let{ fragTransaction.hide(it) }
+        community?.let { fragTransaction.hide(it) }
+        gps?.let { fragTransaction.hide(it) }
+        account?.let { fragTransaction.hide(it) }
 
-        if (tag == TAG_CALENDER) calender?.let { fragTransaction.show(it) }
+        if (tag == TAG_CALENDAR) calendar?.let { fragTransaction.show(it) }
         else if (tag == TAG_HOME) home?.let { fragTransaction.show(it) }
-        else if (tag == TAG_ACCOUNT) account?.let{ fragTransaction.show(it) }
-        else if (tag == TAG_GPS)  gps?.let{ fragTransaction.hide(it) }
-        else if (tag == TAG_COMMUNITY) community?.let{ fragTransaction.show(it) }
+        else if (tag == TAG_ACCOUNT) account?.let { fragTransaction.show(it) }
+        else if (tag == TAG_GPS) gps?.let { fragTransaction.hide(it) }
+        else if (tag == TAG_COMMUNITY) community?.let { fragTransaction.show(it) }
 
         fragTransaction.commitAllowingStateLoss()
     }

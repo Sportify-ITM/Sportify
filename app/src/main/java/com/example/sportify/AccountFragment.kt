@@ -39,10 +39,7 @@ class AccountFragment : Fragment() {
         firestore = FirebaseFirestore.getInstance()
         val signOutBtn = binding.signOutBtn
         signOutBtn.setOnClickListener {
-            Log.d("TAGGG", "Button clicked")
-            Log.d("TAGGG", "before: ${FirebaseManager.authInstance.toString()}")
             signOut()
-            Log.d("TAGGG", "after: ${FirebaseManager.authInstance.toString()}")
         }
         return binding.root
     }
