@@ -6,13 +6,14 @@
     android:background="@color/background"
     tools:context=".CalenderFragment">
 
-<!--    <ImageView-->
-<!--        android:id="@+id/imageView"-->
-<!--        android:layout_width="70dp"-->
-<!--        android:layout_height="70dp"-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        android:layout_marginLeft="0dp"-->
-<!--        android:src="@drawable/fragment" />-->
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="0dp"
+        android:src="@drawable/fragment" />
 
     <TextView
         android:id="@+id/textView"
@@ -25,22 +26,21 @@
         android:textColor="@color/white"
         />
 
+
     <RelativeLayout
-        android:id="@+id/highRelative"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:background="@color/white">
 
-        <CalendarView
+        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
             android:id="@+id/calendarView"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_marginTop="10dp"
-            android:selectedWeekBackgroundColor="#AAAAAA"
-            android:textColor="#FFFFFF"
-            android:unfocusedMonthDateColor="#CCCCCC"
-            android:weekSeparatorLineColor="#FFFFFF" />
+            app:mcv_showOtherDates="all"
+
+            app:mcv_selectionColor="#AAAAAA" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/eventCardView"
@@ -53,8 +53,7 @@
             android:layout_marginBottom="16dp"
             app:cardBackgroundColor="@color/CardView"
             app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
-            >
+            app:cardElevation="4dp">
 
             <TextView
                 android:id="@+id/eventTextView"
@@ -67,6 +66,64 @@
                 android:textSize="36sp" />
         </androidx.cardview.widget.CardView>
 
-</RelativeLayout>
     </RelativeLayout>
+
+    <!--        <com.github.sundeepk.compactcalendarview.CompactCalendarView-->
+<!--            android:id="@+id/calenderView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="250dp"-->
+<!--            android:padding="10dp"-->
+<!--            app:compactCalendarBackgroundColor="@color/white"-->
+<!--            app:compactCalendarTextColor="@color/black"-->
+<!--            app:compactCalendarCurrentDayIndicatorStyle="fill_large_indicator"-->
+<!--            app:compactCalendarEventIndicatorStyle="small_indicator"></com.github.sundeepk.compactcalendarview.CompactCalendarView>-->
+
+    <!--    <RelativeLayout-->
+<!--        android:id="@+id/highRelative"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="100dp"-->
+<!--        android:background="@color/white">-->
+
+<!--        <CalendarView-->
+<!--            android:id="@+id/calendarView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="300dp"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:selectedWeekBackgroundColor="#AAAAAA"-->
+<!--            android:textColor="#FFFFFF"-->
+<!--            android:unfocusedMonthDateColor="#CCCCCC"-->
+<!--            android:weekSeparatorLineColor="#FFFFFF" />-->
+
+<!--        <androidx.cardview.widget.CardView-->
+<!--            android:id="@+id/eventCardView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="220dp"-->
+<!--            android:layout_below="@id/calendarView"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:layout_marginEnd="16dp"-->
+<!--            android:layout_marginBottom="16dp"-->
+<!--            app:cardBackgroundColor="@color/CardView"-->
+<!--            app:cardCornerRadius="8dp"-->
+<!--            app:cardElevation="4dp"-->
+<!--            >-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/eventTextView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:padding="6dp"-->
+<!--                android:text="Nothing on Today"-->
+<!--                android:textAlignment="center"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="36sp" />-->
+<!--        </androidx.cardview.widget.CardView>-->
+
+<!--</RelativeLayout>-->
+
+
+</RelativeLayout>
+
+
 

@@ -1,55 +1,89 @@
 package com.example.sportify
 
+import MatchTeamItem
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import com.example.sportify.databinding.FragmentCalenderBinding
-import com.example.sportify.databinding.FragmentCommunityBinding
-
-
+import com.google.firebase.Firebase
+import com.google.firebase.database.GenericTypeIndicator
+import com.google.firebase.database.database
+import com.prolificinteractive.materialcalendarview.CalendarDay
+import com.prolificinteractive.materialcalendarview.DayViewDecorator
+import com.prolificinteractive.materialcalendarview.DayViewFacade
+import com.prolificinteractive.materialcalendarview.spans.DotSpan
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 class CalenderFragment : Fragment() {
-    private var param1: String? = null
-    private var param2: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
-
     }
     lateinit var binding: FragmentCalenderBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        val binding = FragmentCalenderBinding.inflate(inflater, container, false)
+        binding = FragmentCalenderBinding.inflate(inflater, container, false)
+        lifecycleScope.launch {
+            val database = Firebase.database
+            val matches = database.getReference("matches")
+            try {
+                val matchesSnapshot = withContext(Dispatchers.IO) {
+                    matches.get().await()
+                }
+                if (matchesSnapshot.exists()) {
+                    val matchesData = matchesSnapshot.getValue(object : GenericTypeIndicator<ArrayList<MatchTeamItem>>() {})
+                    val eventDates = ArrayList<CalendarDay>()
 
-//        binding.calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
-//            val selectedDate = "$dayOfMonth/${month + 1}/$year"
-//            // 여기서 selectedDate를 사용하여 일정을 검색
-//            updateCardViewWithEvent(selectedDate)
-//        }
-        binding.calendarView.setOnDateChangeListener{view, year, month, dayOfMonth ->
-//            val selectedDate = "$dayOfMonth/${month + 1}/$year"
-
-//            Log.d("ITM", "$selectedDate")
-
+                    matchesData?.forEach { match ->
+                        val date = parseMatchDate(match.time)
+                        date?.let {
+                            val day = CalendarDay.from(it)
+                            eventDates.add(day)
+                        }
+                    }
+                    val eventDecorator = EventDecorator(eventDates)
+                    binding.calendarView.addDecorator(eventDecorator)
+                } else {
+                    Log.e("ITM", "No match data found")
+                }
+            } catch (e: Exception) {
+                Log.e("ITM", "Error fetching data: ${e.message}")
+            }
         }
-
         return binding.root
     }
 
-    fun updateCardViewWithEvent(date: String) {
-        val eventDetails = getEventDetailsForDate(date) // 이 함수는 해당 날짜의 일정을 반환해야 함
-        binding.eventTextView.text = eventDetails
-        binding.eventCardView.visibility = View.VISIBLE // 카드뷰를 보이게 설정
+    fun parseMatchDate(time: String): Date? {
+        val dateFormat = SimpleDateFormat("MM-dd HH:mm", Locale.getDefault())
+        return try {
+            dateFormat.parse(time)
+        } catch (e: ParseException) {
+            e.printStackTrace()
+            null
+        }
     }
 
-    fun getEventDetailsForDate(date: String): String {
-        // 여기에 일정 데이터를 검색하는 로직 구현
-        // 예시: "2023-10-16: 축구 경기"
-        return "2023-10-16: 축구 경기"
+    class EventDecorator(private val dates: Collection<CalendarDay>) : DayViewDecorator {
+        override fun shouldDecorate(day: CalendarDay): Boolean {
+            return dates.contains(day)
+        }
+
+        override fun decorate(view: DayViewFacade) {
+            // Here you can customize how the day cell looks, e.g., set a custom background or dot
+            view.addSpan(DotSpan(5f, Color.RED)) // Example: red dot decorator
+        }
     }
+
 }
+
