@@ -44,16 +44,30 @@ class CalenderFragment : Fragment() {
                 if (matchesSnapshot.exists()) {
                     val matchesData = matchesSnapshot.getValue(object : GenericTypeIndicator<ArrayList<MatchTeamItem>>() {})
                     val eventDates = ArrayList<CalendarDay>()
-
                     matchesData?.forEach { match ->
                         val date = parseMatchDate(match.time)
+                        Log.d("Calendar", "Adding date: $date")
                         date?.let {
                             val day = CalendarDay.from(it)
+                            Log.d("Calendar", "Adding day: $day")
                             eventDates.add(day)
                         }
                     }
+                    // To-Do, 나중에 선호하는 팀은 다른 색으로 칠할 수 있도록 조정.
                     val eventDecorator = EventDecorator(eventDates)
                     binding.calendarView.addDecorator(eventDecorator)
+                    binding.calendarView.setOnDateChangedListener { widget, date, selected ->
+                        var selectedDay = date.date
+                        selectedDay.let{
+                            val day = CalendarDay.from(it)
+                            if (eventDates.contains(day)){
+
+//                                Log.d("ITM", "yes")
+                            }else{
+//                                Log.d("ITM", "no")
+                            }
+                        }
+                    }
                 } else {
                     Log.e("ITM", "No match data found")
                 }
@@ -65,18 +79,24 @@ class CalenderFragment : Fragment() {
     }
 
     fun parseMatchDate(time: String): Date? {
-        val dateFormat = SimpleDateFormat("MM-dd HH:mm", Locale.getDefault())
+        val year = "2023"
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
         return try {
-            dateFormat.parse(time)
+            dateFormat.parse("$year-$time")
         } catch (e: ParseException) {
             e.printStackTrace()
             null
         }
     }
 
+//    fun updateCardDay(day: CalendarDay){
+//        binding.eventTextView.text
+//    }
+
     class EventDecorator(private val dates: Collection<CalendarDay>) : DayViewDecorator {
         override fun shouldDecorate(day: CalendarDay): Boolean {
-            return dates.contains(day)
+            val shouldDecorate = dates.contains(day)
+            return shouldDecorate
         }
 
         override fun decorate(view: DayViewFacade) {
