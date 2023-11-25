@@ -12,18 +12,21 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.sportify.databinding.ActivityAddPhotoBinding
+import com.example.sportify.model.ContentDTO
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.SimpleTimeZone
 
 class AddPhotoActivity : AppCompatActivity() {
-
     private lateinit var binding : ActivityAddPhotoBinding
-
     var PICK_IMAGE_FROM_ALBUM = 0
     var storage: FirebaseStorage? = null
     var photoUri: Uri? = null
+    var auth: FirebaseAuth? = null // 유저 정보
+    var fireStore: FirebaseFirestore? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,8 +34,10 @@ class AddPhotoActivity : AppCompatActivity() {
         // Request permission here
         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
 
-        // Initialize storage
+        // Initialize
         storage = FirebaseStorage.getInstance()
+        auth = FirebaseAuth.getInstance()
+        fireStore = FirebaseFirestore.getInstance()
 
         // Set up the UI after permissions are granted
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
@@ -80,9 +85,14 @@ class AddPhotoActivity : AppCompatActivity() {
             val imageFileName = "IMAGE_${timeStamp}_.png"
             val storageRef = storage?.reference?.child("images")?.child(imageFileName)
 
-            // Upload the file
+            // 파일 업로드에 대한 콜백 메소드
             storageRef?.putFile(uri)?.addOnSuccessListener {
-                Toast.makeText(this, getString(R.string.upload_success), Toast.LENGTH_LONG).show()
+                storageRef.downloadUrl.addOnSuccessListener { uri -> //이미지 업로드 성공했으면,이미지 주소 받아오기
+                    var contentDTO = ContentDTO()
+                    //downloadUrl을 ContentDTO에 집어넣기
+                    contentDTO.imageUrl
+
+                }
             }?.addOnFailureListener {
                 Toast.makeText(this, getString(R.string.upload_fail), Toast.LENGTH_LONG).show()
             }
