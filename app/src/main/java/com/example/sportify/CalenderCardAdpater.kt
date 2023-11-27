@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.sportify.databinding.CardMatchesBinding
 
 //recyclerHorizon을 위해 card_matches의 틀에 MatchTeamItem이라는 Data Class의 인스턴스를 홀딩해주는 어댑터
-class MatchCardAdapter(val itemList: List<MatchTeamItem>) : RecyclerView.Adapter<MatchCardAdapter.ViewHolder>() {
+class CalenderCardAdpater(val itemList: List<MatchTeamItem>) : RecyclerView.Adapter<CalenderCardAdpater.ViewHolder>() {
 
     // 리사이클러 뷰 아이템에 대한 클릭 리스너 파트
     private var onItemClickListener: ((position: Int) -> Unit)? = null

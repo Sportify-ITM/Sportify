@@ -33,156 +33,7 @@
         android:layout_marginTop="100dp"
         android:background="@color/white">
 
-        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-            android:id="@+id/calendarView"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginTop="10dp"
-            app:mcv_showOtherDates="all"
-
-            app:mcv_selectionColor="#AAAAAA" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/eventCardView"
-            android:layout_width="match_parent"
-            android:layout_height="220dp"
-            android:layout_below="@id/calendarView"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            app:cardBackgroundColor="@color/grey"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp">
-
-            <TextView
-                android:id="@+id/DefaultText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="6dp"
-                android:text="Nothing on Today"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="36sp"
-                android:visibility="invisible"/>
-
-            <TextView
-                android:id="@+id/matchDayText"
-                android:layout_width="150dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:text="2023-12-07"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="24dp"
-                android:visibility="visible"
-                ></TextView>
-
-            <TextView
-                android:id="@+id/homeTeamNotiText"
-                android:layout_width="150dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="60dp"
-                android:layout_marginTop="50dp"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:text="Home Team: "
-                android:textSize="16dp"
-                android:visibility="visible"
-                ></TextView>
-
-            <TextView
-                android:id="@+id/homeTeamText"
-                android:layout_width="150dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="165dp"
-                android:layout_marginTop="46dp"
-                android:textAlignment="center"
-                android:textColor="@color/Gold"
-                android:text="Tottenham"
-                android:textSize="20dp"
-                android:visibility="visible"
-                ></TextView>
-            <ImageView
-                android:id="@+id/team1Img"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="100dp"
-                android:layout_marginLeft="100dp"
-                android:src="@drawable/ic_arsenal"
-                android:visibility="visible"
-                ></ImageView>
-
-            <ImageView
-                android:id="@+id/team2Img"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="100dp"
-                android:layout_marginLeft="200dp"
-                android:src="@drawable/ic_tottenham"
-                android:visibility="visible"
-                ></ImageView>
-
-            <TextView
-                android:id="@+id/team1Text"
-                android:layout_width="150dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="60dp"
-                android:layout_marginTop="170dp"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:text="arsenal"
-                android:textSize="16dp"
-                android:visibility="visible"
-                ></TextView>
-
-            <TextView
-                android:id="@+id/team2Text"
-                android:layout_width="150dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="160dp"
-                android:layout_marginTop="170dp"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:text="Tottenham"
-                android:textSize="16dp"
-                android:visibility="visible"
-                ></TextView>
-            
-
-        </androidx.cardview.widget.CardView>
-
-    </RelativeLayout>
-
-    <!--        <com.github.sundeepk.compactcalendarview.CompactCalendarView-->
-<!--            android:id="@+id/calenderView"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="250dp"-->
-<!--            android:padding="10dp"-->
-<!--            app:compactCalendarBackgroundColor="@color/white"-->
-<!--            app:compactCalendarTextColor="@color/black"-->
-<!--            app:compactCalendarCurrentDayIndicatorStyle="fill_large_indicator"-->
-<!--            app:compactCalendarEventIndicatorStyle="small_indicator"></com.github.sundeepk.compactcalendarview.CompactCalendarView>-->
-
-    <!--    <RelativeLayout-->
-<!--        android:id="@+id/highRelative"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="100dp"-->
-<!--        android:background="@color/white">-->
-
-<!--        <CalendarView-->
-<!--            android:id="@+id/calendarView"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="300dp"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:selectedWeekBackgroundColor="#AAAAAA"-->
-<!--            android:textColor="#FFFFFF"-->
-<!--            android:unfocusedMonthDateColor="#CCCCCC"-->
-<!--            android:weekSeparatorLineColor="#FFFFFF" />-->
-
-<!--        <androidx.cardview.widget.CardView-->
+        <!--        <androidx.cardview.widget.CardView-->
 <!--            android:id="@+id/eventCardView"-->
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="220dp"-->
@@ -191,23 +42,127 @@
 <!--            android:layout_marginTop="16dp"-->
 <!--            android:layout_marginEnd="16dp"-->
 <!--            android:layout_marginBottom="16dp"-->
-<!--            app:cardBackgroundColor="@color/CardView"-->
+<!--            app:cardBackgroundColor="@color/grey"-->
 <!--            app:cardCornerRadius="8dp"-->
-<!--            app:cardElevation="4dp"-->
-<!--            >-->
+<!--            app:cardElevation="4dp">-->
 
 <!--            <TextView-->
-<!--                android:id="@+id/eventTextView"-->
+<!--                android:id="@+id/DefaultText"-->
 <!--                android:layout_width="match_parent"-->
 <!--                android:layout_height="wrap_content"-->
 <!--                android:padding="6dp"-->
 <!--                android:text="Nothing on Today"-->
 <!--                android:textAlignment="center"-->
 <!--                android:textColor="@color/white"-->
-<!--                android:textSize="36sp" />-->
+<!--                android:textSize="36sp"-->
+<!--                android:visibility="invisible"/>-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/matchDayText"-->
+<!--                android:layout_width="150dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:text="2023-12-07"-->
+<!--                android:textAlignment="center"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="24dp"-->
+<!--                android:visibility="invisible"-->
+<!--                ></TextView>-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/homeTeamNotiText"-->
+<!--                android:layout_width="150dp"-->
+<!--                android:layout_height="20dp"-->
+<!--                android:layout_marginLeft="60dp"-->
+<!--                android:layout_marginTop="50dp"-->
+<!--                android:textAlignment="center"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:text="Home Team: "-->
+<!--                android:textSize="16dp"-->
+<!--                android:visibility="visible"-->
+<!--                ></TextView>-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/homeTeamText"-->
+<!--                android:layout_width="150dp"-->
+<!--                android:layout_height="40dp"-->
+<!--                android:layout_marginLeft="165dp"-->
+<!--                android:layout_marginTop="46dp"-->
+<!--                android:textAlignment="center"-->
+<!--                android:textColor="@color/Gold"-->
+<!--                android:text="Tottenham"-->
+<!--                android:textSize="20dp"-->
+<!--                android:visibility="visible"-->
+<!--                ></TextView>-->
+<!--            <ImageView-->
+<!--                android:id="@+id/team1Img"-->
+<!--                android:layout_width="60dp"-->
+<!--                android:layout_height="60dp"-->
+<!--                android:layout_marginTop="100dp"-->
+<!--                android:layout_marginLeft="100dp"-->
+<!--                android:src="@drawable/ic_arsenal"-->
+<!--                android:visibility="visible"-->
+<!--                ></ImageView>-->
+
+<!--            <ImageView-->
+<!--                android:id="@+id/team2Img"-->
+<!--                android:layout_width="60dp"-->
+<!--                android:layout_height="60dp"-->
+<!--                android:layout_marginTop="100dp"-->
+<!--                android:layout_marginLeft="200dp"-->
+<!--                android:src="@drawable/ic_tottenham"-->
+<!--                android:visibility="visible"-->
+<!--                ></ImageView>-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/team1Text"-->
+<!--                android:layout_width="150dp"-->
+<!--                android:layout_height="20dp"-->
+<!--                android:layout_marginLeft="60dp"-->
+<!--                android:layout_marginTop="170dp"-->
+<!--                android:textAlignment="center"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:text="arsenal"-->
+<!--                android:textSize="16dp"-->
+<!--                android:visibility="visible"-->
+<!--                ></TextView>-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/team2Text"-->
+<!--                android:layout_width="150dp"-->
+<!--                android:layout_height="20dp"-->
+<!--                android:layout_marginLeft="160dp"-->
+<!--                android:layout_marginTop="170dp"-->
+<!--                android:textAlignment="center"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:text="Tottenham"-->
+<!--                android:textSize="16dp"-->
+<!--                android:visibility="visible"-->
+<!--                ></TextView>-->
+<!--            -->
+
 <!--        </androidx.cardview.widget.CardView>-->
 
-<!--</RelativeLayout>-->
+        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="10dp"
+            app:mcv_selectionColor="#AAAAAA"
+
+            app:mcv_showOtherDates="all" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerCardView"
+            android:layout_width="match_parent"
+            android:layout_height="380dp"
+            android:layout_below="@id/calendarView"
+            android:layout_marginTop="50dp"/>
+
+    </RelativeLayout>
+
+
 
 
 </RelativeLayout>
