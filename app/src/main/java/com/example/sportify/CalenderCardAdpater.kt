@@ -3,10 +3,11 @@ import MatchTeamItem
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.sportify.databinding.CalendarCardviewBinding
 import com.example.sportify.databinding.CardMatchesBinding
 
 //recyclerHorizon을 위해 card_matches의 틀에 MatchTeamItem이라는 Data Class의 인스턴스를 홀딩해주는 어댑터
-class MatchCardAdapter(val itemList: List<MatchTeamItem>) : RecyclerView.Adapter<MatchCardAdapter.ViewHolder>() {
+class CalenderCardAdpater(val itemList: List<MatchTeamItem>) : RecyclerView.Adapter<CalenderCardAdpater.ViewHolder>() {
 
     // 리사이클러 뷰 아이템에 대한 클릭 리스너 파트
     private var onItemClickListener: ((position: Int) -> Unit)? = null
@@ -15,7 +16,8 @@ class MatchCardAdapter(val itemList: List<MatchTeamItem>) : RecyclerView.Adapter
     }
 
     //이 클래스는 RecyclerView의 각 항목에 대한 개별 뷰를 관리하는 뷰 홀더 클래스. 파라미터인 itemView는 개별 항목의 레이아웃
-    inner class ViewHolder(internal val binding: CardMatchesBinding) : RecyclerView.ViewHolder(binding.root) {
+
+    inner class ViewHolder(internal val binding: CalendarCardviewBinding) : RecyclerView.ViewHolder(binding.root) {
         init {
             binding.root.setOnClickListener {
                 onItemClickListener?.invoke(adapterPosition)
@@ -23,9 +25,8 @@ class MatchCardAdapter(val itemList: List<MatchTeamItem>) : RecyclerView.Adapter
         }
     }
 
-    //새 ViewHolder 인스턴스를 만드는 메소드. LayoutInflater를 사용해서 CardMatchesBinding을 인플레이트함
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = CardMatchesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = CalendarCardviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 

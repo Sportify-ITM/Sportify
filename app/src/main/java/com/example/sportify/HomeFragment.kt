@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.sportify.MatchCardAdapter
+import com.example.sportify.CalenderCardAdpater
 import com.example.sportify.R
 import com.example.sportify.TeamTableAdapter
 import com.google.firebase.Firebase
@@ -73,7 +73,7 @@ class HomeFragment : Fragment() {
     private fun updateMatchRecyclerView(matchData: ArrayList<MatchTeamItem>?, view: View) {
         matchData?.let {
             val manager1 = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            val adapter1 = MatchCardAdapter(it)
+            val adapter1 = CalenderCardAdpater(it)
             val recyclerHorizon = view.findViewById<RecyclerView>(R.id.recyclerHorizon)
             recyclerHorizon.apply {
                 adapter = adapter1
