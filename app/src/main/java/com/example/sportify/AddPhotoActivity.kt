@@ -22,7 +22,7 @@ import java.util.Date
 import java.util.SimpleTimeZone
 
 class AddPhotoActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityAddPhotoBinding
+    private lateinit var binding: ActivityAddPhotoBinding
     var PICK_IMAGE_FROM_ALBUM = 0
     var storage: FirebaseStorage? = null
     var photoUri: Uri? = null
@@ -33,7 +33,11 @@ class AddPhotoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         // Request permission here
-        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+            1
+        )
 
         // Initialize
         storage = FirebaseStorage.getInstance()
@@ -41,7 +45,11 @@ class AddPhotoActivity : AppCompatActivity() {
         fireStore = FirebaseFirestore.getInstance()
 
         // Set up the UI after permissions are granted
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
             setUpUI()
         }
     }
@@ -81,22 +89,14 @@ class AddPhotoActivity : AppCompatActivity() {
     }
 
     fun contentUpload() {
-        // Check if photoUri is not null before proceeding with the upload
-        photoUri?.let { uri ->
             // Create a file name based on the timestamp
             val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
             val imageFileName = "IMAGE_${timeStamp}_.png"
             val storageRef = storage?.reference?.child("images")?.child(imageFileName)
 
-            Log.d("ITM", "Image FileName: $imageFileName")
-
             // 파일 업로드에 대한 콜백 메소드(방식 중에 하나)
-            storageRef?.putFile(uri)?.addOnSuccessListener {
-                Log.d("ITM", "Image upload successful.")
-
+            storageRef?.putFile(photoUri!!)?.addOnSuccessListener {
                 storageRef.downloadUrl.addOnSuccessListener { uri -> //이미지 업로드 성공했으면,이미지 주소 받아오기
-                    Log.d("ITM", "Image download URL received: $uri")
-
                     var contentDTO = ContentDTO()
                     //downloadUrl을 ContentDTO에 집어넣기
                     contentDTO.imageUrl = uri.toString()
@@ -114,20 +114,16 @@ class AddPhotoActivity : AppCompatActivity() {
                     contentDTO.timeStamp = System.currentTimeMillis()
 
                     //싹다 집어넣은 contentDTO 인스턴스를 파이어스토어에 집어넣기
-                    fireStore?.collection("images")?.document()?.set(contentDTO)?.addOnSuccessListener {
-                        Log.d("ITM", "Data upload to Firestore successful.")
-                    }?.addOnFailureListener { e ->
-                        Log.d("ITM", "Data upload to Firestore failed: ", e)
-                    }
-
-                    setResult(Activity.RESULT_OK)
-
-                    finish() //창 닫기
+                    fireStore?.collection("images")?.document()?.set(contentDTO)
+                        ?.addOnSuccessListener {
+                            Log.d("ITM", "Data upload to Firestore successful.")
+                            setResult(Activity.RESULT_OK)
+                            finish() //창 닫기
+                        }
+                        ?.addOnFailureListener { e ->
+                            Log.d("ITM", "Data upload to Firestore failed: ", e)
+                        }
                 }
-            }?.addOnFailureListener { e ->
-                Log.d("ITM", "Image upload failed: ", e)
-                Toast.makeText(this, getString(R.string.upload_fail), Toast.LENGTH_LONG).show()
             }
-        } ?: Log.d("ITM", "PhotoUri is null.")
     }
 }

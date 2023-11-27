@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.sportify.MatchCardAdapter
+import com.example.sportify.adapter.MatchCardAdapter
 import com.example.sportify.R
-import com.example.sportify.TeamTableAdapter
+import com.example.sportify.adapter.TeamTableAdapter
 import com.google.firebase.Firebase
 import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.database
