@@ -41,30 +41,21 @@ class MainActivity : AppCompatActivity() {
         val manager: FragmentManager = supportFragmentManager
         val fragTransaction = manager.beginTransaction()
 
-        if (manager.findFragmentByTag(tag) == null){
-            fragTransaction.add(R.id.mainFrameLayout, fragment, tag)
+        // Hide all fragments
+        for (existingFragment in manager.fragments) {
+            fragTransaction.hide(existingFragment)
         }
 
-        val calender = manager.findFragmentByTag(TAG_CALENDER)
-        val home = manager.findFragmentByTag(TAG_HOME)
-        val account = manager.findFragmentByTag(TAG_ACCOUNT)
-        val gps = manager.findFragmentByTag(TAG_GPS)
-        val community = manager.findFragmentByTag(TAG_COMMUNITY)
+        // Try to find the fragment by tag
+        val existingFragment = manager.findFragmentByTag(tag)
 
-//        if (calender != null){
-//            fragTransaction.hide(calender)
-//        }
-        calender?.let { fragTransaction.hide(it) }
-        home?.let { fragTransaction.hide(it) }
-        community?.let{ fragTransaction.hide(it) }
-        gps?.let{ fragTransaction.hide(it) }
-        account?.let{ fragTransaction.hide(it) }
-
-        if (tag == TAG_CALENDER) calender?.let { fragTransaction.show(it) }
-        else if (tag == TAG_HOME) home?.let { fragTransaction.show(it) }
-        else if (tag == TAG_ACCOUNT) account?.let{ fragTransaction.show(it) }
-        else if (tag == TAG_GPS)  gps?.let{ fragTransaction.hide(it) }
-        else if (tag == TAG_COMMUNITY) community?.let{ fragTransaction.show(it) }
+        if (existingFragment == null) {
+            // If the fragment doesn't exist, add it
+            fragTransaction.add(R.id.mainFrameLayout, fragment, tag)
+        } else {
+            // If the fragment exists, show it
+            fragTransaction.show(existingFragment)
+        }
 
         fragTransaction.commitAllowingStateLoss()
     }
