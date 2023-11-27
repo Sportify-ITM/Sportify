@@ -84,7 +84,6 @@ class CalenderFragment : Fragment() {
 //        return binding.root
 //    }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -121,7 +120,8 @@ class CalenderFragment : Fragment() {
                             if (eventDates.contains(day)){
                                 if (matchesData != null) {
 //                                    updateCardDay(day, matchesData)
-                                    updateMatchRecyclerView(matchesData)
+//                                    Log.d("ITM", "${filterMatchesByDay(matchesData, day)}")
+                                    updateMatchRecyclerView(filterMatchesByDay(matchesData, day))
                                 }
 //                                Log.d("ITM", "yes")
                             }else{
@@ -153,6 +153,7 @@ class CalenderFragment : Fragment() {
     }
 
 
+
     fun parseMatchDate(time: String): Date? {
         val year = "2023"
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
@@ -163,6 +164,22 @@ class CalenderFragment : Fragment() {
             null
         }
     }
+
+    fun filterMatchesByDay(matchList: List<MatchTeamItem>, selectedDay: CalendarDay): ArrayList<MatchTeamItem> {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+        // Correctly format the selected day
+        val selectedDateStr = String.format("%d-%02d-%02d", selectedDay.year, selectedDay.month + 1, selectedDay.day)
+        val selectedDate = dateFormat.parse(selectedDateStr)
+
+        // Filter the list and convert it to an ArrayList
+        return ArrayList(matchList.filter {
+            val matchDateStr = "2023-${it.time.split(" ")[0]}"
+            val matchDate = dateFormat.parse(matchDateStr)
+            matchDate == selectedDate
+        })
+    }
+
 
 //    fun changeVisibility(){
 //        binding::class.java.declaredFields.forEach { field ->
