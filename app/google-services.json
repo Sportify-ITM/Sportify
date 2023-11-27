@@ -15,7 +15,39 @@
       },
       "oauth_client": [
         {
-          "client_id": "33001373101-i189mbqo9gcv1oe6dvoil47gcc574gd2.apps.googleusercontent.com",
+          "client_id": "33001373101-3jcveeq43ni2cuge53onsihv5hmp1peg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sportify",
+            "certificate_hash": "2898bf4ba5bfd2a0f326fe83cb5bcc9988675e49"
+          }
+        },
+        {
+          "client_id": "33001373101-6eiicet7ee55hdcb303tbroq47var400.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sportify",
+            "certificate_hash": "c4342ab803ac1972316537881a736a99c89435a0"
+          }
+        },
+        {
+          "client_id": "33001373101-rmstftku2p5tnpptfmokqqt9b9kjs089.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sportify",
+            "certificate_hash": "76b1c0bd8528f1c5442b1157424b8ac22f7c3dbf"
+          }
+        },
+        {
+          "client_id": "33001373101-vrl0ntpm7o5h5qhoaqr00e6tv8ce72uo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sportify",
+            "certificate_hash": "ae130ff01e7656bb25ca423b4b3cc858a833f5c1"
+          }
+        },
+        {
+          "client_id": "33001373101-ej7bhomb0nelp748e78hnvletvp11qmo.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -28,7 +60,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "33001373101-i189mbqo9gcv1oe6dvoil47gcc574gd2.apps.googleusercontent.com",
+              "client_id": "33001373101-ej7bhomb0nelp748e78hnvletvp11qmo.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

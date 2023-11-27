@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -50,6 +51,8 @@ class AddPhotoActivity : AppCompatActivity() {
         binding = ActivityAddPhotoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        Log.d("ITM", "${auth?.currentUser}")
+
         // Open the album
         val photoPickerIntent = Intent(Intent.ACTION_PICK)
         photoPickerIntent.type = "image/*"
@@ -85,17 +88,46 @@ class AddPhotoActivity : AppCompatActivity() {
             val imageFileName = "IMAGE_${timeStamp}_.png"
             val storageRef = storage?.reference?.child("images")?.child(imageFileName)
 
-            // 파일 업로드에 대한 콜백 메소드
+            Log.d("ITM", "Image FileName: $imageFileName")
+
+            // 파일 업로드에 대한 콜백 메소드(방식 중에 하나)
             storageRef?.putFile(uri)?.addOnSuccessListener {
+                Log.d("ITM", "Image upload successful.")
+
                 storageRef.downloadUrl.addOnSuccessListener { uri -> //이미지 업로드 성공했으면,이미지 주소 받아오기
+                    Log.d("ITM", "Image download URL received: $uri")
+
                     var contentDTO = ContentDTO()
                     //downloadUrl을 ContentDTO에 집어넣기
-                    contentDTO.imageUrl
+                    contentDTO.imageUrl = uri.toString()
 
+                    //유저의 uid 집어넣기
+                    contentDTO.uid = auth?.currentUser?.uid
+
+                    //유저의 userId 집어넣기(이건 프로필 사진 용)
+                    contentDTO.userId = auth?.currentUser?.email
+
+                    //explain 집어넣기
+                    contentDTO.explain = binding.addPhotoEdit.text.toString()
+
+                    //시간 집어넣기
+                    contentDTO.timeStamp = System.currentTimeMillis()
+
+                    //싹다 집어넣은 contentDTO 인스턴스를 파이어스토어에 집어넣기
+                    fireStore?.collection("images")?.document()?.set(contentDTO)?.addOnSuccessListener {
+                        Log.d("ITM", "Data upload to Firestore successful.")
+                    }?.addOnFailureListener { e ->
+                        Log.d("ITM", "Data upload to Firestore failed: ", e)
+                    }
+
+                    setResult(Activity.RESULT_OK)
+
+                    finish() //창 닫기
                 }
-            }?.addOnFailureListener {
+            }?.addOnFailureListener { e ->
+                Log.d("ITM", "Image upload failed: ", e)
                 Toast.makeText(this, getString(R.string.upload_fail), Toast.LENGTH_LONG).show()
             }
-        }
+        } ?: Log.d("ITM", "PhotoUri is null.")
     }
 }
