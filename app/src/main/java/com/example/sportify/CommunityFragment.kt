@@ -1,71 +1,86 @@
 package com.example.sportify
 
-import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
-import com.google.android.play.integrity.internal.t
-import android.Manifest
-import android.content.Intent
-import com.example.sportify.databinding.FragmentAccountBinding
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.sportify.databinding.FragmentCommunityBinding
+import com.example.sportify.databinding.ItemDetailBinding
+import com.example.sportify.model.ContentDTO
+import com.google.firebase.firestore.FirebaseFirestore
 
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 class CommunityFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
     lateinit var binding: FragmentCommunityBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+    var firestore: FirebaseFirestore? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         binding = FragmentCommunityBinding.inflate(inflater, container, false)
+        firestore = FirebaseFirestore.getInstance()
 
-        val writeBtn = binding.writeBtn
-        writeBtn.setOnClickListener {
-            moveToAddPhotoActivity()
-        }
+        binding.communityfragmentRecyclerView.adapter = DetailViewRecyclerViewAdapter()
+        binding.communityfragmentRecyclerView.layoutManager = LinearLayoutManager(activity)
+        binding.writeBtn.setOnClickListener { moveToAddPhotoActivity() }
         return binding.root
+    }
+    //이번에는 어댑터를 이너클래스의 형태로 만듦
+    inner class DetailViewRecyclerViewAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+        var contentDTOs: ArrayList<ContentDTO> = arrayListOf()
+        var contentUidList: ArrayList<String> = arrayListOf()
+        init{
+            //파이어베이스에서 시간 순으로 데이터 가져오기 *addSnapshotListenr:데이터 수신되면 실행되는 코드
+            firestore?.collection("images")?.orderBy("timestamp")?.addSnapshotListener{ querySnapshot, firebaseFirestoreException ->
+                //초기화
+                contentDTOs.clear()
+                contentUidList.clear()
+                for(snapshot in querySnapshot!!.documents){
+                    var item = snapshot.toObject(ContentDTO::class.java) //ContentDTO 형식으로 캐스팅하기
+                    contentDTOs.add(item!!)
+                    contentUidList.add(snapshot.id)
+                }
+                notifyDataSetChanged()//값이 새로고침되게 만듦
+            }
+        }
+        override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder {
+            val binding = ItemDetailBinding.inflate(LayoutInflater.from(p0.context), p0, false)
+            return CustomViewHolder(binding)
+        }
+
+
+        inner class CustomViewHolder(val binding: ItemDetailBinding) : RecyclerView.ViewHolder(binding.root)
+
+
+        override fun getItemCount(): Int {
+            return contentDTOs.size
+        }
+        override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) { //p0 = 뷰홀더, p1 = 아이템 카운트
+            var viewHolder = (p0 as CustomViewHolder).binding
+
+            //유저 아이디 바인딩
+            viewHolder.detailviewitemProfileTextview.text = contentDTOs!![p1].userId
+
+            //이미지 바인딩
+            Glide.with(p0.itemView.context).load(contentDTOs!![p1].imageUrl).into(viewHolder.detailviewitemImageviewContent)
+
+            //설명 글 바인딩
+            viewHolder.detailviewitemExplainText.text = contentDTOs!![p1].explain
+
+            //좋아요 수 바인딩
+            viewHolder.detailviewitemFavoritecounterText.text = "Likes: "+contentDTOs!![p1].favoriteCount
+
+            //프로필 이미지 바인딩
+            Glide.with(p0.itemView.context).load(contentDTOs!![p1].imageUrl).into(viewHolder.detailviewitemProfileImage)
+
+        }
+
 
     }
 
     fun moveToAddPhotoActivity(){
         startActivity(Intent(requireActivity(), AddPhotoActivity::class.java))
 
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CommunityFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CommunityFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }
