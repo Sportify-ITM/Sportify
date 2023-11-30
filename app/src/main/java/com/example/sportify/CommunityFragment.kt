@@ -2,6 +2,7 @@ package com.example.sportify
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,11 +20,15 @@ class CommunityFragment : Fragment() {
     var firestore: FirebaseFirestore? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentCommunityBinding.inflate(inflater, container, false)
-        firestore = FirebaseFirestore.getInstance()
-
-        binding.communityfragmentRecyclerView.adapter = DetailViewRecyclerViewAdapter()
-        binding.communityfragmentRecyclerView.layoutManager = LinearLayoutManager(activity)
         binding.writeBtn.setOnClickListener { moveToAddPhotoActivity() }
+        firestore = FirebaseFirestore.getInstance()
+        val manager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        val adapter1 = DetailViewRecyclerViewAdapter()
+        val recyclerDetail = binding.communityfragmentRecyclerView
+        recyclerDetail.apply {
+            adapter = adapter1
+            layoutManager = manager
+        }
         return binding.root
     }
     //이번에는 어댑터를 이너클래스의 형태로 만듦
@@ -32,7 +37,7 @@ class CommunityFragment : Fragment() {
         var contentUidList: ArrayList<String> = arrayListOf()
         init{
             //파이어베이스에서 시간 순으로 데이터 가져오기 *addSnapshotListenr:데이터 수신되면 실행되는 코드
-            firestore?.collection("images")?.orderBy("timestamp")?.addSnapshotListener{ querySnapshot, firebaseFirestoreException ->
+            firestore?.collection("images")?.orderBy("timeStamp")?.addSnapshotListener{ querySnapshot, firebaseFirestoreException ->
                 //초기화
                 contentDTOs.clear()
                 contentUidList.clear()
@@ -40,6 +45,7 @@ class CommunityFragment : Fragment() {
                     var item = snapshot.toObject(ContentDTO::class.java) //ContentDTO 형식으로 캐스팅하기
                     contentDTOs.add(item!!)
                     contentUidList.add(snapshot.id)
+                    Log.d("ITM","${contentDTOs}")
                 }
                 notifyDataSetChanged()//값이 새로고침되게 만듦
             }
