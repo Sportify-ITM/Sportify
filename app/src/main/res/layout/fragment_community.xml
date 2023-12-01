@@ -10,7 +10,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background"
+        android:background="@color/white"
         >
 
         <androidx.appcompat.widget.Toolbar
@@ -53,18 +53,24 @@
             app:layout_constraintTop_toBottomOf="@+id/my_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="end">
 
-        <Button
-            android:id="@+id/writeBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/my_toolbar"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="글쓰기"/>
-            <ToggleButton
+            <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/background"
+                android:text="News Mode"
+                />
+            <Button
+                android:id="@+id/writeBtn"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                app:layout_constraintTop_toBottomOf="@id/my_toolbar"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@drawable/ic_add_photo"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="2dp"
                 />
         </LinearLayout>
 

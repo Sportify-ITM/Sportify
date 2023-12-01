@@ -85,9 +85,9 @@ class CommunityFragment : Fragment() {
 
             //좋아요 카운트와 하트 색칠/비움 이벤트
             if(contentDTOs!![p1].favorites.containsKey(uid)){
-                viewHolder.detailviewitemFavoriteImageview.setImageResource(R.drawable.ic_arrow_back)
+                viewHolder.detailviewitemFavoriteImageview.setImageResource(R.drawable.ic_favorite)
             }else{
-                viewHolder.detailviewitemFavoriteImageview.setImageResource(R.drawable.ic_search)
+                viewHolder.detailviewitemFavoriteImageview.setImageResource(R.drawable.ic_favorite_border)
             }
         }
 
