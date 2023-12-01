@@ -7,7 +7,7 @@ data class ContentDTO(
     var userId: String? = null, // 올린 유저의 프로필 이미지
     var timeStamp: Long? = null,
     var favoriteCount: Int = 0, // 좋아요 수
-    var favorites: Map<String,Boolean> = HashMap()
+    var favorites: MutableMap<String,Boolean> = HashMap()
     ){
     data class Comment(     // 댓글에 대한 데이터 클래스
         var uid : String? = null,

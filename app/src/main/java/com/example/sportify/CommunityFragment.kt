@@ -13,15 +13,19 @@ import com.bumptech.glide.Glide
 import com.example.sportify.databinding.FragmentCommunityBinding
 import com.example.sportify.databinding.ItemDetailBinding
 import com.example.sportify.model.ContentDTO
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class CommunityFragment : Fragment() {
     lateinit var binding: FragmentCommunityBinding
     var firestore: FirebaseFirestore? = null
+    var uid: String? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentCommunityBinding.inflate(inflater, container, false)
         binding.writeBtn.setOnClickListener { moveToAddPhotoActivity() }
         firestore = FirebaseFirestore.getInstance()
+        uid = FirebaseAuth.getInstance().currentUser?.uid
+
         val manager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         val adapter1 = DetailViewRecyclerViewAdapter()
         val recyclerDetail = binding.communityfragmentRecyclerView
@@ -55,9 +59,7 @@ class CommunityFragment : Fragment() {
             return CustomViewHolder(binding)
         }
 
-
         inner class CustomViewHolder(val binding: ItemDetailBinding) : RecyclerView.ViewHolder(binding.root)
-
 
         override fun getItemCount(): Int {
             return contentDTOs.size
@@ -67,26 +69,51 @@ class CommunityFragment : Fragment() {
 
             //유저 아이디 바인딩
             viewHolder.detailviewitemProfileTextview.text = contentDTOs!![p1].userId
-
             //이미지 바인딩
             Glide.with(p0.itemView.context).load(contentDTOs!![p1].imageUrl).into(viewHolder.detailviewitemImageviewContent)
-
             //설명 글 바인딩
             viewHolder.detailviewitemExplainText.text = contentDTOs!![p1].explain
-
             //좋아요 수 바인딩
             viewHolder.detailviewitemFavoritecounterText.text = "Likes: "+contentDTOs!![p1].favoriteCount
-
             //프로필 이미지 바인딩
             Glide.with(p0.itemView.context).load(contentDTOs!![p1].imageUrl).into(viewHolder.detailviewitemProfileImage)
 
+            //좋아요 눌렀을 때 이벤트리스너
+            viewHolder.detailviewitemFavoriteImageview.setOnClickListener{
+                favoriteEvent(p1)
+            }
+
+            //좋아요 카운트와 하트 색칠/비움 이벤트
+            if(contentDTOs!![p1].favorites.containsKey(uid)){
+                viewHolder.detailviewitemFavoriteImageview.setImageResource(R.drawable.ic_arrow_back)
+            }else{
+                viewHolder.detailviewitemFavoriteImageview.setImageResource(R.drawable.ic_search)
+            }
         }
 
+        fun favoriteEvent(position : Int){
+            //유저가 선택한 contentUid 값을 받아오기
+            var tsDoc = firestore?.collection("images")?.document(contentUidList[position])
+            firestore?.runTransaction{ transaction ->
+                var uid = FirebaseAuth.getInstance().currentUser?.uid //현재 유저 id 받아오기
+                var contentDTO = transaction.get(tsDoc!!).toObject(ContentDTO::class.java) //유저가 선택한 contentUid 값을 contentDTO 타입으로 캐스팅하기
+
+                if(contentDTO!!.favorites.containsKey(uid)){ //좋아요가 이미 입력되어 있다면
+                    // 좋아요 버튼이 눌리면
+                    contentDTO.favoriteCount = contentDTO.favoriteCount-1 // TODO 이 부분 다름!!
+                    contentDTO?.favorites?.remove(uid)// TODO 이 부분 다름!!
+                }else{ //좋아요가 안 입력되어 있다면
+                    contentDTO.favoriteCount = contentDTO.favoriteCount+1 // TODO 이 부분 다름!!
+                    contentDTO.favorites[uid!!] = true// TODO 이 부분 다름!!
+                }
+                    transaction.set(tsDoc,contentDTO)//트랜잭션 서버로 돌려주기
+            }
+        }
 
     }
 
+
     fun moveToAddPhotoActivity(){
         startActivity(Intent(requireActivity(), AddPhotoActivity::class.java))
-
     }
 }
