@@ -1,25 +1,13 @@
 package com.example.sportify
 
 import HomeFragment
-import android.content.pm.PackageManager
+import android.Manifest
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.content.PackageManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.sportify.databinding.ActivityMainBinding
-import android.Manifest
-import android.app.Activity
-import android.app.AlertDialog
-import android.content.DialogInterface
-import android.content.Intent
-import android.provider.Settings
-import android.util.Log
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
-import com.google.android.gms.auth.api.signin.GoogleSignIn.hasPermissions
+import com.google.firebase.auth.FirebaseAuth
 
 private const val TAG_CALENDAR = "calendar_fragment"
 private const val TAG_HOME = "home_fragment"
@@ -47,7 +35,16 @@ class MainActivity : AppCompatActivity() {
                 R.id.home -> setFragment(TAG_HOME, HomeFragment())
                 R.id.community -> setFragment(TAG_COMMUNITY, CommunityFragment())
                 R.id.calendar -> setFragment(TAG_CALENDAR, CalendarFragment())
-                R.id.account -> setFragment(TAG_ACCOUNT, AccountFragment())
+                R.id.account -> {
+                    //번들 이용해서 현재 유저의 uid를 프래그먼트로 전달하기
+                    var accountFragment = AccountFragment()
+                    var bundle = Bundle()
+                    var uid = FirebaseAuth.getInstance().currentUser?.uid
+                    bundle.putString("destination", uid)
+                    accountFragment.arguments = bundle
+
+                    setFragment(TAG_ACCOUNT, accountFragment)
+                }
                 R.id.gps -> setFragment(TAG_GPS, GpsFragment())
             }
             true
