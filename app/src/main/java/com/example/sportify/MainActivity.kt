@@ -2,12 +2,19 @@ package com.example.sportify
 
 import HomeFragment
 import android.Manifest
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.sportify.databinding.ActivityMainBinding
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
+
 
 private const val TAG_CALENDAR = "calendar_fragment"
 private const val TAG_HOME = "home_fragment"
@@ -31,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         setFragment(TAG_HOME, HomeFragment())
 
         binding.navigationView.setOnItemSelectedListener { item ->
+            setToolbarDefault()
             when (item.itemId) {
                 R.id.home -> setFragment(TAG_HOME, HomeFragment())
                 R.id.community -> setFragment(TAG_COMMUNITY, CommunityFragment())
@@ -40,18 +48,19 @@ class MainActivity : AppCompatActivity() {
                     var accountFragment = AccountFragment()
                     var bundle = Bundle()
                     var uid = FirebaseAuth.getInstance().currentUser?.uid
-                    bundle.putString("destination", uid)
+                    bundle.putString("destinationUid", uid)
                     accountFragment.arguments = bundle
-
                     setFragment(TAG_ACCOUNT, accountFragment)
                 }
                 R.id.gps -> setFragment(TAG_GPS, GpsFragment())
             }
             true
         }
+
+
     }
 
-    private fun setFragment(tag: String, fragment: Fragment) {
+    fun setFragment(tag: String, fragment: Fragment) {
         val manager: FragmentManager = supportFragmentManager
         val fragTransaction = manager.beginTransaction()
 
@@ -79,4 +88,34 @@ class MainActivity : AppCompatActivity() {
 
         fragTransaction.commitAllowingStateLoss()
     }
+
+    fun setToolbarDefault(){
+        binding.toolbarUsername.visibility = View.GONE
+        binding.toolbarBtnBack.visibility = View.GONE
+        binding.toolbarTitleImage.visibility = View.VISIBLE
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_sign_out -> {
+                signOut()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun signOut() {
+        //firebaseAuth.signOut()
+        FirebaseManager.authInstance.signOut()
+        // Optionally, also sign out from Google if you're using Google Sign-In
+        GoogleSignIn.getClient(this, GoogleSignInOptions.DEFAULT_SIGN_IN).signOut()
+        startActivity(Intent(this,LoginActivity::class.java))
+    }
+
 }

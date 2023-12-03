@@ -89,6 +89,17 @@ class CommunityFragment : Fragment() {
             }else{
                 viewHolder.detailviewitemFavoriteImageview.setImageResource(R.drawable.ic_favorite_border)
             }
+
+            //유저 프로필이 클릭되었을 때
+            viewHolder.detailviewitemProfileImage.setOnClickListener{
+                var fragment = AccountFragment()
+                var bundle = Bundle()
+                bundle.putString("destinationUid",contentDTOs[p1].uid)
+                bundle.putString("userId",contentDTOs[p1].userId)
+                fragment.arguments = bundle
+                activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.mainFrameLayout,fragment)?.addToBackStack(null)?.commit()
+            }
+
         }
 
         fun favoriteEvent(position : Int){

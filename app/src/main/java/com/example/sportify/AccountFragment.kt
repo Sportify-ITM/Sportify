@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,8 +15,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.sportify.databinding.FragmentAccountBinding
 import com.example.sportify.model.ContentDTO
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -25,13 +25,35 @@ class AccountFragment : Fragment() {
     var fragmentView: View? = null
     var uid: String? = null
     var auth: FirebaseAuth? = null
+    var currentUserUid : String? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentAccountBinding.inflate(inflater, container, false)
-        uid = arguments?.getString("destination")
+        uid = arguments?.getString("destinationUid")
         Log.d("ITMM","$uid")
         firestore = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
+        currentUserUid = auth?.currentUser?.uid
+
+        if(uid == currentUserUid){
+            //내 페이지
+            binding?.accountBtnFollowSignout?.text = "Edit"
+        }else{
+            //다른 유저 페이지
+            binding?.accountBtnFollowSignout?.text = "Follow"
+            var mainActivity = activity as MainActivity
+            mainActivity.findViewById<TextView>(R.id.toolbar_username).apply{
+                text = arguments?.getString("userId")
+            }
+            mainActivity.findViewById<ImageView>(R.id.toolbar_btn_back).apply{
+                setOnClickListener { mainActivity.findViewById<BottomNavigationView>(R.id.navigationView).selectedItemId = R.id.home }
+            }
+            mainActivity.findViewById<TextView>(R.id.toolbar_username).visibility = View.VISIBLE
+            mainActivity.findViewById<ImageView>(R.id.toolbar_btn_back).visibility = View.VISIBLE
+        }
+
+
+
         val adapter1 = AccountFragmentRecyclerViewAdapter()
         val manager = GridLayoutManager(requireActivity()!!,3)
         val recyclerAccount = binding.accountRecyclerview
@@ -39,14 +61,9 @@ class AccountFragment : Fragment() {
             adapter = adapter1
             layoutManager = manager
         }
-
-        val signOutBtn = binding.signOutBtn
-        signOutBtn.setOnClickListener {
-            signOut()
-        }
         return binding.root
-
     }
+
     inner class AccountFragmentRecyclerViewAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>(){
         var contentDTOs:ArrayList<ContentDTO> = arrayListOf()
         init {
@@ -94,11 +111,5 @@ class AccountFragment : Fragment() {
     }
 
 
-    private fun signOut() {
-        //firebaseAuth.signOut()
-        FirebaseManager.authInstance.signOut()
-        // Optionally, also sign out from Google if you're using Google Sign-In
-        GoogleSignIn.getClient(requireActivity(), GoogleSignInOptions.DEFAULT_SIGN_IN).signOut()
-    }
 
 }

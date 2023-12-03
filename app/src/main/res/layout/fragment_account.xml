@@ -9,21 +9,21 @@
         android:layout_width="match_parent"
         android:layout_height="100dp">
         <ImageView
-            android:id="@+id/account_iv_profile"
+            android:id="@+id/myImageView"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_alignParentLeft="true"
             android:src="@mipmap/ic_launcher"/>
         <Button
             android:id="@+id/account_btn_follow_signout"
-            android:layout_toRightOf="@+id/account_iv_profile"
+            android:layout_toRightOf="@+id/myImageView"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_alignParentBottom="true"
             android:text="follow"/>
         <LinearLayout
             android:gravity="center"
-            android:layout_toRightOf="@+id/account_iv_profile"
+            android:layout_toRightOf="@+id/myImageView"
             android:layout_above="@id/account_btn_follow_signout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -77,19 +77,10 @@
             </LinearLayout>
 
         </LinearLayout>
-
-    <Button
-        android:id="@+id/signOutBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:text="Button" />
     </RelativeLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/account_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="700dp">
     </androidx.recyclerview.widget.RecyclerView>
-
 </LinearLayout>
