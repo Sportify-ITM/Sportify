@@ -82,6 +82,9 @@ dependencies {
     // Room components
     implementation("androidx.room:room-runtime:2.6.1")
     androidTestImplementation("androidx.room:room-testing:2.6.1")
+    kapt ("androidx.room:room-compiler:2.4.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+
     // Lifecycle components
     implementation("androidx.lifecycle:lifecycle-viewmodel:2.2.0")
     implementation("androidx.lifecycle:lifecycle-livedata:2.2.0")

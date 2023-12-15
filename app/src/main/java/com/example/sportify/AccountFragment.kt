@@ -46,13 +46,12 @@ class AccountFragment : Fragment() {
                 text = arguments?.getString("userId")
             }
             mainActivity.findViewById<ImageView>(R.id.toolbar_btn_back).apply{
-                setOnClickListener { mainActivity.findViewById<BottomNavigationView>(R.id.navigationView).selectedItemId = R.id.home }
+                setOnClickListener { mainActivity.findViewById<BottomNavigationView>(R.id.navigationView).selectedItemId = R.id.community }
             }
             mainActivity.findViewById<TextView>(R.id.toolbar_username).visibility = View.VISIBLE
             mainActivity.findViewById<ImageView>(R.id.toolbar_btn_back).visibility = View.VISIBLE
+            mainActivity.findViewById<ImageView>(R.id.toolbar_title_image).visibility = View.INVISIBLE
         }
-
-
 
         val adapter1 = AccountFragmentRecyclerViewAdapter()
         val manager = GridLayoutManager(requireActivity()!!,3)
@@ -91,7 +90,6 @@ class AccountFragment : Fragment() {
 
         // 넘어온 이미지 뷰를 리사이클러 뷰의 뷰 홀더로 전달
         inner class CustomViewHolder(var imageView: ImageView) : RecyclerView.ViewHolder(imageView) {
-
         }
 
         override fun getItemCount(): Int {

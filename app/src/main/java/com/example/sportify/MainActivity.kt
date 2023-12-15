@@ -46,14 +46,12 @@ class MainActivity : AppCompatActivity() {
                     var uid = FirebaseAuth.getInstance().currentUser?.uid
                     bundle.putString("destinationUid", uid)
                     accountFragment.arguments = bundle
-                    setFragment(TAG_ACCOUNT, accountFragment)
+                    supportFragmentManager.beginTransaction().replace(binding.mainFrameLayout.id,accountFragment).commit()
                 }
                 R.id.gps -> setFragment(TAG_GPS, GpsFragment())
             }
             true
         }
-
-
     }
 
     fun setFragment(tag: String, fragment: Fragment) {
@@ -79,10 +77,9 @@ class MainActivity : AppCompatActivity() {
                 fragTransaction.hide(existingFragment)
             }
         }
-
         fragTransaction.commitAllowingStateLoss()
+        setToolbarDefault()
     }
-
 
     fun setToolbarDefault(){
         binding.toolbarUsername.visibility = View.GONE

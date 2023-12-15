@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -76,7 +78,7 @@ class CommunityFragment : Fragment() {
             //좋아요 수 바인딩
             viewHolder.detailviewitemFavoritecounterText.text = "Likes: "+contentDTOs!![p1].favoriteCount
             //프로필 이미지 바인딩
-            Glide.with(p0.itemView.context).load(contentDTOs!![p1].imageUrl).into(viewHolder.detailviewitemProfileImage)
+            //Glide.with(p0.itemView.context).load(contentDTOs!![p1].imageUrl).into(viewHolder.detailviewitemProfileImage)
 
             //좋아요 눌렀을 때 이벤트리스너
             viewHolder.detailviewitemFavoriteImageview.setOnClickListener{
@@ -97,9 +99,8 @@ class CommunityFragment : Fragment() {
                 bundle.putString("destinationUid",contentDTOs[p1].uid)
                 bundle.putString("userId",contentDTOs[p1].userId)
                 fragment.arguments = bundle
-                activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.mainFrameLayout,fragment)?.addToBackStack(null)?.commit()
+                activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.mainFrameLayout,fragment)?.commit()
             }
-
         }
 
         fun favoriteEvent(position : Int){
