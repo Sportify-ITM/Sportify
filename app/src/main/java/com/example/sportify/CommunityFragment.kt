@@ -6,8 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.sportify.databinding.FragmentCommunityBinding
 import com.example.sportify.databinding.ItemDetailBinding
 import com.example.sportify.model.ContentDTO
+import com.example.sportify.util.FcmPush
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -78,7 +77,7 @@ class CommunityFragment : Fragment() {
             //좋아요 수 바인딩
             viewHolder.detailviewitemFavoritecounterText.text = "Likes: "+contentDTOs!![p1].favoriteCount
             //프로필 이미지 바인딩
-            //Glide.with(p0.itemView.context).load(contentDTOs!![p1].imageUrl).into(viewHolder.detailviewitemProfileImage)
+            Glide.with(p0.itemView.context).load(contentDTOs!![p1].imageUrl).into(viewHolder.detailviewitemProfileImage)
 
             //좋아요 눌렀을 때 이벤트리스너
             viewHolder.detailviewitemFavoriteImageview.setOnClickListener{
@@ -117,12 +116,19 @@ class CommunityFragment : Fragment() {
                 }else{ //좋아요가 안 입력되어 있다면
                     contentDTO.favoriteCount = contentDTO.favoriteCount+1 // TODO 이 부분 다름!!
                     contentDTO.favorites[uid!!] = true// TODO 이 부분 다름!!
+                    favoriteAlarm(contentDTOs[position].uid!!) // 좋아요 눌렀을때 알림
                 }
                     transaction.set(tsDoc,contentDTO)//트랜잭션 서버로 돌려주기
             }
         }
 
+        fun favoriteAlarm(destinationUid : String){
+            var message = FirebaseAuth.getInstance()?.currentUser?.email + " " + getString(R.string.alarm_favorite)
+            FcmPush.instance.sendMessage(destinationUid,"Sportify",message)
+        }
+
     }
+
 
 
     fun moveToAddPhotoActivity(){

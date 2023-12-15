@@ -1,5 +1,7 @@
 package com.example.sportify
 
+import android.content.Intent
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +18,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.sportify.databinding.FragmentAccountBinding
 import com.example.sportify.model.ContentDTO
+import com.example.sportify.model.FollowDTO
+import com.example.sportify.util.FcmPush
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -26,6 +31,9 @@ class AccountFragment : Fragment() {
     var uid: String? = null
     var auth: FirebaseAuth? = null
     var currentUserUid : String? = null
+    companion object{
+        var PICK_PROFILE_FROM_ALBUM = 10
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentAccountBinding.inflate(inflater, container, false)
@@ -37,9 +45,17 @@ class AccountFragment : Fragment() {
 
         if(uid == currentUserUid){
             //내 페이지
+            binding?.accountBtnFollowSignout?.setOnClickListener {
+                var photoPickerIntent = Intent(Intent.ACTION_PICK)
+                photoPickerIntent.type = "image/*"
+                activity?.startActivityForResult(photoPickerIntent,PICK_PROFILE_FROM_ALBUM)
+            }
             binding?.accountBtnFollowSignout?.text = "Edit"
         }else{
             //다른 유저 페이지
+            binding?.accountBtnFollowSignout?.setOnClickListener {
+                requestFollow()
+            }
             binding?.accountBtnFollowSignout?.text = "Follow"
             var mainActivity = activity as MainActivity
             mainActivity.findViewById<TextView>(R.id.toolbar_username).apply{
@@ -60,9 +76,88 @@ class AccountFragment : Fragment() {
             adapter = adapter1
             layoutManager = manager
         }
+        getProfileImage()
+        getFollowerAndFollowing()
         return binding.root
     }
+    fun getFollowerAndFollowing() {
+        val activity = activity // Store a reference to the activity
+        firestore?.collection("users")?.document(uid!!)?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
+            if (documentSnapshot == null || activity == null || !isAdded) return@addSnapshotListener
+            val followDTO = documentSnapshot.toObject(FollowDTO::class.java) ?: FollowDTO()
 
+            binding?.accountTvFollowingCount?.text = followDTO.followingCount.toString()
+            binding?.accountTvFollowerCount?.text = followDTO.followerCount.toString()
+
+            if (followDTO.followers?.containsKey(currentUserUid) == true) {
+                binding?.accountBtnFollowSignout?.text = getString(R.string.follow_cancel)
+                binding?.accountBtnFollowSignout?.background
+                    ?.setColorFilter(
+                        ContextCompat.getColor(requireActivity(), R.color.light_grey),
+                        PorterDuff.Mode.MULTIPLY
+                    )
+            } else {
+                if (uid != currentUserUid) {
+                    binding?.accountBtnFollowSignout?.text = getString(R.string.follow)
+                    binding?.accountBtnFollowSignout?.background?.colorFilter = null
+                }
+            }
+        }
+    }
+    fun requestFollow() {
+        // Save data to my account
+        val tsDocFollowing = firestore?.collection("users")?.document(currentUserUid!!)
+        firestore?.runTransaction { transaction ->
+            val followDTO = transaction.get(tsDocFollowing!!).toObject(FollowDTO::class.java)
+                ?: FollowDTO()
+            if (followDTO.followings.containsKey(uid)) {
+                followDTO.followingCount = followDTO.followingCount.minus(1)
+                followDTO.followings.remove(uid)
+            } else {
+                followDTO.followingCount = followDTO.followingCount.plus(1)
+                followDTO.followings[uid!!] = true
+                followerAlarm(uid!!) //팔로우 알림 보내기
+            }
+
+            transaction.set(tsDocFollowing, followDTO)
+            return@runTransaction
+        }
+
+        // Save data to the target user's account
+        val tsDocFollower = firestore?.collection("users")?.document(uid!!)
+        firestore?.runTransaction { transaction ->
+            val followDTO = transaction.get(tsDocFollower!!).toObject(FollowDTO::class.java)
+                ?: FollowDTO()
+
+            if (followDTO.followers.containsKey(currentUserUid)) {
+                followDTO.followerCount = followDTO.followerCount.minus(1)
+                followDTO.followers.remove(currentUserUid)
+            } else {
+                followDTO.followerCount = followDTO.followerCount.plus(1)
+                followDTO.followers[currentUserUid!!] = true
+            }
+
+            transaction.set(tsDocFollower, followDTO)
+            return@runTransaction
+        }
+    }
+
+    fun followerAlarm(destinationUid : String){
+        var message = auth?.currentUser?.email + " " + getString(R.string.alarm_follow)
+        FcmPush.instance.sendMessage(destinationUid,"Sportify",message)
+    }
+
+    fun getProfileImage() {
+        firestore?.collection("profileImages")?.document(uid!!)
+            ?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
+                if (documentSnapshot == null) return@addSnapshotListener
+                if (documentSnapshot.data != null) {
+                    var url = documentSnapshot?.data!!["image"]
+                    Glide.with(requireActivity()).load(url).apply(RequestOptions().circleCrop())
+                        .into(binding.myImageView!!)
+                }
+            }
+    }
     inner class AccountFragmentRecyclerViewAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>(){
         var contentDTOs:ArrayList<ContentDTO> = arrayListOf()
         init {

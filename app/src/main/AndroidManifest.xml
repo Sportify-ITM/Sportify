@@ -6,6 +6,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+
     <meta-data
         android:name="com.google.android.geo.API_KEY"
         android:value="AIzaSyCj3npgfbsLSmF-pSkhldXcS-BOljeFBcE" />
@@ -20,6 +23,7 @@
         android:theme="@style/Theme.Sportify"
         android:enableOnBackInvokedCallback="true"
         tools:targetApi="31">
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCj3npgfbsLSmF-pSkhldXcS-BOljeFBcE"/>
@@ -49,6 +53,12 @@
             android:name=".MainActivity"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
             android:exported="true" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/second"/>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/design_default_color_background"/>
 
 
     </application>

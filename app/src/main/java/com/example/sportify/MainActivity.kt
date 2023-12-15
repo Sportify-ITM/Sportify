@@ -1,6 +1,7 @@
 package com.example.sportify
 
 import HomeFragment
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -12,7 +13,14 @@ import androidx.fragment.app.FragmentManager
 import com.example.sportify.databinding.ActivityMainBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.FirebaseMessagingService
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
+
 
 
 private const val TAG_CALENDAR = "calendar_fragment"
@@ -23,16 +31,30 @@ private const val TAG_GPS = "gps_fragment"
 private val PERMISSIONS_REQUEST_CODE = 200
 private val STORAGE_PERMISSIONS_REQUEST_CODE = 201 // New code for storage permissions
 
+class MyFirebaseMessagingService : FirebaseMessagingService()
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+
+    fun registerPushToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val token = task.result
+                val uid = FirebaseAuth.getInstance().currentUser?.uid
+                val map = mutableMapOf<String, Any>()
+                map["pushToken"] = token!!
+
+                FirebaseFirestore.getInstance().collection("pushtokens").document(uid!!).set(map)
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setFragment(TAG_HOME, HomeFragment())
 
+        registerPushToken()
         binding.navigationView.setOnItemSelectedListener { item ->
             setToolbarDefault()
             when (item.itemId) {
@@ -52,7 +74,10 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
+
     }
+
 
     fun setFragment(tag: String, fragment: Fragment) {
         val manager: FragmentManager = supportFragmentManager
@@ -108,6 +133,25 @@ class MainActivity : AppCompatActivity() {
         // Optionally, also sign out from Google if you're using Google Sign-In
         GoogleSignIn.getClient(this, GoogleSignInOptions.DEFAULT_SIGN_IN).signOut()
         startActivity(Intent(this,LoginActivity::class.java))
+    }
+
+    //프로필 사진 고르기 콜백
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == AccountFragment.PICK_PROFILE_FROM_ALBUM && resultCode == Activity.RESULT_OK) {
+            var imageUri = data?.data
+            var uid = FirebaseAuth.getInstance().currentUser?.uid
+            var storageRef =
+                FirebaseStorage.getInstance().reference.child("userProfileImages").child(uid!!)
+            storageRef.putFile(imageUri!!).continueWithTask { task: Task<UploadTask.TaskSnapshot> ->
+                return@continueWithTask storageRef.downloadUrl
+            }.addOnSuccessListener { uri ->
+                var map = HashMap<String, Any>()
+                map["image"] = uri.toString()
+                FirebaseFirestore.getInstance().collection("profileImages").document(uid).set(map)
+            }
+        }
     }
 
 }
