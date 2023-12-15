@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
+    id("kotlin-kapt")
 }
 
 android {
@@ -61,6 +62,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.11")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.5")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.5")
+    implementation("androidx.room:room-ktx:2.6.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -70,8 +72,14 @@ dependencies {
     implementation("com.google.firebase:firebase-database-ktx:20.3.0")
     implementation("com.google.firebase:firebase-storage:20.3.0")
     implementation("com.google.firebase:firebase-firestore:24.9.1")
-
     //커뮤니티 화면 이미지 업로더
     implementation ("com.github.bumptech.glide:glide:4.11.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.11.0")
+    // Room components
+    implementation("androidx.room:room-runtime:2.6.1")
+    androidTestImplementation("androidx.room:room-testing:2.6.1")
+    // Lifecycle components
+    implementation("androidx.lifecycle:lifecycle-viewmodel:2.2.0")
+    implementation("androidx.lifecycle:lifecycle-livedata:2.2.0")
+    implementation("androidx.lifecycle:lifecycle-common-java8:2.2.0")
 }
