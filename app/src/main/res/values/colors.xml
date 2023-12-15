@@ -8,5 +8,11 @@
     <color name="Gold">#FFFFD700</color>
     <color name="grey">#808080</color>
     <color name="CardView">#7A97FF</color>
+<<<<<<< HEAD
     <color name="light_grey">#B6B7B8</color>
+=======
+    <color name="orange">#FF6E40</color>
+    <color name="transparent_orange">#C3FF6E40</color>
+    <color name="cardView">#4DFFFFFF</color>
+>>>>>>> 16b162384063305e12bfdf880005c3399df50ae9
 </resources>

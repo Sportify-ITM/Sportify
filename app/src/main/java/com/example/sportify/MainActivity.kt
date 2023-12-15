@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.home -> setFragment(TAG_HOME, HomeFragment())
                 R.id.community -> setFragment(TAG_COMMUNITY, CommunityFragment())
-                R.id.calendar -> setFragment(TAG_CALENDAR, CalendarFragment())
+                R.id.calendar -> setFragment(TAG_CALENDAR, CalenderFragment())
                 R.id.account -> {
                     //번들 이용해서 현재 유저의 uid를 프래그먼트로 전달하기
                     var accountFragment = AccountFragment()
@@ -80,6 +80,22 @@ class MainActivity : AppCompatActivity() {
         else if (tag == TAG_ACCOUNT) account?.let { fragTransaction.show(it) }
         else if (tag == TAG_GPS) gps?.let { fragTransaction.hide(it) }
         else if (tag == TAG_COMMUNITY) community?.let { fragTransaction.show(it) }
+
+        // Hide all fragments
+        for (existingFragment in manager.fragments) {
+            fragTransaction.hide(existingFragment)
+        }
+
+        // Try to find the fragment by tag
+        val existingFragment = manager.findFragmentByTag(tag)
+
+        if (existingFragment == null) {
+            // If the fragment doesn't exist, add it
+            fragTransaction.add(R.id.mainFrameLayout, fragment, tag)
+        } else {
+            // If the fragment exists, show it
+            fragTransaction.show(existingFragment)
+        }
 
         fragTransaction.commitAllowingStateLoss()
     }
