@@ -1,15 +1,18 @@
 package com.example.sportify
 
+import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
-import kotlinx.coroutines.launch
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Address
 import android.location.Geocoder
 import android.location.LocationManager
 import android.location.LocationProvider
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.widget.Button
 import android.widget.Toast
@@ -18,20 +21,18 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.sportify.util.NavigateUtility
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import com.google.firebase.firestore.FirebaseFirestore
-import java.util.Locale
-import android.Manifest
-import android.app.AlertDialog
-import android.location.Address
-import android.provider.Settings
+import kotlinx.coroutines.launch
 import java.io.IOException
+import java.util.Locale
 
 
 private lateinit var firestore: FirebaseFirestore
@@ -89,7 +90,7 @@ class LoginActivity : AppCompatActivity() {
 
         // 이미 로그인되어 있다면 로그인 성공 화면으로 이동
         if (isLoggedIn && firebaseAuth.currentUser != null) {
-//            NavigateUtility().goToLoginSuccessActivity(this)
+            //NavigateUtility().goToStartActivity(this)
             // 만약 로그아웃을 하고 싶다면 위에 코드를 사용, 그리고 SIGNOUT FOR DEV 클릭 후 재실행
             NavigateUtility().goToMainActivity(this)
             finish()
@@ -150,7 +151,7 @@ class LoginActivity : AppCompatActivity() {
                     user?.let{
                         updateUserToFirebase(it.uid, it.displayName, it.email)
                     }
-                    NavigateUtility().goToLoginSuccessActivity(this)
+                    NavigateUtility().goToStartActivity(this)
                     finish()
                 } else {
                     Log.w(TAG, "signInWithCredential:실패", task.exception)
