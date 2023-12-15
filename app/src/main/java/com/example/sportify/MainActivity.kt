@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         setFragment(TAG_HOME, HomeFragment())
 
         binding.navigationView.setOnItemSelectedListener { item ->
@@ -59,33 +60,6 @@ class MainActivity : AppCompatActivity() {
         val manager: FragmentManager = supportFragmentManager
         val fragTransaction = manager.beginTransaction()
 
-        if (manager.findFragmentByTag(tag) == null) {
-            fragTransaction.add(R.id.mainFrameLayout, fragment, tag)
-        }
-
-        val calendar = manager.findFragmentByTag(TAG_CALENDAR)
-        val home = manager.findFragmentByTag(TAG_HOME)
-        val account = manager.findFragmentByTag(TAG_ACCOUNT)
-        val gps = manager.findFragmentByTag(TAG_GPS)
-        val community = manager.findFragmentByTag(TAG_COMMUNITY)
-
-        calendar?.let { fragTransaction.hide(it) }
-        home?.let { fragTransaction.hide(it) }
-        community?.let { fragTransaction.hide(it) }
-        gps?.let { fragTransaction.hide(it) }
-        account?.let { fragTransaction.hide(it) }
-
-        if (tag == TAG_CALENDAR) calendar?.let { fragTransaction.show(it) }
-        else if (tag == TAG_HOME) home?.let { fragTransaction.show(it) }
-        else if (tag == TAG_ACCOUNT) account?.let { fragTransaction.show(it) }
-        else if (tag == TAG_GPS) gps?.let { fragTransaction.hide(it) }
-        else if (tag == TAG_COMMUNITY) community?.let { fragTransaction.show(it) }
-
-        // Hide all fragments
-        for (existingFragment in manager.fragments) {
-            fragTransaction.hide(existingFragment)
-        }
-
         // Try to find the fragment by tag
         val existingFragment = manager.findFragmentByTag(tag)
 
@@ -97,8 +71,18 @@ class MainActivity : AppCompatActivity() {
             fragTransaction.show(existingFragment)
         }
 
+        // Hide all fragments
+        for (existingFragment in manager.fragments) {
+            if (existingFragment.tag == tag) {
+                fragTransaction.show(existingFragment)
+            } else {
+                fragTransaction.hide(existingFragment)
+            }
+        }
+
         fragTransaction.commitAllowingStateLoss()
     }
+
 
     fun setToolbarDefault(){
         binding.toolbarUsername.visibility = View.GONE
