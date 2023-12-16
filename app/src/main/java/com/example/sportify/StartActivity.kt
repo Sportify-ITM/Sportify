@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.sportify.databinding.ActivityStartBinding
 import com.example.sportify.db.AppDatabase
 import com.example.sportify.db.TeamEntity
-import com.example.sportify.util.ActionBarUtility
 import com.example.sportify.util.NavigateUtility
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -66,12 +65,11 @@ class StartActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveSelectedTeamToDatabase(teamId: Int) {
+    fun saveSelectedTeamToDatabase(teamId: Int) {
         GlobalScope.launch(Dispatchers.IO) {
             val teamEntity = TeamEntity(id = 1, teamId = teamId)
             val database = AppDatabase.getInstance(applicationContext)
             database.teamDao().insertTeam(teamEntity)
-            ActionBarUtility.setLogo(this@StartActivity, teamId)
         }
     }
 }

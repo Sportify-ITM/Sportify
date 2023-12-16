@@ -1,5 +1,5 @@
 package com.example.sportify
-
+import ActionBarUtility
 import HomeFragment
 import android.app.Activity
 import android.content.Intent
@@ -12,8 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.sportify.databinding.ActivityMainBinding
 import com.example.sportify.db.AppDatabase
-import com.example.sportify.util.ActionBarUtility
-
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
@@ -28,7 +26,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 
-
 private const val TAG_CALENDAR = "calendar_fragment"
 private const val TAG_HOME = "home_fragment"
 private const val TAG_ACCOUNT = "my_page_fragment"
@@ -41,26 +38,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService()
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-
-    fun registerPushToken() {
-        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val token = task.result
-                val uid = FirebaseAuth.getInstance().currentUser?.uid
-                val map = mutableMapOf<String, Any>()
-                map["pushToken"] = token!!
-
-                FirebaseFirestore.getInstance().collection("pushtokens").document(uid!!).set(map)
-            }
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        // Retrieve selected team and set ActionBar logo
+        // Use ActionBarUtility to set the logo
         GlobalScope.launch(Dispatchers.IO) {
             val database = AppDatabase.getInstance(applicationContext)
             val selectedTeam = database.teamDao().getSelectedTeam()
@@ -70,6 +52,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
         setFragment(TAG_HOME, HomeFragment())
 
         registerPushToken()
@@ -97,7 +80,18 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+    fun registerPushToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val token = task.result
+                val uid = FirebaseAuth.getInstance().currentUser?.uid
+                val map = mutableMapOf<String, Any>()
+                map["pushToken"] = token!!
 
+                FirebaseFirestore.getInstance().collection("pushtokens").document(uid!!).set(map)
+            }
+        }
+    }
 
     fun setFragment(tag: String, fragment: Fragment) {
         val manager: FragmentManager = supportFragmentManager
@@ -142,15 +136,14 @@ class MainActivity : AppCompatActivity() {
                 signOut()
                 return true
             }
-
             R.id.action_change_team -> {
                 startActivity(Intent(this, StartActivity::class.java))
                 return true
             }
-
             else -> return super.onOptionsItemSelected(item)
         }
     }
+
 
     private fun signOut() {
         //firebaseAuth.signOut()

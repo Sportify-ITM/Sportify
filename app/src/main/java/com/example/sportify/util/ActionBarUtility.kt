@@ -1,13 +1,18 @@
-package com.example.sportify.util
-
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import android.widget.ImageView
+import com.example.sportify.R
 
 object ActionBarUtility {
 
     fun setLogo(activity: AppCompatActivity, logoResId: Int) {
-        activity.supportActionBar?.setDisplayShowHomeEnabled(true)
-        activity.supportActionBar?.setIcon(logoResId)
-        activity.supportActionBar?.setIcon(logoResId)
+        // Retrieve the Toolbar and ImageView from the layout
+        val toolbar = activity.findViewById<Toolbar>(R.id.my_toolbar)
+        val toolbarImg = activity.findViewById<ImageView>(R.id.toolbar_title_image)
+        toolbarImg.setImageResource(logoResId)
+        toolbar.title = ""
+        activity.setSupportActionBar(toolbar)
+        activity.supportActionBar?.setDisplayShowTitleEnabled(false)
     }
-
 }
