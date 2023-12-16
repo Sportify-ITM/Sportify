@@ -31,6 +31,7 @@ android {
     buildFeatures{
         viewBinding = true
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -83,19 +84,16 @@ dependencies {
     //커뮤니티 화면 이미지 업로더
     implementation ("com.github.bumptech.glide:glide:4.11.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.11.0")
-    // Room components
-    implementation("androidx.room:room-runtime:2.6.1")
-    androidTestImplementation("androidx.room:room-testing:2.6.1")
-    kapt ("androidx.room:room-compiler:2.4.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
-
-    // Lifecycle components
-    implementation("androidx.lifecycle:lifecycle-viewmodel:2.2.0")
-    implementation("androidx.lifecycle:lifecycle-livedata:2.2.0")
-    implementation("androidx.lifecycle:lifecycle-common-java8:2.2.0")
 
     // Google Map
     implementation("com.google.android.gms:play-services-maps:18.2.0") // Google Play services SDK version
     implementation("com.google.android.gms:play-services-location:21.0.0")
+
+    // Room dependencies
+    implementation ("androidx.room:room-runtime:2.5.1")
+    implementation ("androidx.room:room-ktx:2.5.1")
+    kapt ("androidx.room:room-compiler:2.5.1")
+    androidTestImplementation ("androidx.room:room-testing:2.5.1")
+    kapt ("org.xerial:sqlite-jdbc:3.34.0")
 
 }

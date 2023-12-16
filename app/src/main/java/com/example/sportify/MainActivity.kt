@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.sportify.databinding.ActivityMainBinding
+import com.example.sportify.db.AppDatabase
+import com.example.sportify.util.ActionBarUtility
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
@@ -20,7 +22,9 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
-
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 private const val TAG_CALENDAR = "calendar_fragment"
@@ -52,6 +56,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Retrieve selected team and set ActionBar logo
+        GlobalScope.launch(Dispatchers.IO) {
+            val database = AppDatabase.getInstance(applicationContext)
+            val selectedTeam = database.teamDao().getSelectedTeam()
+            selectedTeam?.let {
+                runOnUiThread {
+                    ActionBarUtility.setLogo(this@MainActivity, it.teamId)
+                }
+            }
+        }
         setFragment(TAG_HOME, HomeFragment())
 
         registerPushToken()

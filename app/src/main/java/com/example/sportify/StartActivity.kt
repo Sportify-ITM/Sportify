@@ -3,7 +3,9 @@ package com.example.sportify
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.sportify.databinding.ActivityStartBinding
-import com.example.sportify.entity.TeamEntity
+import com.example.sportify.db.AppDatabase
+import com.example.sportify.db.TeamEntity
+import com.example.sportify.util.ActionBarUtility
 import com.example.sportify.util.NavigateUtility
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -54,9 +56,10 @@ class StartActivity : AppCompatActivity() {
 
     private fun saveSelectedTeamToDatabase(teamId: Int) {
         GlobalScope.launch(Dispatchers.IO) {
-            val teamEntity = TeamEntity(teamId = teamId)
-            //val database = AppDatabase.getInstance(applicationContext)
-            //database.teamDao().insertTeam(teamEntity)
+            val teamEntity = TeamEntity(id = 1, teamId = teamId)
+            val database = AppDatabase.getInstance(applicationContext)
+            database.teamDao().insertTeam(teamEntity)
+            ActionBarUtility.setLogo(this@StartActivity, teamId)
         }
     }
 }
