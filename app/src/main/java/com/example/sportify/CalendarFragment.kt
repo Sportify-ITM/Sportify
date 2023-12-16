@@ -30,6 +30,7 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import com.example.sportify.CalenderCardAdapater
+import okhttp3.internal.concurrent.formatDuration
 import kotlin.collections.ArrayList
 
 // ... other imports ...
@@ -94,11 +95,9 @@ class CalenderFragment : Fragment() {
                             val day = CalendarDay.from(it)
                             if (eventDates.contains(day)){
                                 Log.d("DAY", "day: $day")
-                                if (oldMatches != null) {
-                                    updateMatchRecyclerView(filterMatchesByDay(calendarMatch, day))
-                                }
-                                if (matchesData != null) {
-                                    updateMatchRecyclerView(filterMatchesByDay(matchesData, day))
+                                if (matchesData != null && calendarMatch != null ) {
+                                    var combine = matchesData + calendarMatch
+                                    updateMatchRecyclerView(filterMatchesByDay(combine, day))
                                 }
                             }else{
                             }
