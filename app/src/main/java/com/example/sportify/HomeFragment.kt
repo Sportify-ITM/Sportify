@@ -62,8 +62,8 @@ data class MatchStatistics(
     val awayTeamTotalPasses: Int = 0,
     val awayTeamYellowCards: Int = 0,
     val awayTeamExpectedGoals: String = "",
-    val homeTeam: String = "",
     val awayTeam: String = "",
+    val homeTeam: String = "",
     val time: String = "",
     val status: String = "statistic"
 )

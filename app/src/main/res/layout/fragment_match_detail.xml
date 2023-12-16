@@ -32,6 +32,7 @@
         android:layout_marginTop="100dp"
         >
         <ImageView
+            android:id="@+id/homeImage"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginTop="40dp"
@@ -47,7 +48,6 @@
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="40dp"
-            android:layout_marginLeft="10dp"
             android:id="@+id/homeTeamGoal"
             ></TextView>
         <TextView
@@ -75,6 +75,7 @@
             ></TextView>
 
         <ImageView
+            android:id="@+id/awayImage"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginTop="40dp"
