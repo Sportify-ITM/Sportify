@@ -2,7 +2,6 @@ package com.example.sportify
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,12 +27,13 @@ class CommunityFragment : Fragment() {
         firestore = FirebaseFirestore.getInstance()
         uid = FirebaseAuth.getInstance().currentUser?.uid
 
-        val manager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        val manager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
         val adapter1 = DetailViewRecyclerViewAdapter()
         val recyclerDetail = binding.communityfragmentRecyclerView
         recyclerDetail.apply {
             adapter = adapter1
             layoutManager = manager
+            scrollToPosition(0) // Scroll to the top position
         }
         return binding.root
     }
@@ -51,7 +51,6 @@ class CommunityFragment : Fragment() {
                     var item = snapshot.toObject(ContentDTO::class.java) //ContentDTO 형식으로 캐스팅하기
                     contentDTOs.add(item!!)
                     contentUidList.add(snapshot.id)
-                    Log.d("ITM","${contentDTOs}")
                 }
                 notifyDataSetChanged()//값이 새로고침되게 만듦
             }
