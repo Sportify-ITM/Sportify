@@ -66,7 +66,6 @@ class AccountFragment : Fragment() {
             }
             mainActivity.findViewById<TextView>(R.id.toolbar_username).visibility = View.VISIBLE
             mainActivity.findViewById<ImageView>(R.id.toolbar_btn_back).visibility = View.VISIBLE
-            mainActivity.findViewById<ImageView>(R.id.toolbar_title_image).visibility = View.INVISIBLE
         }
 
         val adapter1 = AccountFragmentRecyclerViewAdapter()

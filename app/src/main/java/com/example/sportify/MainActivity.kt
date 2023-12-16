@@ -129,7 +129,6 @@ class MainActivity : AppCompatActivity() {
     fun setToolbarDefault() {
         binding.toolbarUsername.visibility = View.GONE
         binding.toolbarBtnBack.visibility = View.GONE
-        binding.toolbarTitleImage.visibility = View.VISIBLE
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

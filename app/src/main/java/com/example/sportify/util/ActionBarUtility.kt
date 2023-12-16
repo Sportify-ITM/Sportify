@@ -7,6 +7,7 @@ object ActionBarUtility {
     fun setLogo(activity: AppCompatActivity, logoResId: Int) {
         activity.supportActionBar?.setDisplayShowHomeEnabled(true)
         activity.supportActionBar?.setIcon(logoResId)
+        activity.supportActionBar?.setIcon(logoResId)
     }
 
 }

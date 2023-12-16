@@ -60,7 +60,7 @@ class StartActivity : AppCompatActivity() {
 
         teamsLogos.forEachIndexed { index, logo ->
             logo.setOnClickListener {
-                //saveSelectedTeamToDatabase(teamIds[index])
+                saveSelectedTeamToDatabase(teamIds[index])
                 NavigateUtility().goToMainActivity(this)
             }
         }
