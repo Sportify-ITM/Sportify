@@ -1,6 +1,7 @@
 package com.example.sportify
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,6 +44,8 @@ class GpsFragment : Fragment(), OnMapReadyCallback {
         return rootView
     }
 
+
+
     private fun setButton() {
         binding.fabCurrentLocation.setOnClickListener {
             val locationProvider = LocationProvider(requireContext())
@@ -56,6 +59,9 @@ class GpsFragment : Fragment(), OnMapReadyCallback {
                 )
             )
             setMarker()
+
+            // Save the new location to Firestore
+            saveNewLocationToFirestore()
 
             retrieveLocationsFromFirestore()
         }
@@ -76,7 +82,34 @@ class GpsFragment : Fragment(), OnMapReadyCallback {
             }
     }
 
+    // new
+    private fun saveNewLocationToFirestore() {
+        val locationProvider = LocationProvider(requireContext())
+        val latitude = 37.622595
+        val longitude = 127.075948
+
+        // Check if the location data is available
+        if (latitude != null && longitude != null) {
+            // Save the new location to Firestore
+            saveLocationToFirestore(latitude, longitude)
+        } else {
+            // Handle the case where location data is not available
+            Toast.makeText(
+                requireContext(),
+                "Unable to retrieve current location.",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
     private fun retrieveLocationsFromFirestore() {
+        // new
+        val locationProvider = LocationProvider(requireContext())
+        val current_latitude = locationProvider.getLocationLatitude()
+        val current_longitude = locationProvider.getLocationLongitude()
+        Log.d("ITM: Latitude",current_latitude.toString())
+        Log.d("ITM: Longitude",current_longitude.toString())
+
         locationsCollection.get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
@@ -85,15 +118,40 @@ class GpsFragment : Fragment(), OnMapReadyCallback {
 
                     if (latitude != null && longitude != null) {
                         val location = LatLng(latitude, longitude)
-                        mMap?.addMarker(
-                            MarkerOptions().position(location).title("Marker Location")
+
+                        // new
+                        val distance = calculateDistance(
+                            current_latitude!!,
+                            current_longitude!!,
+                            location.latitude,
+                            location.longitude
                         )
+
+                        // new
+                        // Check if the distance is within 1km
+                        if (distance <= 1000) {
+                            mMap?.addMarker(
+                                MarkerOptions().position(location).title("Marker Location")
+                            )
+                        }
+
+
+//                        mMap?.addMarker(
+//                            MarkerOptions().position(location).title("Marker Location")
+//                        )
                     }
                 }
             }
             .addOnFailureListener { e ->
                 // Handle failure if needed
             }
+    }
+
+    // GpsFragment 클래스 내에 추가할 함수
+    private fun calculateDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Float {
+        val results = FloatArray(1)
+        android.location.Location.distanceBetween(lat1, lon1, lat2, lon2, results)
+        return results[0]
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

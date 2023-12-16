@@ -4,4 +4,9 @@
         android:id="@+id/action_sign_out"
         android:enabled="true"
         android:title="sign out" />
+
+    <item
+        android:id="@+id/action_change_team"
+        android:enabled="true"
+        android:title="change team" />
 </menu>

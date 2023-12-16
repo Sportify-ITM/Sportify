@@ -1,5 +1,6 @@
 package com.example.sportify
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.sportify.databinding.ActivityStartBinding
@@ -7,6 +8,8 @@ import com.example.sportify.db.AppDatabase
 import com.example.sportify.db.TeamEntity
 import com.example.sportify.util.ActionBarUtility
 import com.example.sportify.util.NavigateUtility
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -23,6 +26,15 @@ class StartActivity : AppCompatActivity() {
         setContentView(view)
 
         setupClickListeners()
+
+        val goToLoginPageButton = binding.goToLoginPageButton
+        goToLoginPageButton.setOnClickListener {
+            //firebaseAuth.signOut()
+            FirebaseManager.authInstance.signOut()
+            // Optionally, also sign out from Google if you're using Google Sign-In
+            GoogleSignIn.getClient(this, GoogleSignInOptions.DEFAULT_SIGN_IN).signOut()
+            startActivity(Intent(this,LoginActivity::class.java))
+        }
     }
 
     private fun setupClickListeners() {
@@ -48,7 +60,7 @@ class StartActivity : AppCompatActivity() {
 
         teamsLogos.forEachIndexed { index, logo ->
             logo.setOnClickListener {
-                saveSelectedTeamToDatabase(teamIds[index])
+                //saveSelectedTeamToDatabase(teamIds[index])
                 NavigateUtility().goToMainActivity(this)
             }
         }
