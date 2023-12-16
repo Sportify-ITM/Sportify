@@ -2,6 +2,7 @@ package com.example.sportify
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.firestore.FirebaseFirestore
@@ -91,6 +93,7 @@ class GpsFragment : Fragment(), OnMapReadyCallback {
 
 
 
+
     private fun setButton() {
         binding.fabCurrentLocation.setOnClickListener {
             val locationProvider = LocationProvider(requireContext())
@@ -105,8 +108,22 @@ class GpsFragment : Fragment(), OnMapReadyCallback {
             )
             setMarker()
 
+            // Show 1km radius circle
+            showOneKmCircle(LatLng(latitude!!, longitude!!))
+
             retrieveLocationsFromFirestore()
         }
+    }
+
+    private fun showOneKmCircle(center: LatLng) {
+        // Add circle to represent 1km radius
+        val circleOptions = CircleOptions()
+            .center(center)
+            .radius(1000.0) // Radius in meters
+            .strokeColor(Color.BLUE) // Circle stroke color
+            .fillColor(Color.parseColor("#500084d3")) // Circle fill color with transparency
+
+        mMap?.addCircle(circleOptions)
     }
 
     private fun retrieveLocationsFromFirestore() {
