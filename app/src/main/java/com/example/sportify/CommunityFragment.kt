@@ -88,8 +88,6 @@ class CommunityFragment : Fragment() {
                     }
                 }
 
-
-
             //좋아요 눌렀을 때 이벤트리스너
             viewHolder.detailviewitemFavoriteImageview.setOnClickListener{
                 favoriteEvent(p1)

@@ -147,16 +147,20 @@ class AccountFragment : Fragment() {
     }
 
     fun getProfileImage() {
-        firestore?.collection("profileImages")?.document(uid!!)
-            ?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
-                if (documentSnapshot == null) return@addSnapshotListener
-                if (documentSnapshot.data != null) {
-                    var url = documentSnapshot?.data!!["image"]
-                    Glide.with(requireActivity()).load(url).apply(RequestOptions().circleCrop())
-                        .into(binding.myImageView!!)
+        val activity = activity
+        if (activity != null) {
+            firestore?.collection("profileImages")?.document(uid!!)
+                ?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
+                    if (documentSnapshot == null) return@addSnapshotListener
+                    if (documentSnapshot.data != null) {
+                        var url = documentSnapshot?.data!!["image"]
+                        Glide.with(activity).load(url).apply(RequestOptions().circleCrop())
+                            .into(binding.myImageView!!)
+                    }
                 }
-            }
+        }
     }
+
     inner class AccountFragmentRecyclerViewAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>(){
         var contentDTOs:ArrayList<ContentDTO> = arrayListOf()
         init {
