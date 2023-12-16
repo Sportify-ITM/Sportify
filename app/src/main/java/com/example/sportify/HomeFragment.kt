@@ -32,6 +32,7 @@ data class MatchStatistics(
     val homeTeamBlockedShots: Int = 0,
     val homeTeamCornerKicks: Int = 0,
     val homeTeamFouls: Int = 0,
+    val homeTeamGoal: Int = 0,
     val homeTeamGoalkeeperSaves: Int = 0,
     val homeTeamOffsides: Int = 0,
     val homeTeamPassesPercentage: String = "",
@@ -48,6 +49,7 @@ data class MatchStatistics(
     val awayTeamBlockedShots: Int = 0,
     val awayTeamCornerKicks: Int = 0,
     val awayTeamFouls: Int = 0,
+    val awayTeamGoal: Int = 0,
     val awayTeamGoalkeeperSaves: Int = 0,
     val awayTeamOffsides: Int = 0,
     val awayTeamPassesPercentage: String = "",
@@ -62,9 +64,9 @@ data class MatchStatistics(
     val awayTeamExpectedGoals: String = "",
     val awayTeam: String = "",
     val homeTeam: String = "",
-    val time: String = ""
+    val time: String = "",
+    val status: String = "statistic"
 )
-
 
 
 // 팀 순위를 보여주기 위한 테이블에 들어갈 데이터 정의

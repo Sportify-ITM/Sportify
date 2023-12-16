@@ -2,6 +2,7 @@ package com.example.sportify
 
 import MatchStatistics
 import MatchTeamItem
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
@@ -29,13 +31,15 @@ import kotlinx.coroutines.withContext
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
-import com.example.sportify.CalenderCardAdapater
+import com.example.sportify.CalenderCardAdapter
 import okhttp3.internal.concurrent.formatDuration
 import kotlin.collections.ArrayList
 
 // ... other imports ...
 
 class CalenderFragment : Fragment() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -88,13 +92,10 @@ class CalenderFragment : Fragment() {
                     binding.calendarView.addDecorator(eventDecorator)
                     //card update
                     binding.calendarView.setOnDateChangedListener { widget, date, selected ->
-                        Log.d("ITM", "another ")
                         var selectedDay = date.date
                         selectedDay.let{
-
                             val day = CalendarDay.from(it)
                             if (eventDates.contains(day)){
-                                Log.d("DAY", "day: $day")
                                 if (matchesData != null && calendarMatch != null ) {
                                     var combine = matchesData + calendarMatch
                                     updateMatchRecyclerView(filterMatchesByDay(combine, day))
@@ -113,42 +114,50 @@ class CalenderFragment : Fragment() {
         return binding.root
     }
 
-
-
     private fun updateMatchRecyclerView(matchData: ArrayList<MatchTeamItem>?) {
         matchData?.let {
-
-            val adapter_m = CalenderCardAdapater(it).apply {
+            val adapter = CalenderCardAdapter(it).apply {
                 onItemClick = { matchItem ->
-                    // Navigate to MatchDetailFragment
-                    Log.d("ITM", "AAAA")
-                    goToMatchDetailFragment(matchItem)
+                    if (matchItem.status == "statistic") {
+                        goToMatchDetailFragment(matchItem)
+                    } else {
+                        Toast.makeText(requireContext(), "No matches analyzed", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
-            val manager1 = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            val adapter1 = CalenderCardAdapater(it)
-            // Access the RecyclerView directly from the binding object
             binding.recyclerCardView.apply {
-                this.adapter = adapter1
-                layoutManager = manager1
+                this.adapter = adapter
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             }
         }
     }
+
+
+
 
     private fun goToMatchDetailFragment(matchItem: MatchTeamItem) {
         // Create and navigate to MatchDetailFragment
         val matchDetailFragment = MatchDetailFragment().apply {
             arguments = Bundle().apply {
                 // Pass data to the MatchDetailFragment
-                // putString("key", matchItem.someProperty)
+                putString("time", matchItem.time)
+                putString("homeTeam", matchItem.homeTeam)
+                putString("awayTeam", matchItem.awayTeam)
             }
         }
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.calendarView, matchDetailFragment)
-            .addToBackStack(null)
-            .commit()
+        if (!matchItem.status.equals("statistic")){
+            Toast.makeText(requireContext(), "No matches analyzed", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        activity?.
+        supportFragmentManager?.
+        beginTransaction()?.
+        replace(R.id.mainFrameLayout, matchDetailFragment)?.
+        commit()
     }
 
+//
     fun parseMatchDate(time: String): Date? {
         val year = "2023"
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
@@ -182,11 +191,10 @@ class CalenderFragment : Fragment() {
                 awayTeam = match.awayTeam,
                 homeTeam = match.homeTeam,
                 time = match.time,
-                status = "TIMED"
+                status = match.status
             )
             calendarMatch.add(oldMatch)
         }
-
         return calendarMatch
     }
 
@@ -200,6 +208,7 @@ class CalenderFragment : Fragment() {
             // Here you can customize how the day cell looks, e.g., set a custom background or dot
             view.addSpan(DotSpan(5f, Color.RED)) // Example: red dot decorator
         }
+
     }
 
 }
