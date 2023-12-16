@@ -18,7 +18,7 @@
             android:id="@+id/top_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
+            android:layout_gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +58,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/add_photo_button"
+        android:id="@+id/add_photo_btn_upload"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/upload_image"

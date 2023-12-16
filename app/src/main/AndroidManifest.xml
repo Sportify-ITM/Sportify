@@ -2,10 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+
+    <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyCj3npgfbsLSmF-pSkhldXcS-BOljeFBcE" />
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -17,12 +23,26 @@
         android:theme="@style/Theme.Sportify"
         android:enableOnBackInvokedCallback="true"
         tools:targetApi="31">
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCj3npgfbsLSmF-pSkhldXcS-BOljeFBcE"/>
 
         <activity
+            android:name=".AddPhotoActivity"
+            android:exported="false" />
+        <activity
             android:name=".LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".StartActivity"
+            android:label="@string/app_name"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,11 +50,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginSuccessActivity"
-            android:exported="true"></activity>
-        <activity
             android:name=".MainActivity"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+
             android:exported="true"></activity>
 
         <activity
@@ -42,5 +60,16 @@
             android:exported="true"></activity>
     </application>
 
+            android:exported="true" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/second"/>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/design_default_color_background"/>
+
+
+
+    </application>
 
 </manifest>

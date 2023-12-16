@@ -9,3 +9,4 @@ data class TeamEntity(
     val id: Long = 0,
     val teamId: Int // This should be the ID of the selected team logo
 )
+
