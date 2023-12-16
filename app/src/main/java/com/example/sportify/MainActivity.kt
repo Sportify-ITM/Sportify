@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.sportify.databinding.ActivityMainBinding
+
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
@@ -23,6 +24,7 @@ import com.google.firebase.storage.UploadTask
 
 
 
+
 private const val TAG_CALENDAR = "calendar_fragment"
 private const val TAG_HOME = "home_fragment"
 private const val TAG_ACCOUNT = "my_page_fragment"
@@ -32,6 +34,7 @@ private val PERMISSIONS_REQUEST_CODE = 200
 private val STORAGE_PERMISSIONS_REQUEST_CODE = 201 // New code for storage permissions
 
 class MyFirebaseMessagingService : FirebaseMessagingService()
+
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
@@ -62,13 +65,14 @@ class MainActivity : AppCompatActivity() {
                 R.id.community -> setFragment(TAG_COMMUNITY, CommunityFragment())
                 R.id.calendar -> setFragment(TAG_CALENDAR, CalenderFragment())
                 R.id.account -> {
+
                     //번들 이용해서 현재 유저의 uid를 프래그먼트로 전달하기
                     var accountFragment = AccountFragment()
                     var bundle = Bundle()
                     var uid = FirebaseAuth.getInstance().currentUser?.uid
                     bundle.putString("destinationUid", uid)
                     accountFragment.arguments = bundle
-                    supportFragmentManager.beginTransaction().replace(binding.mainFrameLayout.id,accountFragment).commit()
+                    setFragment(TAG_ACCOUNT, accountFragment)
                 }
                 R.id.gps -> setFragment(TAG_GPS, GpsFragment())
             }
@@ -110,22 +114,33 @@ class MainActivity : AppCompatActivity() {
         binding.toolbarUsername.visibility = View.GONE
         binding.toolbarBtnBack.visibility = View.GONE
         binding.toolbarTitleImage.visibility = View.VISIBLE
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
         return true
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
+        when (item.itemId) {
             R.id.action_sign_out -> {
                 signOut()
-                true
+                return true
             }
-            else -> super.onOptionsItemSelected(item)
+            R.id.action_change_team -> {
+                startActivity(Intent(this, StartActivity::class.java))
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
         }
     }
+
+    private fun signOut() {
+        //firebaseAuth.signOut()
+        FirebaseManager.authInstance.signOut()
+        // Optionally, also sign out from Google if you're using Google Sign-In
+        GoogleSignIn.getClient(this, GoogleSignInOptions.DEFAULT_SIGN_IN).signOut()
+        startActivity(Intent(this,LoginActivity::class.java))
 
     private fun signOut() {
         //firebaseAuth.signOut()
