@@ -85,8 +85,8 @@ class GpsFragment : Fragment(), OnMapReadyCallback {
     // new
     private fun saveNewLocationToFirestore() {
         val locationProvider = LocationProvider(requireContext())
-        val latitude = 37.4221
-        val longitude = 122.0852
+        val latitude = 37.622595
+        val longitude = 127.075948
 
         // Check if the location data is available
         if (latitude != null && longitude != null) {
@@ -104,8 +104,11 @@ class GpsFragment : Fragment(), OnMapReadyCallback {
 
     private fun retrieveLocationsFromFirestore() {
         // new
-        val currentLocation = LatLng(currentLat, currentLon)
-        Log.d("ITM",currentLocation.toString())
+        val locationProvider = LocationProvider(requireContext())
+        val current_latitude = locationProvider.getLocationLatitude()
+        val current_longitude = locationProvider.getLocationLongitude()
+        Log.d("ITM: Latitude",current_latitude.toString())
+        Log.d("ITM: Longitude",current_longitude.toString())
 
         locationsCollection.get()
             .addOnSuccessListener { documents ->
@@ -118,8 +121,8 @@ class GpsFragment : Fragment(), OnMapReadyCallback {
 
                         // new
                         val distance = calculateDistance(
-                            currentLocation.latitude,
-                            currentLocation.longitude,
+                            current_latitude!!,
+                            current_longitude!!,
                             location.latitude,
                             location.longitude
                         )

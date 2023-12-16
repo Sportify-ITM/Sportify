@@ -74,6 +74,7 @@ class MainActivity : AppCompatActivity() {
                     accountFragment.arguments = bundle
                     setFragment(TAG_ACCOUNT, accountFragment)
                 }
+
                 R.id.gps -> setFragment(TAG_GPS, GpsFragment())
             }
             true
@@ -110,7 +111,7 @@ class MainActivity : AppCompatActivity() {
         setToolbarDefault()
     }
 
-    fun setToolbarDefault(){
+    fun setToolbarDefault() {
         binding.toolbarUsername.visibility = View.GONE
         binding.toolbarBtnBack.visibility = View.GONE
         binding.toolbarTitleImage.visibility = View.VISIBLE
@@ -127,10 +128,12 @@ class MainActivity : AppCompatActivity() {
                 signOut()
                 return true
             }
+
             R.id.action_change_team -> {
                 startActivity(Intent(this, StartActivity::class.java))
                 return true
             }
+
             else -> return super.onOptionsItemSelected(item)
         }
     }
@@ -140,33 +143,28 @@ class MainActivity : AppCompatActivity() {
         FirebaseManager.authInstance.signOut()
         // Optionally, also sign out from Google if you're using Google Sign-In
         GoogleSignIn.getClient(this, GoogleSignInOptions.DEFAULT_SIGN_IN).signOut()
-        startActivity(Intent(this,LoginActivity::class.java))
+        startActivity(Intent(this, LoginActivity::class.java))}
 
-    private fun signOut() {
-        //firebaseAuth.signOut()
-        FirebaseManager.authInstance.signOut()
-        // Optionally, also sign out from Google if you're using Google Sign-In
-        GoogleSignIn.getClient(this, GoogleSignInOptions.DEFAULT_SIGN_IN).signOut()
-        startActivity(Intent(this,LoginActivity::class.java))
-    }
 
-    //프로필 사진 고르기 콜백
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+        //프로필 사진 고르기 콜백
+        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+            super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == AccountFragment.PICK_PROFILE_FROM_ALBUM && resultCode == Activity.RESULT_OK) {
-            var imageUri = data?.data
-            var uid = FirebaseAuth.getInstance().currentUser?.uid
-            var storageRef =
-                FirebaseStorage.getInstance().reference.child("userProfileImages").child(uid!!)
-            storageRef.putFile(imageUri!!).continueWithTask { task: Task<UploadTask.TaskSnapshot> ->
-                return@continueWithTask storageRef.downloadUrl
-            }.addOnSuccessListener { uri ->
-                var map = HashMap<String, Any>()
-                map["image"] = uri.toString()
-                FirebaseFirestore.getInstance().collection("profileImages").document(uid).set(map)
+            if (requestCode == AccountFragment.PICK_PROFILE_FROM_ALBUM && resultCode == Activity.RESULT_OK) {
+                var imageUri = data?.data
+                var uid = FirebaseAuth.getInstance().currentUser?.uid
+                var storageRef =
+                    FirebaseStorage.getInstance().reference.child("userProfileImages").child(uid!!)
+                storageRef.putFile(imageUri!!)
+                    .continueWithTask { task: Task<UploadTask.TaskSnapshot> ->
+                        return@continueWithTask storageRef.downloadUrl
+                    }.addOnSuccessListener { uri ->
+                    var map = HashMap<String, Any>()
+                    map["image"] = uri.toString()
+                    FirebaseFirestore.getInstance().collection("profileImages").document(uid)
+                        .set(map)
+                }
             }
         }
-    }
 
-}
+    }
