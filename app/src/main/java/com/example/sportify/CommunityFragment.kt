@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.sportify.databinding.FragmentCommunityBinding
 import com.example.sportify.databinding.ItemDetailBinding
 import com.example.sportify.model.ContentDTO
@@ -77,7 +78,15 @@ class CommunityFragment : Fragment() {
             //좋아요 수 바인딩
             viewHolder.detailviewitemFavoritecounterText.text = "Likes: "+contentDTOs!![p1].favoriteCount
             //프로필 이미지 바인딩
-            Glide.with(p0.itemView.context).load(contentDTOs!![p1].imageUrl).into(viewHolder.detailviewitemProfileImage)
+            firestore?.collection("profileImages")?.document(uid!!)
+                ?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
+                    if (documentSnapshot == null) return@addSnapshotListener
+                    if (documentSnapshot.data != null) {
+                        var url = documentSnapshot?.data!!["image"]
+                        Glide.with(requireActivity()).load(url).apply(RequestOptions().circleCrop())
+                            .into(viewHolder.detailviewitemProfileImage!!)
+                    }
+                }
 
             //좋아요 눌렀을 때 이벤트리스너
             viewHolder.detailviewitemFavoriteImageview.setOnClickListener{
