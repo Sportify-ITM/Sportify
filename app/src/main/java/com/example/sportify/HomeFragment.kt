@@ -26,6 +26,47 @@ data class MatchTeamItem(
     val status: String = ""
 )
 
+
+data class MatchStatistics(
+    val homeTeamBallPossession: String = "",
+    val homeTeamBlockedShots: Int = 0,
+    val homeTeamCornerKicks: Int = 0,
+    val homeTeamFouls: Int = 0,
+    val homeTeamGoalkeeperSaves: Int = 0,
+    val homeTeamOffsides: Int = 0,
+    val homeTeamPassesPercentage: String = "",
+    val homeTeamPassesAccurate: Int = 0,
+    val homeTeamShotsInsideBox: Int = 0,
+    val homeTeamShotsOffGoal: Int = 0,
+    val homeTeamShotsOnGoal: Int = 0,
+    val homeTeamShotsOutsideBox: Int = 0,
+    val homeTeamTotalShots: Int = 0,
+    val homeTeamTotalPasses: Int = 0,
+    val homeTeamYellowCards: Int = 0,
+    val homeTeamExpectedGoals: String = "",
+    val awayTeamBallPossession: String = "",
+    val awayTeamBlockedShots: Int = 0,
+    val awayTeamCornerKicks: Int = 0,
+    val awayTeamFouls: Int = 0,
+    val awayTeamGoalkeeperSaves: Int = 0,
+    val awayTeamOffsides: Int = 0,
+    val awayTeamPassesPercentage: String = "",
+    val awayTeamPassesAccurate: Int = 0,
+    val awayTeamShotsInsideBox: Int = 0,
+    val awayTeamShotsOffGoal: Int = 0,
+    val awayTeamShotsOnGoal: Int = 0,
+    val awayTeamShotsOutsideBox: Int = 0,
+    val awayTeamTotalShots: Int = 0,
+    val awayTeamTotalPasses: Int = 0,
+    val awayTeamYellowCards: Int = 0,
+    val awayTeamExpectedGoals: String = "",
+    val awayTeam: String = "",
+    val homeTeam: String = "",
+    val time: String = ""
+)
+
+
+
 // 팀 순위를 보여주기 위한 테이블에 들어갈 데이터 정의
 data class TeamTable(
     val rank: Int = -1,
