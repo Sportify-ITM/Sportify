@@ -62,9 +62,9 @@ data class MatchStatistics(
     val awayTeamExpectedGoals: String = "",
     val awayTeam: String = "",
     val homeTeam: String = "",
-    val time: String = ""
+    val time: String = "",
+    val status: String = "statistic"
 )
-
 
 
 // 팀 순위를 보여주기 위한 테이블에 들어갈 데이터 정의

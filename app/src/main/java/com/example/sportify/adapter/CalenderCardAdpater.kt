@@ -8,7 +8,7 @@ import com.example.sportify.databinding.CalendarCardviewBinding
 import com.example.sportify.databinding.CardMatchesBinding
 
 //recyclerHorizon을 위해 card_matches의 틀에 MatchTeamItem이라는 Data Class의 인스턴스를 홀딩해주는 어댑터
-class CalenderCardAdapater(val itemList: List<MatchTeamItem>) : RecyclerView.Adapter<CalenderCardAdapater.CalenderViewHolder>() {
+class CalenderCardAdapter(val itemList: List<MatchTeamItem>) : RecyclerView.Adapter<CalenderCardAdapter.CalenderViewHolder>() {
 
     // 리사이클러 뷰 아이템에 대한 클릭 리스너 파트
     var onItemClick: ((MatchTeamItem)  -> Unit)? = null
