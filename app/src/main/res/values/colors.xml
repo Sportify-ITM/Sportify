@@ -12,4 +12,6 @@
     <color name="orange">#FF6E40</color>
     <color name="transparent_orange">#C3FF6E40</color>
     <color name="cardView">#4DFFFFFF</color>
+    <color name="red">#FF0000</color>
+    <color name="blue">#0000FF</color>
 </resources>
