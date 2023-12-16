@@ -33,7 +33,7 @@ class CommunityFragment : Fragment() {
         recyclerDetail.apply {
             adapter = adapter1
             layoutManager = manager
-            scrollToPosition(0) // Scroll to the top position
+            scrollToPosition(adapter1.itemCount - 1) // Scroll to the top position
         }
         return binding.root
     }
@@ -77,7 +77,8 @@ class CommunityFragment : Fragment() {
             //좋아요 수 바인딩
             viewHolder.detailviewitemFavoritecounterText.text = "Likes: "+contentDTOs!![p1].favoriteCount
             //프로필 이미지 바인딩
-            firestore?.collection("profileImages")?.document(uid!!)
+            val itemUid = contentDTOs!![p1].uid ?: "" // Provide a default value if uid is null
+            firestore?.collection("profileImages")?.document(itemUid)
                 ?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
                     if (documentSnapshot == null) return@addSnapshotListener
                     if (documentSnapshot.data != null) {
@@ -86,6 +87,8 @@ class CommunityFragment : Fragment() {
                             .into(viewHolder.detailviewitemProfileImage!!)
                     }
                 }
+
+
 
             //좋아요 눌렀을 때 이벤트리스너
             viewHolder.detailviewitemFavoriteImageview.setOnClickListener{
