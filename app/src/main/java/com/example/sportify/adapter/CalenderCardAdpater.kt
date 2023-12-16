@@ -1,17 +1,20 @@
-package com.example.sportify.adapter
+package com.example.sportify
 import MatchTeamItem
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sportify.databinding.CalendarCardviewBinding
+import com.example.sportify.databinding.CardMatchesBinding
 
 //recyclerHorizon을 위해 card_matches의 틀에 MatchTeamItem이라는 Data Class의 인스턴스를 홀딩해주는 어댑터
-class CalenderCardAdpater(val itemList: List<MatchTeamItem>) : RecyclerView.Adapter<CalenderCardAdpater.CalenderViewHolder>() {
+class CalenderCardAdapater(val itemList: List<MatchTeamItem>) : RecyclerView.Adapter<CalenderCardAdapater.CalenderViewHolder>() {
 
     // 리사이클러 뷰 아이템에 대한 클릭 리스너 파트
-    private var onItemClickListener: ((position: Int) -> Unit)? = null
-    fun setOnItemClickListener(listener: (position: Int) -> Unit) {
-        onItemClickListener = listener
+    var onItemClick: ((MatchTeamItem)  -> Unit)? = null
+
+    fun setOnItemClickListener(listener: (MatchTeamItem)  -> Unit) {
+        onItemClick = listener
     }
 
     //이 클래스는 RecyclerView의 각 항목에 대한 개별 뷰를 관리하는 뷰 홀더 클래스. 파라미터인 itemView는 개별 항목의 레이아웃
@@ -19,7 +22,8 @@ class CalenderCardAdpater(val itemList: List<MatchTeamItem>) : RecyclerView.Adap
     inner class CalenderViewHolder(internal val binding: CalendarCardviewBinding) : RecyclerView.ViewHolder(binding.root) {
         init {
             binding.root.setOnClickListener {
-                onItemClickListener?.invoke(adapterPosition)
+                Log.d("ITM", "here?")
+                onItemClick?.invoke(itemList[adapterPosition])
             }
         }
     }
