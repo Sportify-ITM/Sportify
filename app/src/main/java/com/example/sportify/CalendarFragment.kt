@@ -2,6 +2,7 @@ package com.example.sportify
 
 import MatchStatistics
 import MatchTeamItem
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -37,6 +38,8 @@ import kotlin.collections.ArrayList
 // ... other imports ...
 
 class CalenderFragment : Fragment() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -111,24 +114,25 @@ class CalenderFragment : Fragment() {
         return binding.root
     }
 
-
-
     private fun updateMatchRecyclerView(matchData: ArrayList<MatchTeamItem>?) {
         matchData?.let {
             val adapter = CalenderCardAdapter(it).apply {
                 onItemClick = { matchItem ->
-                    // Navigate to MatchDetailFragment
-                    goToMatchDetailFragment(matchItem)
-
+                    if (matchItem.status == "statistic") {
+                        goToMatchDetailFragment(matchItem)
+                    } else {
+                        Toast.makeText(requireContext(), "No matches analyzed", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
-            val manager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             binding.recyclerCardView.apply {
                 this.adapter = adapter
-                layoutManager = manager
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             }
         }
     }
+
+
 
 
     private fun goToMatchDetailFragment(matchItem: MatchTeamItem) {
@@ -136,7 +140,9 @@ class CalenderFragment : Fragment() {
         val matchDetailFragment = MatchDetailFragment().apply {
             arguments = Bundle().apply {
                 // Pass data to the MatchDetailFragment
-                // putString("key", matchItem.someProperty)
+                putString("time", matchItem.time)
+                putString("homeTeam", matchItem.homeTeam)
+                putString("awayTeam", matchItem.awayTeam)
             }
         }
         if (!matchItem.status.equals("statistic")){
@@ -144,12 +150,14 @@ class CalenderFragment : Fragment() {
             return
         }
 
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.mainFrameLayout, matchDetailFragment)
-            .addToBackStack(null)
-            .commit()
+        activity?.
+        supportFragmentManager?.
+        beginTransaction()?.
+        replace(R.id.mainFrameLayout, matchDetailFragment)?.
+        commit()
     }
 
+//
     fun parseMatchDate(time: String): Date? {
         val year = "2023"
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
@@ -200,6 +208,7 @@ class CalenderFragment : Fragment() {
             // Here you can customize how the day cell looks, e.g., set a custom background or dot
             view.addSpan(DotSpan(5f, Color.RED)) // Example: red dot decorator
         }
+
     }
 
 }

@@ -35,27 +35,54 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginTop="40dp"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="60dp"
             android:src="@drawable/ic_arsenal"
             ></ImageView>
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="50dp"
+            android:text="0"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="40dp"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/homeTeamGoal"
+            ></TextView>
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="50dp"
+            android:text=":"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="40dp"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/versus"
+            ></TextView>
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="50dp"
+            android:text="0"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="40dp"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/awayTeamGoal"
+            ></TextView>
 
         <ImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginTop="40dp"
-            android:layout_marginLeft="160dp"
             android:src="@drawable/ic_tottenham"
             ></ImageView>
     </LinearLayout>
 
-<!--    <Button-->
-<!--        android:id="@+id/button"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginLeft="320dp"-->
-<!--        android:background="@color/grey"-->
-<!--        android:textColor="@color/white"-->
-<!--        android:text="Back" />-->
+
 
 
 </RelativeLayout>
