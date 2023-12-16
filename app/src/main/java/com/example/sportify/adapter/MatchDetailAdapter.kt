@@ -10,6 +10,8 @@ import com.example.sportify.R
 
 data class MatchData(
     val name: String,
+    val home: String,
+    val away: String,
     val homeValue: String,
     val awayValue: String
 )
@@ -20,6 +22,8 @@ class MatchDetailAdapter(private val matchDataList: List<MatchData>) : RecyclerV
         var listName: TextView = view.findViewById(R.id.listName)
         var home: TextView = view.findViewById(R.id.home)
         var away: TextView = view.findViewById(R.id.away)
+        var homeValue: TextView = view.findViewById(R.id.homeValue)
+        var awayValue: TextView = view.findViewById(R.id.awayValue)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchDetailViewHolder {
@@ -30,8 +34,10 @@ class MatchDetailAdapter(private val matchDataList: List<MatchData>) : RecyclerV
     override fun onBindViewHolder(holder: MatchDetailViewHolder, position: Int) {
         val matchData = matchDataList[position]
         holder.listName.text = matchData.name
-        holder.home.text = matchData.homeValue
-        holder.away.text = matchData.awayValue
+        holder.home.text = matchData.home
+        holder.away.text = matchData.away
+        holder.homeValue.text = matchData.homeValue
+        holder.awayValue.text = matchData.awayValue
     }
 
     override fun getItemCount() = matchDataList.size

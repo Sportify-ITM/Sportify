@@ -66,8 +66,8 @@ class MatchDetailFragment : Fragment() {
                         val matchAwayTeam = matchMap["awayTeam"] as? String
 
                         if (matchHomeTeam == homeTeam && matchAwayTeam == awayTeam) {
-                            val newHomeTeam = changeNameFormat(homeTeam)
-                            val newAwayTeam = changeNameFormat(awayTeam)
+                            val newHomeTeam = changeNameFormat(homeTeam).toString()
+                            val newAwayTeam = changeNameFormat(awayTeam).toString()
                             val homeTeamGoal = matchMap["${newHomeTeam}'s Goal"]
                             val awayTeamGoal = matchMap["${newAwayTeam}'s Goal"]
 
@@ -78,16 +78,16 @@ class MatchDetailFragment : Fragment() {
                                 binding.homeTeamGoal.text = homeTeamGoal.toString()
                                 binding.awayTeamGoal.text = awayTeamGoal.toString()
                                 var matchDataList: ArrayList<MatchData> = ArrayList<MatchData>()
-                                matchDataList.add(MatchData("Total Shots", matchMap["${newHomeTeam}'s Total Shots"].toString(), matchMap["${newAwayTeam}'s Total Shots"].toString()))
-                                matchDataList.add(MatchData("Shots on Goal", matchMap["${newHomeTeam}'s Shots on Goal"].toString(), matchMap["${newAwayTeam}'s Shots on Goal"].toString()))
-                                matchDataList.add(MatchData("expected_goals", matchMap["${newHomeTeam}'s expected_goals"].toString(), matchMap["${newAwayTeam}'s expected_goals"].toString()))
-                                matchDataList.add(MatchData("Yellow Cards", matchMap["${newHomeTeam}'s Yellow Cards"].toString(), matchMap["${newAwayTeam}'s Yellow Cards"].toString()))
-                                matchDataList.add(MatchData("Corner kicks", matchMap["${newHomeTeam}'s Corner Kicks"].toString(), matchMap["${newAwayTeam}'s Corner Kicks"].toString()))
-                                matchDataList.add(MatchData("Fouls", matchMap["${newHomeTeam}'s Fouls"].toString(), matchMap["${newAwayTeam}'s Fouls"].toString()))
-                                matchDataList.add(MatchData("Goalkeeper Saves", matchMap["${newHomeTeam}'s Goalkeeper Saves"].toString(), matchMap["${newAwayTeam}'s Goalkeeper Saves"].toString()))
+                                matchDataList.add(MatchData("Total Shots", matchMap["${newHomeTeam}'s Total Shots"].toString(), matchMap["${newAwayTeam}'s Total Shots"].toString(), newHomeTeam, newAwayTeam))
+                                matchDataList.add(MatchData("Shots on Goal", matchMap["${newHomeTeam}'s Shots on Goal"].toString(), matchMap["${newAwayTeam}'s Shots on Goal"].toString(), newHomeTeam, newAwayTeam))
+                                matchDataList.add(MatchData("expected_goals", matchMap["${newHomeTeam}'s expected_goals"].toString(), matchMap["${newAwayTeam}'s expected_goals"].toString(), newHomeTeam, newAwayTeam))
+                                matchDataList.add(MatchData("Yellow Cards", matchMap["${newHomeTeam}'s Yellow Cards"].toString(), matchMap["${newAwayTeam}'s Yellow Cards"].toString(), newHomeTeam, newAwayTeam))
+                                matchDataList.add(MatchData("Corner kicks", matchMap["${newHomeTeam}'s Corner Kicks"].toString(), matchMap["${newAwayTeam}'s Corner Kicks"].toString(), newHomeTeam, newAwayTeam))
+                                matchDataList.add(MatchData("Fouls", matchMap["${newHomeTeam}'s Fouls"].toString(), matchMap["${newAwayTeam}'s Fouls"].toString(), newHomeTeam, newAwayTeam))
+                                matchDataList.add(MatchData("Goalkeeper Saves", matchMap["${newHomeTeam}'s Goalkeeper Saves"].toString(), matchMap["${newAwayTeam}'s Goalkeeper Saves"].toString(), newHomeTeam, newAwayTeam))
                                 binding.recyclerList.adapter = MatchDetailAdapter(matchDataList)
                                 setImage(homeTeam, awayTeam)
-                                setupPieChart(homeTeamPossession, awayTeamPossession)
+                                setupPieChart(homeTeamPossession, awayTeamPossession, newHomeTeam.toString(), newAwayTeam.toString())
 
                             }
                         }
@@ -99,10 +99,10 @@ class MatchDetailFragment : Fragment() {
         }
     }
 
-    private fun setupPieChart(homePossession: Float, awayPossession: Float) {
+    private fun setupPieChart(homePossession: Float, awayPossession: Float, home: String, away: String) {
         val entries = listOf(
-            PieEntry(homePossession, "Home Team"),
-            PieEntry(awayPossession, "Away Team")
+            PieEntry(homePossession, home),
+            PieEntry(awayPossession, away)
         )
 
         val dataSet = PieDataSet(entries, "Ball Possession")
