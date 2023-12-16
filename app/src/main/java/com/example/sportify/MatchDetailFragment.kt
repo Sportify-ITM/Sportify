@@ -2,6 +2,7 @@ package com.example.sportify
 
 import MatchStatistics
 import MatchTeamItem
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,43 +10,46 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
-import com.example.sportify.databinding.FragmentCalenderBinding
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.sportify.adapter.MatchData
+import com.example.sportify.adapter.MatchDetailAdapter
 import com.example.sportify.databinding.FragmentMatchDetailBinding
 import com.google.firebase.Firebase
-import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.database
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.utils.ColorTemplate
+import androidx.core.content.ContextCompat
+import com.github.mikephil.charting.animation.Easing
+
 
 class MatchDetailFragment : Fragment() {
 
     private lateinit var binding: FragmentMatchDetailBinding
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMatchDetailBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        var time: String? = null
-        var awayTeam: String? = null
-        var homeTeam: String? = null
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.recyclerList.layoutManager = LinearLayoutManager(context)
 
         arguments?.let { bundle ->
-            awayTeam = bundle.getString("awayTeam")
-            homeTeam = bundle.getString("homeTeam")
+            val awayTeam = bundle.getString("awayTeam") ?: ""
+            val homeTeam = bundle.getString("homeTeam") ?: ""
+            fetchMatchData(homeTeam, awayTeam)
         }
-
-        // Use the data to update UI or fetch more data
-        fetchMatchData(homeTeam.toString(), awayTeam.toString())
-
-        return binding.root
     }
 
     private fun fetchMatchData(homeTeam: String, awayTeam: String) {
@@ -62,21 +66,29 @@ class MatchDetailFragment : Fragment() {
                         val matchAwayTeam = matchMap["awayTeam"] as? String
 
                         if (matchHomeTeam == homeTeam && matchAwayTeam == awayTeam) {
-                            // Extract other fields as needed
-                            Log.d("ITM", "m: ${matchMap}")
-                            setImage(homeTeam, awayTeam)
-                            val newHomeTeam = changeNameFormat(homeTeam)
-                            val newAwayTeam = changeNameFormat(awayTeam)
-                            Log.d("ITM", "after: ${newHomeTeam}, before: ${homeTeam}")
-                            Log.d("ITM", "after: ${newAwayTeam}, before: ${awayTeam}")
+                            val newHomeTeam = changeNameFormat(homeTeam).toString()
+                            val newAwayTeam = changeNameFormat(awayTeam).toString()
                             val homeTeamGoal = matchMap["${newHomeTeam}'s Goal"]
                             val awayTeamGoal = matchMap["${newAwayTeam}'s Goal"]
-                            Log.d("ITM", "${homeTeamGoal}")
-                            Log.d("ITM", "${awayTeamGoal}")
-                            // Update UI or process data
+
+                            val homeTeamPossession = matchMap["${newHomeTeam}'s Ball Possession"].toString().removeSuffix("%").toFloatOrNull() ?: 0f
+                            val awayTeamPossession = matchMap["${newAwayTeam}'s Ball Possession"].toString().removeSuffix("%").toFloatOrNull() ?: 0f
+
                             withContext(Dispatchers.Main) {
                                 binding.homeTeamGoal.text = homeTeamGoal.toString()
                                 binding.awayTeamGoal.text = awayTeamGoal.toString()
+                                var matchDataList: ArrayList<MatchData> = ArrayList<MatchData>()
+                                matchDataList.add(MatchData("Total Shots", matchMap["${newHomeTeam}'s Total Shots"].toString(), matchMap["${newAwayTeam}'s Total Shots"].toString(), newHomeTeam, newAwayTeam))
+                                matchDataList.add(MatchData("Shots on Goal", matchMap["${newHomeTeam}'s Shots on Goal"].toString(), matchMap["${newAwayTeam}'s Shots on Goal"].toString(), newHomeTeam, newAwayTeam))
+                                matchDataList.add(MatchData("expected_goals", matchMap["${newHomeTeam}'s expected_goals"].toString(), matchMap["${newAwayTeam}'s expected_goals"].toString(), newHomeTeam, newAwayTeam))
+                                matchDataList.add(MatchData("Yellow Cards", matchMap["${newHomeTeam}'s Yellow Cards"].toString(), matchMap["${newAwayTeam}'s Yellow Cards"].toString(), newHomeTeam, newAwayTeam))
+                                matchDataList.add(MatchData("Corner kicks", matchMap["${newHomeTeam}'s Corner Kicks"].toString(), matchMap["${newAwayTeam}'s Corner Kicks"].toString(), newHomeTeam, newAwayTeam))
+                                matchDataList.add(MatchData("Fouls", matchMap["${newHomeTeam}'s Fouls"].toString(), matchMap["${newAwayTeam}'s Fouls"].toString(), newHomeTeam, newAwayTeam))
+                                matchDataList.add(MatchData("Goalkeeper Saves", matchMap["${newHomeTeam}'s Goalkeeper Saves"].toString(), matchMap["${newAwayTeam}'s Goalkeeper Saves"].toString(), newHomeTeam, newAwayTeam))
+                                binding.recyclerList.adapter = MatchDetailAdapter(matchDataList)
+                                setImage(homeTeam, awayTeam)
+                                setupPieChart(homeTeamPossession, awayTeamPossession, newHomeTeam.toString(), newAwayTeam.toString())
+
                             }
                         }
                     }
@@ -87,6 +99,32 @@ class MatchDetailFragment : Fragment() {
         }
     }
 
+    private fun setupPieChart(homePossession: Float, awayPossession: Float, home: String, away: String) {
+        val entries = listOf(
+            PieEntry(homePossession, home),
+            PieEntry(awayPossession, away)
+        )
+
+        val dataSet = PieDataSet(entries, "Ball Possession")
+        dataSet.colors = listOf(
+            ContextCompat.getColor(requireContext(), R.color.red),
+            ContextCompat.getColor(requireContext(), R.color.blue)
+        )
+        dataSet.valueTextSize = 16f
+        dataSet.valueTextColor = Color.WHITE
+        dataSet.setDrawValues(true)
+
+        val pieData = PieData(dataSet)
+        binding.pieChart.apply {
+            data = pieData
+            description.isEnabled = false
+            legend.isEnabled = true
+            isRotationEnabled = true
+            setEntryLabelColor(Color.WHITE)
+            animateY(1400, Easing.EaseInOutQuad)
+            animate()
+        }
+    }
     fun changeNameFormat(teamName: String): String? {
         var newName: String? = null
 
@@ -108,38 +146,6 @@ class MatchDetailFragment : Fragment() {
         return newName
     }
 
-//    private fun fetchMatchData(homeTeam: String, awayTeam: String ) {
-//        lifecycleScope.launch {
-//            val database = Firebase.database
-//            val oldMatches = database.getReference("statistics")
-//            try {
-//                val oldMatchesSnapshot = withContext(Dispatchers.IO) {
-//                    oldMatches.get().await()
-//                }
-//                if (oldMatchesSnapshot.exists()) {
-//                    Log.d("ITM", "Raw Data: ${oldMatchesSnapshot}") // Log the raw data
-//                    val oldMatchesData = oldMatchesSnapshot.getValue(object : GenericTypeIndicator<ArrayList<MatchStatistics>>() {})
-//                    var thisMatch = MatchStatistics()
-//
-//                    oldMatchesData?.forEach{match ->
-//                        if (match.homeTeam.equals(homeTeam) && match.awayTeam.equals(awayTeam)){
-//                            Log.d("ITM", "${match.homeTeam}: ${homeTeam}, ${match.awayTeam}: ${awayTeam}")
-//                            thisMatch = match
-//                        }
-//                    }
-//                    binding.homeTeamGoal.text = thisMatch.homeTeamGoal.toString()
-//                    binding.awayTeamGoal.text = thisMatch.awayTeamGoal.toString()
-//                    setImage(homeTeam, awayTeam)
-//                    Log.d("ITM", "${binding.homeTeamGoal.text}")
-//                    // Update UI with this data
-//                    // Make sure to switch to the Main thread if updating UI
-//                }
-//
-//            } catch (e: Exception) {
-//                Log.e("ITM", "Error fetching data: ${e.message}")
-//            }
-//        }
-//    }
 
     private fun setImage(homeTeam: String, awayTeam: String) {
         val context = requireContext()

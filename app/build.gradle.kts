@@ -96,4 +96,6 @@ dependencies {
     androidTestImplementation ("androidx.room:room-testing:2.5.1")
     kapt ("org.xerial:sqlite-jdbc:3.34.0")
 
+    // chart dependency
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }
