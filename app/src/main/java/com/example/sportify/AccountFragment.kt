@@ -34,6 +34,11 @@ class AccountFragment : Fragment() {
     companion object{
         var PICK_PROFILE_FROM_ALBUM = 10
     }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // Glide 요청 해제
+        Glide.with(this).clear(binding.myImageView)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentAccountBinding.inflate(inflater, container, false)
@@ -147,19 +152,21 @@ class AccountFragment : Fragment() {
     }
 
     fun getProfileImage() {
-        val activity = activity
-        if (activity != null) {
-            firestore?.collection("profileImages")?.document(uid!!)
-                ?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
-                    if (documentSnapshot == null) return@addSnapshotListener
-                    if (documentSnapshot.data != null) {
-                        var url = documentSnapshot?.data!!["image"]
-                        Glide.with(activity).load(url).apply(RequestOptions().circleCrop())
-                            .into(binding.myImageView!!)
-                    }
+        val context = requireContext()
+        firestore?.collection("profileImages")?.document(uid!!)
+            ?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
+                if (documentSnapshot == null) return@addSnapshotListener
+                if (documentSnapshot.data != null) {
+                    var url = documentSnapshot?.data!!["image"]
+                    Glide.with(context) // Use requireContext() instead of applicationContext
+                        .load(url)
+                        .apply(RequestOptions().circleCrop())
+                        .into(binding.myImageView!!)
                 }
-        }
+            }
     }
+
+
 
     inner class AccountFragmentRecyclerViewAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>(){
         var contentDTOs:ArrayList<ContentDTO> = arrayListOf()

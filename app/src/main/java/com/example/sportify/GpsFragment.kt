@@ -276,12 +276,6 @@ class GpsFragment : Fragment(), OnMapReadyCallback {
             markerOption.title("Marker Location")
             val marker = it.addMarker(markerOption)
 
-            it.setOnCameraMoveListener {
-                marker?.let { marker ->
-                    marker.position = it.cameraPosition.target
-                }
-            }
-
             it.setOnMarkerClickListener { clickedMarker ->
                 val markerPosition = clickedMarker.position
                 val latitude = markerPosition.latitude

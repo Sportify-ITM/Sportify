@@ -10,9 +10,15 @@ object ActionBarUtility {
         // Retrieve the Toolbar and ImageView from the layout
         val toolbar = activity.findViewById<Toolbar>(R.id.my_toolbar)
         val toolbarImg = activity.findViewById<ImageView>(R.id.toolbar_title_image)
-        toolbarImg.setImageResource(logoResId)
-        toolbar.title = ""
-        activity.setSupportActionBar(toolbar)
-        activity.supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        // Null check for the ImageView
+        if (toolbarImg != null) {
+            toolbarImg.setImageResource(logoResId)
+            toolbar.title = ""
+            activity.setSupportActionBar(toolbar)
+            activity.supportActionBar?.setDisplayShowTitleEnabled(false)
+        } else {
+            Log.e("ActionBarUtility", "ImageView (toolbar_title_image) is null.")
+        }
     }
 }
