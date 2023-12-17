@@ -1,8 +1,11 @@
-package com.example.sportify
-
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +13,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.sportify.FirebaseManager
+import com.example.sportify.LocationProvider
+import com.example.sportify.R
 import com.example.sportify.databinding.FragmentGpsBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -21,7 +27,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.firestore.FirebaseFirestore
 
-class GpsFragment : Fragment(), OnMapReadyCallback {
+class GpsFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
     private lateinit var binding: FragmentGpsBinding
     private var mMap: GoogleMap? = null
     private var currentLat: Double = 0.0
@@ -29,6 +35,12 @@ class GpsFragment : Fragment(), OnMapReadyCallback {
 
     private val firestore = FirebaseFirestore.getInstance()
     private val locationsCollection = firestore.collection("locations")
+
+    // Variables for shake detection
+    private var sensorManager: SensorManager? = null
+    private var accelerometer: Sensor? = null
+    private val shakeThreshold = 30
+    private var lastShakeTime: Long = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,7 +63,6 @@ class GpsFragment : Fragment(), OnMapReadyCallback {
         val currentUser = FirebaseManager.authInstance.currentUser
         if (currentUser != null) {
             val userId = currentUser.uid
-            // 이제 userId를 사용하여 필요한 작업 수행
             Log.d("UserInfo", "User ID: $userId")
         } else {
             Log.d("UserInfo", "No user is currently logged in.")
@@ -62,37 +73,87 @@ class GpsFragment : Fragment(), OnMapReadyCallback {
         logo.get()
             .addOnSuccessListener { documentSnapshot ->
                 if (documentSnapshot.exists()) {
-                    // The document exists, check if it has the "logo" field
                     val logoValue = documentSnapshot.getLong("logo")
-
-                    // Check if the "logo" field exists and has a non-null value
                     if (logoValue != null) {
-                        // Now you have the logo value (e.g., 1234)
                         Log.d("logo", "Logo Value: $logoValue")
                         updateLocationToFirebase(currentUser!!.uid, latitude, longitude, logoValue)
                     } else {
-                        // Handle the case where "logo" field is missing or null
                         Log.e("logo", "Invalid or missing 'logo' field")
                     }
                 } else {
-                    // Handle the case where the document doesn't exist
                     Log.e("logo", "Document does not exist")
                 }
             }
             .addOnFailureListener { e ->
-                // Handle failures
                 Log.e("logo", "Error getting document: $e")
             }
 
-
-
         setButton()
+        setShaker()
 
         return rootView
     }
 
+    private fun setShaker() {
+        sensorManager = requireContext().getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        accelerometer = sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        sensorManager?.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL)
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+    }
+
+    override fun onSensorChanged(event: SensorEvent?) {
+        if (event?.sensor?.type == Sensor.TYPE_ACCELEROMETER) {
+            val currentTime = System.currentTimeMillis()
+            val timeDifference = currentTime - lastShakeTime
+
+            Log.d("Shake", "Time difference: $timeDifference")
+
+            if (timeDifference > SHAKE_INTERVAL) {
+                val x = event.values[0]
+                val y = event.values[1]
+                val z = event.values[2]
+
+                val acceleration = Math.sqrt(x.toDouble() * x + y.toDouble() * y + z.toDouble() * z)
+                Log.d("Shake", "Acceleration: $acceleration")
+
+                if (acceleration > shakeThreshold) {
+                    Log.d("Shake", "Shake detected!")
+                    val locationProvider = LocationProvider(requireContext())
+                    val latitude = locationProvider.getLocationLatitude()
+                    val longitude = locationProvider.getLocationLongitude()
+
+                    mMap?.moveCamera(
+                        CameraUpdateFactory.newLatLngZoom(
+                            LatLng(latitude!!, longitude!!),
+                            16f
+                        )
+                    )
+                    setMarker()
+                    showOneKmCircle(LatLng(latitude!!, longitude!!))
+                    retrieveLocationsFromFirestore()
+                    lastShakeTime = currentTime
+                }
+            }
+        }
+    }
 
 
+
+    private fun onShakeDetected() {
+        Log.d("Shake","Shake it up!")
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        sensorManager?.unregisterListener(this)
+    }
+
+    companion object {
+        private const val SHAKE_INTERVAL = 1000L
+    }
 
     private fun setButton() {
         binding.fabCurrentLocation.setOnClickListener {
@@ -107,32 +168,27 @@ class GpsFragment : Fragment(), OnMapReadyCallback {
                 )
             )
             setMarker()
-
-            // Show 1km radius circle
             showOneKmCircle(LatLng(latitude!!, longitude!!))
-
             retrieveLocationsFromFirestore()
         }
     }
 
     private fun showOneKmCircle(center: LatLng) {
-        // Add circle to represent 1km radius
         val circleOptions = CircleOptions()
             .center(center)
-            .radius(1000.0) // Radius in meters
-            .strokeColor(Color.BLUE) // Circle stroke color
-            .fillColor(Color.parseColor("#500084d3")) // Circle fill color with transparency
+            .radius(1000.0)
+            .strokeColor(Color.BLUE)
+            .fillColor(Color.parseColor("#500084d3"))
 
         mMap?.addCircle(circleOptions)
     }
 
     private fun retrieveLocationsFromFirestore() {
-        // new
         val locationProvider = LocationProvider(requireContext())
         val current_latitude = locationProvider.getLocationLatitude()
         val current_longitude = locationProvider.getLocationLongitude()
-        Log.d("ITM: Latitude",current_latitude.toString())
-        Log.d("ITM: Longitude",current_longitude.toString())
+        Log.d("ITM: Latitude", current_latitude.toString())
+        Log.d("ITM: Longitude", current_longitude.toString())
 
         locationsCollection.get()
             .addOnSuccessListener { documents ->
@@ -145,8 +201,6 @@ class GpsFragment : Fragment(), OnMapReadyCallback {
 
                     if (latitude != null && longitude != null && logo != null && logoId != null) {
                         val location = LatLng(latitude, longitude)
-
-                        // new
                         val distance = calculateDistance(
                             current_latitude!!,
                             current_longitude!!,
@@ -154,26 +208,27 @@ class GpsFragment : Fragment(), OnMapReadyCallback {
                             location.longitude
                         )
 
-                        // new
-                        // Check if the distance is within 1km
                         if (distance <= 1000) {
                             val currentUser = FirebaseManager.authInstance.currentUser
                             val userId = currentUser!!.uid
                             val userDocument = firestore.collection("locations").document(userId)
-                            // Check if the marker is for the user's location
+
                             if (userDocument.id != document.id) {
                                 logoList.add(logo)
-                                // Load the original logo bitmap
-                                val originalLogoBitmap = BitmapFactory.decodeResource(resources, logoId!!)
 
-                                // Calculate the desired width and height (e.g., 100x100 pixels)
+                                val originalLogoBitmap =
+                                    BitmapFactory.decodeResource(resources, logoId!!)
+
                                 val desiredWidth = 100
                                 val desiredHeight = 100
 
-                                // Resize the bitmap
-                                val resizedLogoBitmap = Bitmap.createScaledBitmap(originalLogoBitmap, desiredWidth, desiredHeight, false)
+                                val resizedLogoBitmap = Bitmap.createScaledBitmap(
+                                    originalLogoBitmap,
+                                    desiredWidth,
+                                    desiredHeight,
+                                    false
+                                )
 
-                                // Add the marker with the resized logo
                                 mMap?.addMarker(
                                     MarkerOptions()
                                         .position(location)
